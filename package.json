@@ -25,6 +25,11 @@
 			"pre-commit": "yarn test"
 		}
 	},
+	"commitlint": {
+		"extends": [
+			"@commitlint/config-conventional"
+		]
+	},
 	"jest": {
 		"testURL": "http://localhost",
 		"collectCoverage": true,
