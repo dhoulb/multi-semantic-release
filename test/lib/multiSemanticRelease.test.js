@@ -145,7 +145,6 @@ describe("multiSemanticRelease()", () => {
 		});
 	});
 	test("No changes in any packages", async () => {
-		console.log("TEMPY", require("tempy").directory());
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();
 		copyDirectory(`test/fixtures/yarnWorkspaces/`, cwd);
