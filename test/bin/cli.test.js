@@ -1,5 +1,5 @@
 const execa = require("execa");
-const copy = require("recursive-copy");
+const { copyDirectory } = require("../helpers/file");
 const {
 	gitInit,
 	gitAdd,
@@ -16,7 +16,7 @@ describe("multi-semantic-release CLI", () => {
 	test("Initial commit (changes in all packages)", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();
-		await copy(`test/fixtures/yarnWorkspaces/`, cwd);
+		copyDirectory(`test/fixtures/yarnWorkspaces/`, cwd);
 		const sha = gitCommitAll(cwd, "feat: Initial release");
 		const url = gitInitOrigin(cwd);
 		gitPush(cwd);

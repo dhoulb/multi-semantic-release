@@ -1,8 +1,8 @@
 const { writeFileSync } = require("fs");
 const path = require("path");
-const copy = require("recursive-copy");
 const { Signale } = require("signale");
 const { WritableStreamBuffer } = require("stream-buffers");
+const { copyDirectory } = require("../helpers/file");
 const {
 	gitInit,
 	gitAdd,
@@ -27,7 +27,7 @@ describe("multiSemanticRelease()", () => {
 	test("Initial commit (changes in all packages)", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();
-		await copy(`test/fixtures/yarnWorkspaces/`, cwd);
+		copyDirectory(`test/fixtures/yarnWorkspaces/`, cwd);
 		const sha = gitCommitAll(cwd, "feat: Initial release");
 		const url = gitInitOrigin(cwd);
 		gitPush(cwd);
@@ -145,9 +145,10 @@ describe("multiSemanticRelease()", () => {
 		});
 	});
 	test("No changes in any packages", async () => {
+		console.log("TEMPY", require("tempy").directory());
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();
-		await copy(`test/fixtures/yarnWorkspaces/`, cwd);
+		copyDirectory(`test/fixtures/yarnWorkspaces/`, cwd);
 		const sha = gitCommitAll(cwd, "feat: Initial release");
 		// Creating the four tags so there are no changes in any packages.
 		gitTag(cwd, "msr-test-a@1.0.0");
@@ -200,7 +201,7 @@ describe("multiSemanticRelease()", () => {
 		// Create Git repo.
 		const cwd = gitInit();
 		// Initial commit.
-		await copy(`test/fixtures/yarnWorkspaces/`, cwd);
+		copyDirectory(`test/fixtures/yarnWorkspaces/`, cwd);
 		const sha1 = gitCommitAll(cwd, "feat: Initial release");
 		gitTag(cwd, "msr-test-a@1.0.0");
 		gitTag(cwd, "msr-test-b@1.0.0");
@@ -330,7 +331,7 @@ describe("multiSemanticRelease()", () => {
 	test("Error if release's local deps have no version number", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();
-		await copy(`test/fixtures/yarnWorkspaces/`, cwd);
+		copyDirectory(`test/fixtures/yarnWorkspaces/`, cwd);
 		gitAdd(cwd, "packages/a/package.json");
 		const sha = gitCommit(cwd, "feat: Commit first package only");
 		const url = gitInitOrigin(cwd);
@@ -358,7 +359,7 @@ describe("multiSemanticRelease()", () => {
 	test("Configured plugins are called as normal", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();
-		await copy(`test/fixtures/yarnWorkspaces/`, cwd);
+		copyDirectory(`test/fixtures/yarnWorkspaces/`, cwd);
 		const sha = gitCommitAll(cwd, "feat: Initial release");
 		const url = gitInitOrigin(cwd);
 		gitPush(cwd);
@@ -401,7 +402,7 @@ describe("multiSemanticRelease()", () => {
 	test("Deep errors (e.g. in plugins) bubble up and out", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();
-		await copy(`test/fixtures/yarnWorkspaces/`, cwd);
+		copyDirectory(`test/fixtures/yarnWorkspaces/`, cwd);
 		const sha = gitCommitAll(cwd, "feat: Initial release");
 		const url = gitInitOrigin(cwd);
 		gitPush(cwd);
