@@ -51,6 +51,7 @@
 		"tempy": "^0.2.1"
 	},
 	"devDependencies": {
+		"@commitlint/config-conventional": "^7.3.1",
 		"commitlint": "^7.2.1",
 		"eslint": "^5.10.0",
 		"eslint-config-prettier": "^3.3.0",
