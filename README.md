@@ -6,7 +6,7 @@
 [![Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![npm](https://img.shields.io/npm/dm/blork.svg)](https://www.npmjs.com/package/blork)
 
-Proof of concept that wraps `[semantic-release](https://github.com/semantic-release/semantic-release)` to work with monorepos. 
+Proof of concept that wraps [semantic-release](https://github.com/semantic-release/semantic-release) to work with monorepos. 
 
 This package should work well, but may not be fundamentally stable enough for important production use as it's pretty dependent on how semantic-release works (so it may break or get out-of-date in future versions of semantic-release).
 
