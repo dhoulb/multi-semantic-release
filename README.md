@@ -103,6 +103,25 @@ The inline plugin does the following:
 - **success:** _not used_
 - **fail:** _not used_
 
+### Jank
+
+The integration with semantic release is pretty janky — this is a quick summary of the reasons this package will be hard to maintain:
+
+1. Had to filter `context.commits` object before it was used by `@semantic-release/commit-analyzer` (so it only lists commits for the corresponding directory).
+  - The actual Git filtering is easy peasy: see [getCommitsFiltered.js](https://github.com/dhoulb/multi-semantic-release/blob/master/lib/getCommitsFiltered.js)
+  - But overriding `context.commits` was very difficult! I did it eventually creating an _inline plugin_ and passing it into `semanticRelease()` via `options.plugins`
+  - The inline plugin proxies between semantic release and other configured plugins. It does what it needs to then calls e.g. `plugins.analyzeCommits()` with an overridden `context.commits` — see [createInlinePluginCreator.js](https://github.com/dhoulb/multi-semantic-release/blob/master/lib/createInlinePluginCreator.js) 
+  - I think this is messy — inline plugins aren't even documented :(
+2. Need to run the analyze commit step on *all* plugins before any proceed to the publish step
+  - The inline plugin returns a Promise for every package then waits for all packages to analyze their commits before resolving them one at a time
+  - If packages have local deps (e.g. `dependencies` in package.json points to an internal package) this step also does a `patch` bump if any of them did a bump.
+  - This has to work recursively! See [hasChangedDeep.js](https://github.com/dhoulb/multi-semantic-release/blob/master/lib/hasChangedDeep.js)
+3. The configuration can be layered (i.e. global `.releaserc` and then per-directory overrides for individual packages). 
+  - Had to duplicate the internal cosmiconfig setup from semantic release to get this working :(
+4. I found Git getting itself into weird states because e.g. `git tag` is done asynchronously
+  - To get around this I had to stagger package publishing so they were done one at a time (which slows things down)
+  - I think calls to `execa()` in semantic release should be replaced with `execa.sync()` to ensure Git's internal state is atomic.
+
 ### Git tags
 
 Releases always use a `tagFormat` of `my-pkg-1@1.0.1` for Git tags, and always overrides any `gitTag` set in semantic-release configuration.
