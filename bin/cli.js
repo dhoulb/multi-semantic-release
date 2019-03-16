@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 
+// Execa hook.
+if (require("yargs").argv.execasync) {
+	require("../lib/execaHook").hook()
+}
+
 // Imports.
 const getWorkspacesYarn = require("../lib/getWorkspacesYarn");
 const multiSemanticRelease = require("../lib/multiSemanticRelease");
