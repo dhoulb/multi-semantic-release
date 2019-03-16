@@ -2,7 +2,7 @@
 
 // Execa hook.
 if (require("yargs").argv.execasync) {
-	require("../lib/execaHook").hook()
+	require("../lib/execaHook").hook();
 }
 
 // Imports.
