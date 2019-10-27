@@ -34,6 +34,8 @@
 		"valid-jsdoc": 2,
 		"global-require": 0,
 		"no-console": 0,
-		"no-unused-vars": 0
+		"no-unused-vars": 0,
+		"require-atomic-updates": 0,
+		"no-prototype-builtins": 0
 	}
 }
