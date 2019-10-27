@@ -40,7 +40,7 @@
 		"bash-glob": "^2.0.0",
 		"blork": "^9.1.1",
 		"cosmiconfig": "^5.1.0",
-		"execa": "^1.0.0",
+		"execa": "^3.2.0",
 		"get-stream": "^4.1.0",
 		"git-log-parser": "^1.2.0",
 		"require-in-the-middle": "^4.0.0",
@@ -48,8 +48,7 @@
 		"semver": "^5.6.0",
 		"signale": "^1.2.0",
 		"stream-buffers": "^3.0.2",
-		"tempy": "^0.2.1",
-		"yargs": "^13.2.2"
+		"tempy": "^0.2.1"
 	},
 	"devDependencies": {
 		"@commitlint/config-conventional": "^7.3.1",
