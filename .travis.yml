@@ -9,9 +9,9 @@ cache: yarn
 jobs:
   include:
     - stage: test
-      node_js: "8"
-    - stage: test
-      node_js: "10"
+      node_js:
+        - "8"
+        - "10"
     - stage: release
       node_js: "10"
       script: skip # Skip running "yarn test" again
