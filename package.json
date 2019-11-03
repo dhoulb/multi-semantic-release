@@ -72,5 +72,22 @@
 		"prettier": "^1.18.2",
 		"coveralls": "^3.0.7",
 		"codeclimate-test-reporter": "^0.5.1"
+	},
+	"release": {
+		"branch": "master",
+		"verifyConditions": [
+			"@semantic-release/changelog",
+			"@semantic-release/npm",
+			"@semantic-release/git"
+		],
+		"prepare": [
+			"@semantic-release/changelog",
+			"@semantic-release/npm",
+			"@semantic-release/git"
+		],
+		"publish": [
+			"@semantic-release/npm",
+			"@semantic-release/github"
+		]
 	}
 }
