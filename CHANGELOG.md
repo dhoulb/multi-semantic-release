@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/qiwi/multi-semantic-release/compare/v1.1.0...v1.2.0) (2019-11-03)
+
+
+### Features
+
+* tech release ([828a82d](https://github.com/qiwi/multi-semantic-release/commit/828a82d88d0692aa3bc19dd8dae5674a46a719ce))
+
 # [1.1.0](https://github.com/qiwi/multi-semantic-release/compare/v1.0.3...v1.1.0) (2019-11-03)
 
 
