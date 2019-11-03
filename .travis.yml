@@ -27,6 +27,7 @@ jobs:
       node_js:
         - "8"
         - "10"
+        - "12"
       script:
         - yarn test
     - stage: release
