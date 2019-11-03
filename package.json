@@ -63,6 +63,10 @@
 	},
 	"devDependencies": {
 		"@commitlint/config-conventional": "^8.2.0",
+		"@semantic-release/changelog": "^3.0.5",
+		"@semantic-release/git": "^7.0.17",
+		"@semantic-release/github": "^5.5.5",
+		"@semantic-release/npm": "^5.3.2",
 		"commitlint": "^8.2.0",
 		"eslint": "^6.6.0",
 		"eslint-config-prettier": "^6.5.0",
