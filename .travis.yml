@@ -39,7 +39,8 @@ jobs:
       script:
         - yarn test
     - stage: release
-      node_js: "12"
+      node_js:
+        - "12"
       script: skip # Skip running "yarn test" again
       deploy:
         provider: script

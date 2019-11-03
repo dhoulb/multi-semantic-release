@@ -1,10 +1,10 @@
-# multi-semantic-release: hacky semantic-release for monorepos
+# multi-semantic-release
+hacky [semantic-release](https://github.com/semantic-release/semantic-release) for monorepos
 
-[![Travis CI](https://travis-ci.com/dhoulb/multi-semantic-release.svg?branch=master)](https://travis-ci.com/dhoulb/multi-semantic-release)
+[![Travis CI](https://travis-ci.com/qiwi/multi-semantic-release.svg?branch=master)](https://travis-ci.com/qiwi/multi-semantic-release)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat)](https://github.com/semantic-release/semantic-release)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
-[![Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![npm](https://img.shields.io/npm/dm/multi-semantic-release.svg)](https://www.npmjs.com/package/multi-semantic-release)
+[![Maintainability](https://api.codeclimate.com/v1/badges/c6ee027803a794f1d67d/maintainability)](https://codeclimate.com/github/qiwi/multi-semantic-release/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/c6ee027803a794f1d67d/test_coverage)](https://codeclimate.com/github/qiwi/multi-semantic-release/test_coverage)
 
 Proof of concept that wraps [semantic-release](https://github.com/semantic-release/semantic-release) to work with monorepos. 
 
@@ -15,7 +15,7 @@ One of the best things about semantic-release is forgetting about version number
 ## Installation
 
 ```sh
-yarn add multi-semantic-release --dev
+yarn add @qiwi/multi-semantic-release --dev
 ```
 
 ## Usage
