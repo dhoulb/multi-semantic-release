@@ -6,12 +6,29 @@ branches:
 
 cache: yarn
 
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+after_script:
+  - ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+install:
+  - yarn
+
+script:
+  - yarn run build
+
 jobs:
   include:
     - stage: test
       node_js:
         - "8"
         - "10"
+      script:
+        - yarn test
     - stage: release
       node_js: "10"
       script: skip # Skip running "yarn test" again

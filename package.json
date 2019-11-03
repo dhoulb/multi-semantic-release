@@ -1,7 +1,7 @@
 {
-	"name": "multi-semantic-release",
+	"name": "@qiwi/multi-semantic-release",
 	"author": "Dave Houlbrooke <dave@shax.com>",
-	"version": "0.0.0-semantically-released",
+	"version": "0.0.0",
 	"license": "0BSD",
 	"engines": {
 		"node": ">=8.3",
@@ -11,13 +11,23 @@
 	"bin": {
 		"multi-semantic-release": "./bin/cli.js"
 	},
+	"files": [
+		"README.md",
+		"CHANGELOG.md",
+		"lib",
+		"bin"
+	],
 	"scripts": {
 		"watch": "jest --watchAll",
 		"jest": "jest --coverage",
 		"lint": "eslint ./",
-		"fix": "eslint --fix ./",
+		"lint:fix": "eslint --fix ./",
 		"test": "yarn lint && yarn jest",
-		"publish": "semantic-release"
+		"test:report": "yarn test && yarn codeclimate:push && yarn coveralls:push",
+		"codeclimate:push": "codeclimate-test-reporter < ./coverage/lcov.info",
+		"coveralls:push": "cat ./coverage/lcov.info | coveralls",
+		"publish": "semantic-release",
+		"build": "echo 'There is no need for build && exit 0'"
 	},
 	"husky": {
 		"hooks": {
@@ -59,6 +69,8 @@
 		"file-url": "^3.0.0",
 		"husky": "^3.0.9",
 		"jest": "^24.9.0",
-		"prettier": "^1.18.2"
+		"prettier": "^1.18.2",
+		"coveralls": "^3.0.7",
+		"codeclimate-test-reporter": "^0.5.1"
 	}
 }
