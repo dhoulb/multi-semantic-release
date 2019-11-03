@@ -27,7 +27,8 @@
 		"codeclimate:push": "codeclimate-test-reporter < ./coverage/lcov.info",
 		"coveralls:push": "cat ./coverage/lcov.info | coveralls",
 		"publish": "semantic-release",
-		"build": "echo 'There is no need for build && exit 0'"
+		"build": "echo 'There is no need for build && exit 0'",
+		"postupdate": "yarn && yarn build && yarn test"
 	},
 	"husky": {
 		"hooks": {
@@ -49,12 +50,12 @@
 	"dependencies": {
 		"bash-glob": "^2.0.0",
 		"blork": "^9.2.1",
-		"cosmiconfig": "^5.2.1",
+		"cosmiconfig": "^6.0.0",
 		"execa": "^3.2.0",
 		"get-stream": "^5.1.0",
 		"git-log-parser": "^1.2.0",
 		"require-in-the-middle": "^5.0.0",
-		"semantic-release": "^15.13.28",
+		"semantic-release": "^15.13.30",
 		"semver": "^6.3.0",
 		"signale": "^1.4.0",
 		"stream-buffers": "^3.0.2",
