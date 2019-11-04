@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // Execa hook.
-if (require("yargs").argv.execasync) {
+if (process.argv.includes("--execasync")) {
 	require("../lib/execaHook").hook();
 }
 
