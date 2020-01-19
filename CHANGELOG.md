@@ -1,3 +1,20 @@
+# [2.0.0](https://github.com/qiwi/multi-semantic-release/compare/v1.2.0...v2.0.0) (2020-01-19)
+
+
+### Features
+
+* drop nodejs v8 support ([80f0a24](https://github.com/qiwi/multi-semantic-release/commit/80f0a242e195c6b4f7d6a68cdcbff9a25cd5577f))
+
+
+### Performance Improvements
+
+* **package:** up deps & tech release ([bf00b41](https://github.com/qiwi/multi-semantic-release/commit/bf00b41662805ba87d67865830c7b0d8d88e20b9))
+
+
+### BREAKING CHANGES
+
+* drop nodejs v8
+
 # [1.2.0](https://github.com/qiwi/multi-semantic-release/compare/v1.1.0...v1.2.0) (2019-11-03)
 
 
