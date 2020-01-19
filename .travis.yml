@@ -1,8 +1,8 @@
+os: linux
 language: node_js
 node_js:
-  - "8"
-  - "10"
-  - "12"
+  - 10
+  - 12
 
 stages:
   - test
@@ -33,14 +33,13 @@ jobs:
   include:
     - stage: test
       node_js:
-        - "8"
-        - "10"
-        - "12"
+        - 10
+        - 12
       script:
-        - yarn test
+        - yarn lint
     - stage: release
       node_js:
-        - "12"
+        - 12
       script: skip # Skip running "yarn test" again
       deploy:
         provider: script
