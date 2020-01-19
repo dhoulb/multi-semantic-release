@@ -13,14 +13,20 @@ describe("hasChangedDeep()", () => {
 		const pkgs3 = [
 			{
 				_nextType: undefined,
-				_localDeps: [{ _nextType: false, _localDeps: [] }, { _nextType: false, _localDeps: [] }]
+				_localDeps: [
+					{ _nextType: false, _localDeps: [] },
+					{ _nextType: false, _localDeps: [] }
+				]
 			}
 		];
 		expect(hasChangedDeep(pkgs3)).toBe(false);
 		const pkgs4 = [
 			{
 				_nextType: undefined,
-				_localDeps: [{ _nextType: "patch", _localDeps: [] }, { _nextType: false, _localDeps: [] }]
+				_localDeps: [
+					{ _nextType: "patch", _localDeps: [] },
+					{ _nextType: false, _localDeps: [] }
+				]
 			}
 		];
 		expect(hasChangedDeep(pkgs4)).toBe(true);
@@ -30,7 +36,10 @@ describe("hasChangedDeep()", () => {
 				_localDeps: [
 					{
 						_nextType: false,
-						_localDeps: [{ _nextType: false, _localDeps: [] }, { _nextType: false, _localDeps: [] }]
+						_localDeps: [
+							{ _nextType: false, _localDeps: [] },
+							{ _nextType: false, _localDeps: [] }
+						]
 					}
 				]
 			}
@@ -63,7 +72,10 @@ describe("hasChangedDeep()", () => {
 		const pkgs3 = [
 			{
 				_nextType: undefined,
-				_localDeps: [{ _nextType: false, _localDeps: [] }, { _nextType: false, _localDeps: [] }]
+				_localDeps: [
+					{ _nextType: false, _localDeps: [] },
+					{ _nextType: false, _localDeps: [] }
+				]
 			}
 		];
 		pkgs3[0]._localDeps[0]._localDeps.push(pkgs3[0]._localDeps[0]);
@@ -71,7 +83,10 @@ describe("hasChangedDeep()", () => {
 		const pkgs4 = [
 			{
 				_nextType: undefined,
-				_localDeps: [{ _nextType: "patch", _localDeps: [] }, { _nextType: false, _localDeps: [] }]
+				_localDeps: [
+					{ _nextType: "patch", _localDeps: [] },
+					{ _nextType: false, _localDeps: [] }
+				]
 			}
 		];
 		pkgs4[0]._localDeps[0]._localDeps.push(pkgs4[0]._localDeps[0]);

@@ -266,8 +266,10 @@ describe("multiSemanticRelease()", () => {
 		// B.
 		expect(result[2].name).toBe("msr-test-b");
 		expect(result[2].result.lastRelease).toEqual({
+			channels: [null],
 			gitHead: sha1,
 			gitTag: "msr-test-b@1.0.0",
+			name: "msr-test-b@1.0.0",
 			version: "1.0.0"
 		});
 		expect(result[2].result.nextRelease).toMatchObject({
@@ -284,8 +286,10 @@ describe("multiSemanticRelease()", () => {
 		// C.
 		expect(result[0].name).toBe("msr-test-c");
 		expect(result[0].result.lastRelease).toEqual({
+			channels: [null],
 			gitHead: sha1,
 			gitTag: "msr-test-c@1.0.0",
+			name: "msr-test-c@1.0.0",
 			version: "1.0.0"
 		});
 		expect(result[0].result.nextRelease).toMatchObject({
