@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/qiwi/multi-semantic-release/compare/v2.0.1...v2.1.0) (2020-02-13)
+
+
+### Features
+
+* add process.spawn arg watcher ([7699b6f](https://github.com/qiwi/multi-semantic-release/commit/7699b6f4058934cbcf51b196d7f6aaa13372b35a))
+
 ## [2.0.1](https://github.com/qiwi/multi-semantic-release/compare/v2.0.0...v2.0.1) (2020-02-11)
 
 
