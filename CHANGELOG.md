@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/qiwi/multi-semantic-release/compare/v2.1.1...v2.1.2) (2020-02-13)
+
+
+### Bug Fixes
+
+* **cli:** fix inner spawnhook call ([70aa292](https://github.com/qiwi/multi-semantic-release/commit/70aa2927cd52a374f1626ab514a836bc9d98edaa))
+
 ## [2.1.1](https://github.com/qiwi/multi-semantic-release/compare/v2.1.0...v2.1.1) (2020-02-13)
 
 
