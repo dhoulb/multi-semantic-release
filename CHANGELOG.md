@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/qiwi/multi-semantic-release/compare/v2.1.0...v2.1.1) (2020-02-13)
+
+
+### Bug Fixes
+
+* **cli:** restore watchspawn context ([56145aa](https://github.com/qiwi/multi-semantic-release/commit/56145aaae5b43065c9925ed661302216e649112f))
+
 # [2.1.0](https://github.com/qiwi/multi-semantic-release/compare/v2.0.1...v2.1.0) (2020-02-13)
 
 
