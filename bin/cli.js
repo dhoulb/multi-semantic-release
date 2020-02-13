@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+if (process.argv.includes("--watchspawn")) {
+	require("../lib/spawnHook").hook();
+}
+
 // Execa hook.
 if (process.argv.includes("--execasync")) {
 	require("../lib/execaHook").hook();
