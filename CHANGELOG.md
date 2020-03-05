@@ -1,3 +1,10 @@
+## [2.1.3](https://github.com/qiwi/multi-semantic-release/compare/v2.1.2...v2.1.3) (2020-03-05)
+
+
+### Bug Fixes
+
+* try to prevent deps update rollback ([9108350](https://github.com/qiwi/multi-semantic-release/commit/910835046bc6dc5e63d637d83276d945df6f1943))
+
 ## [2.1.2](https://github.com/qiwi/multi-semantic-release/compare/v2.1.1...v2.1.2) (2020-02-13)
 
 
