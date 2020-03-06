@@ -1,6 +1,9 @@
 const get = require("lodash.get");
 
 module.exports = flags => {
+	const debug = require("../lib/debug");
+	debug.config(flags.debug);
+
 	if (flags.watchspawn || get(flags, "debug.spawn")) {
 		require("../lib/spawnHook").hook();
 	}
