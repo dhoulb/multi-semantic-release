@@ -1,40 +1,36 @@
 #!/usr/bin/env node
 
-if (process.argv.includes("--watchspawn")) {
-	require("../lib/spawnHook").hook();
-}
+const meow = require("meow");
+const pairs = require("lodash.pairs");
+const set = require("lodash.set");
+const runner = require("./runner");
+const cli = meow(
+	`
+  Usage
+    $ multi-semantic-release
 
-// Execa hook.
-if (process.argv.includes("--execasync")) {
-	require("../lib/execaHook").hook();
-}
+  Options
+    --sync,       Forces all execa calls to be synchronous
+    --debug,      Enables all additional logging
+    --debug.spawn Turns on logging for process.spawn
 
-// Imports.
-const getWorkspacesYarn = require("../lib/getWorkspacesYarn");
-const multiSemanticRelease = require("../lib/multiSemanticRelease");
-
-// Get directory.
-const cwd = process.cwd();
-
-// Catch errors.
-try {
-	// Get list of package.json paths according to Yarn workspaces.
-	const paths = getWorkspacesYarn(cwd);
-
-	// Do multirelease (log out any errors).
-	multiSemanticRelease(paths, {}, { cwd }).then(
-		() => {
-			// Success.
-			process.exit(0);
-		},
-		error => {
-			// Log out errors.
-			console.error(`[multi-semantic-release]:`, error);
-			process.exit(1);
+  Examples
+    $ multi-semantic-release --sync --debug
+    $ multi-semantic-release --debug.spawn
+`,
+	{
+		flags: {
+			sync: {
+				type: "boolean",
+				alias: "execasync" // Legacy
+			},
+			debug: {
+				type: "boolean"
+			}
 		}
-	);
-} catch (error) {
-	// Log out errors.
-	console.error(`[multi-semantic-release]:`, error);
-	process.exit(1);
-}
+	}
+);
+
+const processFlags = flags => pairs(flags).reduce((m, [k, v]) => set(m, k, v), {});
+
+runner(processFlags(cli.flags));
