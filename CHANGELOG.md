@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/qiwi/multi-semantic-release/compare/v2.1.3...v2.2.0) (2020-03-06)
+
+
+### Features
+
+* add meow as cli provider ([6de93b9](https://github.com/qiwi/multi-semantic-release/commit/6de93b9d7d5f818cccf5a376222e091d3be34065))
+
 ## [2.1.3](https://github.com/qiwi/multi-semantic-release/compare/v2.1.2...v2.1.3) (2020-03-05)
 
 
