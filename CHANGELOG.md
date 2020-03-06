@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/qiwi/multi-semantic-release/compare/v2.2.0...v2.3.0) (2020-03-06)
+
+
+### Features
+
+* add debugger ([d2c090d](https://github.com/qiwi/multi-semantic-release/commit/d2c090daa104d19d71a09e54c7ff396d0f5824df))
+
 # [2.2.0](https://github.com/qiwi/multi-semantic-release/compare/v2.1.3...v2.2.0) (2020-03-06)
 
 
