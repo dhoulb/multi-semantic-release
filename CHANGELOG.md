@@ -1,3 +1,10 @@
+## [2.3.3](https://github.com/qiwi/multi-semantic-release/compare/v2.3.2...v2.3.3) (2020-03-07)
+
+
+### Bug Fixes
+
+* fix logger path ([232d2dc](https://github.com/qiwi/multi-semantic-release/commit/232d2dc62ce440bf58ff7d05df5d27f72f24cfe6))
+
 ## [2.3.2](https://github.com/qiwi/multi-semantic-release/compare/v2.3.1...v2.3.2) (2020-03-07)
 
 
