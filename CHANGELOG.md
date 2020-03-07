@@ -1,3 +1,10 @@
+## [2.3.2](https://github.com/qiwi/multi-semantic-release/compare/v2.3.1...v2.3.2) (2020-03-07)
+
+
+### Performance Improvements
+
+* log multi-sem-rel flags ([75389e0](https://github.com/qiwi/multi-semantic-release/commit/75389e06b97f39bfd3e5a797677ee835bc569557))
+
 ## [2.3.1](https://github.com/qiwi/multi-semantic-release/compare/v2.3.0...v2.3.1) (2020-03-07)
 
 
