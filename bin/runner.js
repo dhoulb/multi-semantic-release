@@ -1,7 +1,12 @@
 const get = require("lodash.get");
 
 module.exports = flags => {
+	const getLogger = require("./getLogger");
+	const logger = getLogger({ stdout: process.stdout, stderr: process.stderr });
 	const debug = require("../lib/debug");
+
+	logger.log("flags=", flags);
+
 	debug.config(flags.debug);
 
 	if (flags.watchspawn || get(flags, "debug.spawn")) {
