@@ -1,7 +1,7 @@
 const get = require("lodash.get");
 
 module.exports = flags => {
-	const getLogger = require("./getLogger");
+	const getLogger = require("../lib/getLogger");
 	const logger = getLogger({ stdout: process.stdout, stderr: process.stderr });
 	const debug = require("../lib/debug");
 
