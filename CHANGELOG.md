@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/qiwi/multi-semantic-release/compare/v2.3.0...v2.3.1) (2020-03-07)
+
+
+### Bug Fixes
+
+* fix debug logging ([71527b2](https://github.com/qiwi/multi-semantic-release/commit/71527b2578a0a559ac1b175936d72e043258fe04))
+
 # [2.3.0](https://github.com/qiwi/multi-semantic-release/compare/v2.2.0...v2.3.0) (2020-03-06)
 
 
