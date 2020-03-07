@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/qiwi/multi-semantic-release/compare/v2.3.3...v2.4.0) (2020-03-07)
+
+
+### Features
+
+* log manifest path ([db451e8](https://github.com/qiwi/multi-semantic-release/commit/db451e877e53e54487019978ee20bd03c64fa992))
+
 ## [2.3.3](https://github.com/qiwi/multi-semantic-release/compare/v2.3.2...v2.3.3) (2020-03-07)
 
 
