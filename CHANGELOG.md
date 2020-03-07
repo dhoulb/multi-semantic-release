@@ -1,3 +1,10 @@
+## [2.4.1](https://github.com/qiwi/multi-semantic-release/compare/v2.4.0...v2.4.1) (2020-03-07)
+
+
+### Performance Improvements
+
+* log improvements ([c45dccc](https://github.com/qiwi/multi-semantic-release/commit/c45dcccd3e81b9ce0489a920ce16f9616b4ebda0))
+
 # [2.4.0](https://github.com/qiwi/multi-semantic-release/compare/v2.3.3...v2.4.0) (2020-03-07)
 
 
