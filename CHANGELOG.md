@@ -1,3 +1,10 @@
+## [2.4.2](https://github.com/qiwi/multi-semantic-release/compare/v2.4.1...v2.4.2) (2020-03-07)
+
+
+### Bug Fixes
+
+* make logger to be singleton ([1790794](https://github.com/qiwi/multi-semantic-release/commit/179079420368d4a33505adca3079c06eddad928d))
+
 ## [2.4.1](https://github.com/qiwi/multi-semantic-release/compare/v2.4.0...v2.4.1) (2020-03-07)
 
 
