@@ -55,6 +55,7 @@
 		"get-stream": "^5.1.0",
 		"git-log-parser": "^1.2.0",
 		"lodash.get": "^4.4.2",
+		"lodash.once": "^4.1.1",
 		"lodash.pairs": "^3.0.1",
 		"lodash.set": "^4.3.2",
 		"meow": "^6.0.1",
