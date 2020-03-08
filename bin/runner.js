@@ -29,6 +29,7 @@ module.exports = flags => {
 	try {
 		// Get list of package.json paths according to Yarn workspaces.
 		const paths = getWorkspacesYarn(cwd);
+		console.log("yarn paths", paths);
 
 		// Do multirelease (log out any errors).
 		multiSemanticRelease(paths, {}, { cwd }).then(
