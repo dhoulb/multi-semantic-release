@@ -1,3 +1,10 @@
+## [2.4.3](https://github.com/qiwi/multi-semantic-release/compare/v2.4.2...v2.4.3) (2020-03-08)
+
+
+### Performance Improvements
+
+* log yarn paths ([3896d5c](https://github.com/qiwi/multi-semantic-release/commit/3896d5ca4e97870e37d2f254e3586cb5b9165b84))
+
 ## [2.4.2](https://github.com/qiwi/multi-semantic-release/compare/v2.4.1...v2.4.2) (2020-03-07)
 
 
