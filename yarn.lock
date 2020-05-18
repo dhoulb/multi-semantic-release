@@ -6175,10 +6175,10 @@ query-string@^6.8.2:
     split-on-first "^1.0.0"
     strict-uri-encode "^2.0.0"
 
-queuefy@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/queuefy/-/queuefy-1.0.0.tgz#3dd3630ec9a4511dde46b5f4b1f7ccf45f6f93cc"
-  integrity sha512-8rxJ7unA8zWDCK8YaCYwtn/iYWqALMzaJNHRiEhZS9YpSXEKdMJ8TpiQIZU+WIJqdwMcbu1igIzYUeBZ7oaw6w==
+queuefy@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/queuefy/-/queuefy-1.1.0.tgz#e2212392724d25d800e7455104e44810991a8e9f"
+  integrity sha512-Fb/gdfuv67bq99jYM7OJ8Ir/SMUvvivPB9A6Z7XWQwxfxL3j9CLEJtCDymJC+m1qUnPd3APXq7e//KoFMEqWug==
   dependencies:
     tslib "^2.0.0"
 
