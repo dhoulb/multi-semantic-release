@@ -6175,6 +6175,13 @@ query-string@^6.8.2:
     split-on-first "^1.0.0"
     strict-uri-encode "^2.0.0"
 
+queuefy@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/queuefy/-/queuefy-1.0.0.tgz#3dd3630ec9a4511dde46b5f4b1f7ccf45f6f93cc"
+  integrity sha512-8rxJ7unA8zWDCK8YaCYwtn/iYWqALMzaJNHRiEhZS9YpSXEKdMJ8TpiQIZU+WIJqdwMcbu1igIzYUeBZ7oaw6w==
+  dependencies:
+    tslib "^2.0.0"
+
 quick-lru@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-1.1.0.tgz#4360b17c61136ad38078397ff11416e186dcfbb8"
@@ -7523,6 +7530,11 @@ tslib@^1.9.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
+
+tslib@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.0.tgz#18d13fc2dce04051e20f074cc8387fd8089ce4f3"
+  integrity sha512-lTqkx847PI7xEDYJntxZH89L2/aXInsyF2luSafe/+0fHOMjlBNXdH6th7f70qxLDhul7KZK0zC8V5ZIyHl0/g==
 
 tunnel-agent@^0.6.0:
   version "0.6.0"

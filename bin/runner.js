@@ -1,12 +1,15 @@
 module.exports = flags => {
+	// Apply some hooks.
 	const hooks = require("../lib/hooks");
 
 	if (flags.watchspawn) {
-		hooks.watchspawn.hook();
+		hooks.spawn.hook();
 	}
 
-	if (flags.sync || flags.execasync) {
-		hooks.execasync.hook();
+	if (flags.execasync || flags.sync) {
+		hooks.execa.hook("sync");
+	} else if (flags.execaqueue) {
+		hooks.execa.hook("queue");
 	}
 
 	// Imports.
