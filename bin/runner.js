@@ -7,9 +7,9 @@ module.exports = flags => {
 	}
 
 	if (flags.execasync || flags.sync) {
-		hooks.execa.hook("sync");
-	} else if (flags.execaqueue) {
-		hooks.execa.hook("queue");
+		hooks.execa.hook();
+	} else if (flags.queuefy || flags.queue) {
+		hooks.queue.hook();
 	}
 
 	// Imports.

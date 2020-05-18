@@ -1,7 +1,7 @@
 {
 	"name": "@qiwi/multi-semantic-release",
 	"author": "Dave Houlbrooke <dave@shax.com>",
-	"version": "2.4.3",
+	"version": "2.4.4-beta.5",
 	"license": "0BSD",
 	"engines": {
 		"node": ">=8.3",
@@ -26,7 +26,7 @@
 		"test:report": "yarn test && yarn codeclimate:push && yarn coveralls:push",
 		"codeclimate:push": "codeclimate-test-reporter < ./coverage/lcov.info",
 		"coveralls:push": "cat ./coverage/lcov.info | coveralls",
-		"publish": "semantic-release",
+		"_publish": "semantic-release",
 		"build": "echo 'There is no need for build && exit 0'",
 		"postupdate": "yarn && yarn build && yarn test"
 	},
