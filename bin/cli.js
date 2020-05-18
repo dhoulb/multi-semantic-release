@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 const meow = require("meow");
-const pairs = require("lodash.pairs");
-const set = require("lodash.set");
+const { toPairs, set } = require("lodash");
 const runner = require("./runner");
 const cli = meow(
 	`
@@ -10,27 +9,29 @@ const cli = meow(
     $ multi-semantic-release
 
   Options
-    --sync,       Forces all execa calls to be synchronous
-    --debug,      Enables all additional logging
-    --debug.spawn Turns on logging for process.spawn
+    --execasync,    Forces all execa calls to be synchronous
+    --watchspawn    Turns on logging for process.spawn
 
   Examples
-    $ multi-semantic-release --sync --debug
-    $ multi-semantic-release --debug.spawn
+    $ multi-semantic-release --execasync --watchspawn
+    $ multi-semantic-release --execaqueue
 `,
 	{
 		flags: {
-			sync: {
+			execasync: {
 				type: "boolean",
-				alias: "execasync" // Legacy
+				alias: "sync"
 			},
-			debug: {
+			execaqueue: {
+				type: "boolean"
+			},
+			watchspawn: {
 				type: "boolean"
 			}
 		}
 	}
 );
 
-const processFlags = flags => pairs(flags).reduce((m, [k, v]) => set(m, k, v), {});
+const processFlags = flags => toPairs(flags).reduce((m, [k, v]) => set(m, k, v), {});
 
 runner(processFlags(cli.flags));

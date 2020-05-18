@@ -1,21 +1,12 @@
-const get = require("lodash.get");
-
 module.exports = flags => {
-	const getLogger = require("../lib/getLogger");
-	const logger = getLogger({ stdout: process.stdout, stderr: process.stderr });
-	const debug = require("../lib/debug");
+	const hooks = require("../lib/hooks");
 
-	logger.log("flags=", flags);
-
-	debug.config(flags.debug);
-
-	if (flags.watchspawn || get(flags, "debug.spawn")) {
-		require("../lib/spawnHook").hook();
+	if (flags.watchspawn) {
+		hooks.watchspawn.hook();
 	}
 
-	// Execa hook.
-	if (flags.sync) {
-		require("../lib/execaHook").hook();
+	if (flags.sync || flags.execasync) {
+		hooks.execasync.hook();
 	}
 
 	// Imports.
