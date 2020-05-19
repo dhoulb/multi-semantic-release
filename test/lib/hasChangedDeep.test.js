@@ -15,9 +15,9 @@ describe("hasChangedDeep()", () => {
 				_nextType: undefined,
 				_localDeps: [
 					{ _nextType: false, _localDeps: [] },
-					{ _nextType: false, _localDeps: [] }
-				]
-			}
+					{ _nextType: false, _localDeps: [] },
+				],
+			},
 		];
 		expect(hasChangedDeep(pkgs3)).toBe(false);
 		const pkgs4 = [
@@ -25,9 +25,9 @@ describe("hasChangedDeep()", () => {
 				_nextType: undefined,
 				_localDeps: [
 					{ _nextType: "patch", _localDeps: [] },
-					{ _nextType: false, _localDeps: [] }
-				]
-			}
+					{ _nextType: false, _localDeps: [] },
+				],
+			},
 		];
 		expect(hasChangedDeep(pkgs4)).toBe(true);
 		const pkgs5 = [
@@ -38,11 +38,11 @@ describe("hasChangedDeep()", () => {
 						_nextType: false,
 						_localDeps: [
 							{ _nextType: false, _localDeps: [] },
-							{ _nextType: false, _localDeps: [] }
-						]
-					}
-				]
-			}
+							{ _nextType: false, _localDeps: [] },
+						],
+					},
+				],
+			},
 		];
 		expect(hasChangedDeep(pkgs5)).toBe(false);
 		const pkgs6 = [
@@ -54,11 +54,11 @@ describe("hasChangedDeep()", () => {
 						_localDeps: [
 							{ _nextType: false, _localDeps: [] },
 							{ _nextType: "patch", _localDeps: [] },
-							{ _nextType: false, _localDeps: [] }
-						]
-					}
-				]
-			}
+							{ _nextType: false, _localDeps: [] },
+						],
+					},
+				],
+			},
 		];
 		expect(hasChangedDeep(pkgs6)).toBe(true);
 	});
@@ -74,9 +74,9 @@ describe("hasChangedDeep()", () => {
 				_nextType: undefined,
 				_localDeps: [
 					{ _nextType: false, _localDeps: [] },
-					{ _nextType: false, _localDeps: [] }
-				]
-			}
+					{ _nextType: false, _localDeps: [] },
+				],
+			},
 		];
 		pkgs3[0]._localDeps[0]._localDeps.push(pkgs3[0]._localDeps[0]);
 		expect(hasChangedDeep(pkgs3)).toBe(false);
@@ -85,9 +85,9 @@ describe("hasChangedDeep()", () => {
 				_nextType: undefined,
 				_localDeps: [
 					{ _nextType: "patch", _localDeps: [] },
-					{ _nextType: false, _localDeps: [] }
-				]
-			}
+					{ _nextType: false, _localDeps: [] },
+				],
+			},
 		];
 		pkgs4[0]._localDeps[0]._localDeps.push(pkgs4[0]._localDeps[0]);
 		expect(hasChangedDeep(pkgs4)).toBe(true);

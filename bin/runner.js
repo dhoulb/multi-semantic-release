@@ -1,4 +1,4 @@
-module.exports = flags => {
+module.exports = (flags) => {
 	// Imports.
 	const getWorkspacesYarn = require("../lib/getWorkspacesYarn");
 	const multiSemanticRelease = require("../lib/multiSemanticRelease");
@@ -18,7 +18,7 @@ module.exports = flags => {
 				// Success.
 				process.exit(0);
 			},
-			error => {
+			(error) => {
 				// Log out errors.
 				console.error(`[multi-semantic-release]:`, error);
 				process.exit(1);

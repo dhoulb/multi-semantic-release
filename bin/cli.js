@@ -21,19 +21,19 @@ const cli = meow(
 		flags: {
 			execasync: {
 				type: "boolean",
-				alias: "sync"
+				alias: "sync",
 			},
 			queuefy: {
 				type: "boolean",
-				alias: "queue"
+				alias: "queue",
 			},
 			watchspawn: {
-				type: "boolean"
-			}
-		}
+				type: "boolean",
+			},
+		},
 	}
 );
 
-const processFlags = flags => toPairs(flags).reduce((m, [k, v]) => set(m, k, v), {});
+const processFlags = (flags) => toPairs(flags).reduce((m, [k, v]) => set(m, k, v), {});
 
 runner(processFlags(cli.flags));

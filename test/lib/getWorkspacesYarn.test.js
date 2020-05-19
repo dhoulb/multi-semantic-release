@@ -9,7 +9,7 @@ describe("getWorkspacesYarn()", () => {
 			`${resolved}/packages/a/package.json`,
 			`${resolved}/packages/b/package.json`,
 			`${resolved}/packages/c/package.json`,
-			`${resolved}/packages/d/package.json`
+			`${resolved}/packages/d/package.json`,
 		]);
 	});
 	test("TypeError if bad workspaces setting", () => {

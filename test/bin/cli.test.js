@@ -8,7 +8,7 @@ const {
 	gitInitOrigin,
 	gitPush,
 	gitTag,
-	gitGetTags
+	gitGetTags,
 } = require("../helpers/git");
 
 // Tests.

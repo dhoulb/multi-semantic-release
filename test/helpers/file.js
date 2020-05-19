@@ -13,7 +13,7 @@ function copyDirectory(source, target) {
 	}
 
 	// Copy every file and dir in the dir.
-	readdirSync(source).forEach(name => {
+	readdirSync(source).forEach((name) => {
 		// Get full paths.
 		const sourceFile = join(source, name);
 		const targetFile = join(target, name);
@@ -40,5 +40,5 @@ function isDirectory(path) {
 // Exports.
 module.exports = {
 	copyDirectory,
-	isDirectory
+	isDirectory,
 };
