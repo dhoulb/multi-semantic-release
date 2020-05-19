@@ -1,7 +1,7 @@
 {
 	"name": "@qiwi/multi-semantic-release",
 	"author": "Dave Houlbrooke <dave@shax.com>",
-	"version": "2.4.4-beta.20",
+	"version": "2.4.4-beta.27",
 	"license": "0BSD",
 	"engines": {
 		"node": ">=8.3",
