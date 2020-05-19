@@ -1,17 +1,4 @@
 module.exports = flags => {
-	// Apply some hooks.
-	const hooks = require("../lib/hooks");
-
-	if (flags.watchspawn) {
-		hooks.spawn.hook();
-	}
-
-	if (flags.execasync || flags.sync) {
-		hooks.execa.hook();
-	} else if (flags.queuefy || flags.queue) {
-		hooks.queue.hook();
-	}
-
 	// Imports.
 	const getWorkspacesYarn = require("../lib/getWorkspacesYarn");
 	const multiSemanticRelease = require("../lib/multiSemanticRelease");
