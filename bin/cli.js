@@ -9,27 +9,17 @@ const cli = meow(
     $ multi-semantic-release
 
   Options
-    --execasync     Forces all execa calls to be synchronous
-    --queuefy       Makes plugins methods work like a single thread with a queue
-    --watchspawn    Turns on logging for process.spawn
+    'none'
 
   Examples
-    $ multi-semantic-release --execasync --watchspawn
-    $ multi-semantic-release --queuefy
+    $ multi-semantic-release
 `,
 	{
 		flags: {
-			execasync: {
+			/*execasync: {
 				type: "boolean",
 				alias: "sync",
-			},
-			queuefy: {
-				type: "boolean",
-				alias: "queue",
-			},
-			watchspawn: {
-				type: "boolean",
-			},
+			},*/
 		},
 	}
 );

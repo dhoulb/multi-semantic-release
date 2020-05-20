@@ -1,8 +1,4 @@
 module.exports = (flags) => {
-	// Capture exit control.
-	const exit = process.exit;
-	process.exit = () => {};
-
 	// Imports.
 	const getWorkspacesYarn = require("../lib/getWorkspacesYarn");
 	const multiSemanticRelease = require("../lib/multiSemanticRelease");
@@ -25,18 +21,17 @@ module.exports = (flags) => {
 		multiSemanticRelease(paths, {}, { cwd }).then(
 			() => {
 				// Success.
-				console.log(`[multi-semantic-release]:`, `process.exit(0)`);
-				exit(0);
+				process.exit(0);
 			},
 			(error) => {
 				// Log out errors.
 				console.error(`[multi-semantic-release]:`, error);
-				exit(1);
+				process.exit(1);
 			}
 		);
 	} catch (error) {
 		// Log out errors.
 		console.error(`[multi-semantic-release]:`, error);
-		exit(1);
+		process.exit(1);
 	}
 };
