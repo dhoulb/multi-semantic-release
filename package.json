@@ -1,7 +1,7 @@
 {
 	"name": "@qiwi/multi-semantic-release",
 	"author": "Dave Houlbrooke <dave@shax.com>",
-	"version": "2.4.4-beta.46",
+	"version": "2.4.3",
 	"license": "0BSD",
 	"engines": {
 		"node": ">=8.3",
@@ -51,14 +51,11 @@
 		"bash-glob": "^2.0.0",
 		"blork": "^9.2.2",
 		"cosmiconfig": "^6.0.0",
-		"execa": "^4.0.1",
 		"get-stream": "^5.1.0",
 		"git-log-parser": "^1.2.0",
 		"lodash": "^4.17.15",
 		"meow": "^7.0.1",
 		"promise-events": "^0.1.8",
-		"queuefy": "^1.1.0",
-		"require-in-the-middle": "^5.0.3",
 		"semantic-release": "^17.0.7",
 		"semver": "^7.3.2",
 		"signale": "^1.4.0",
