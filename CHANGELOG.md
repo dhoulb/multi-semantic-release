@@ -1,3 +1,16 @@
+# [2.5.0](https://github.com/qiwi/multi-semantic-release/compare/v2.4.3...v2.5.0) (2020-05-20)
+
+
+### Bug Fixes
+
+* publish updated deps ([791f55a](https://github.com/qiwi/multi-semantic-release/commit/791f55a34574f5e6531ed69f182ffd54b68e2450)), closes [#1](https://github.com/qiwi/multi-semantic-release/issues/1)
+
+
+### Features
+
+* add execa queued hook ([042933e](https://github.com/qiwi/multi-semantic-release/commit/042933eb619e3fb7111a8e1d4a41e3593e2729ca))
+* apply queuefy to plugin methods instead of execa ([9ae7d0d](https://github.com/qiwi/multi-semantic-release/commit/9ae7d0d8c1cc9300517733fe9e4edcb557069dff))
+
 ## [2.4.3](https://github.com/qiwi/multi-semantic-release/compare/v2.4.2...v2.4.3) (2020-03-08)
 
 
