@@ -120,7 +120,7 @@ The integration with semantic release is pretty janky — this is a quick summar
   - Had to duplicate the internal cosmiconfig setup from semantic release to get this working :(
 4. I found Git getting itself into weird states because e.g. `git tag` is done asynchronously
   - To get around this I had to stagger package publishing so they were done one at a time (which slows things down)
-  - I think calls to `execa()` in semantic release should be replaced with `execa.sync()` to ensure Git's internal state is atomic. For an experiment, you may add `--execasync` CLI flag that makes all calls synchronous through [ritm-hook](https://github.com/elastic/require-in-the-middle).
+  - I think calls to `execa()` in semantic release should be replaced with `execa.sync()` to ensure Git's internal state is atomic.
 
 ### Git tags
 

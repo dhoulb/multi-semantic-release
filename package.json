@@ -28,7 +28,8 @@
 		"coveralls:push": "cat ./coverage/lcov.info | coveralls",
 		"_publish": "semantic-release",
 		"build": "echo 'There is no need for build && exit 0'",
-		"postupdate": "yarn && yarn build && yarn test"
+		"postupdate": "yarn && yarn build && yarn test",
+		"publish:beta": "npm publish --no-git-tag-version --tag beta"
 	},
 	"husky": {
 		"hooks": {
