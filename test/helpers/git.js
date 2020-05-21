@@ -313,5 +313,5 @@ module.exports = {
 	gitTag,
 	gitGetTagHash,
 	gitConfig,
-	gitGetConfig
+	gitGetConfig,
 };

@@ -2,6 +2,6 @@
 	"tabWidth": 4,
 	"useTabs": true,
 	"printWidth": 120,
-	"parser": "babylon",
+	"parser": "babel",
 	"proseWrap": "never"
 }

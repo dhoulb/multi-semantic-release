@@ -58,42 +58,42 @@ describe("getCommitsFiltered()", () => {
 	test("TypeError if cwd is not absolute path to directory", async () => {
 		await expect(getCommitsFiltered(123, ".")).rejects.toBeInstanceOf(TypeError);
 		await expect(getCommitsFiltered(123, ".")).rejects.toMatchObject({
-			message: expect.stringMatching("cwd: Must be directory that exists in the filesystem")
+			message: expect.stringMatching("cwd: Must be directory that exists in the filesystem"),
 		});
 		await expect(getCommitsFiltered("aaa", ".")).rejects.toBeInstanceOf(TypeError);
 		await expect(getCommitsFiltered("aaa", ".")).rejects.toMatchObject({
-			message: expect.stringMatching("cwd: Must be directory that exists in the filesystem")
+			message: expect.stringMatching("cwd: Must be directory that exists in the filesystem"),
 		});
 		const cwd = tempy.directory();
 		await expect(getCommitsFiltered(`${cwd}/abc`, ".")).rejects.toBeInstanceOf(TypeError);
 		await expect(getCommitsFiltered(`${cwd}/abc`, ".")).rejects.toMatchObject({
-			message: expect.stringMatching("cwd: Must be directory that exists in the filesystem")
+			message: expect.stringMatching("cwd: Must be directory that exists in the filesystem"),
 		});
 	});
 	test("TypeError if dir is not path to directory", async () => {
 		const cwd = tempy.directory();
 		await expect(getCommitsFiltered(cwd, 123)).rejects.toBeInstanceOf(TypeError);
 		await expect(getCommitsFiltered(cwd, 123)).rejects.toMatchObject({
-			message: expect.stringMatching("dir: Must be valid path")
+			message: expect.stringMatching("dir: Must be valid path"),
 		});
 		await expect(getCommitsFiltered(cwd, "abc")).rejects.toBeInstanceOf(TypeError);
 		await expect(getCommitsFiltered(cwd, "abc")).rejects.toMatchObject({
-			message: expect.stringMatching("dir: Must be directory that exists in the filesystem")
+			message: expect.stringMatching("dir: Must be directory that exists in the filesystem"),
 		});
 		await expect(getCommitsFiltered(cwd, `${cwd}/abc`)).rejects.toBeInstanceOf(TypeError);
 		await expect(getCommitsFiltered(cwd, `${cwd}/abc`)).rejects.toMatchObject({
-			message: expect.stringMatching("dir: Must be directory that exists in the filesystem")
+			message: expect.stringMatching("dir: Must be directory that exists in the filesystem"),
 		});
 	});
 	test("TypeError if dir is equal to cwd", async () => {
 		const cwd = tempy.directory();
 		await expect(getCommitsFiltered(cwd, cwd)).rejects.toBeInstanceOf(TypeError);
 		await expect(getCommitsFiltered(cwd, cwd)).rejects.toMatchObject({
-			message: expect.stringMatching("dir: Must not be equal to cwd")
+			message: expect.stringMatching("dir: Must not be equal to cwd"),
 		});
 		await expect(getCommitsFiltered(cwd, ".")).rejects.toBeInstanceOf(TypeError);
 		await expect(getCommitsFiltered(cwd, ".")).rejects.toMatchObject({
-			message: expect.stringMatching("dir: Must not be equal to cwd")
+			message: expect.stringMatching("dir: Must not be equal to cwd"),
 		});
 	});
 	test("TypeError if dir is not inside cwd", async () => {
@@ -101,11 +101,11 @@ describe("getCommitsFiltered()", () => {
 		const dir = tempy.directory();
 		await expect(getCommitsFiltered(cwd, dir)).rejects.toBeInstanceOf(TypeError);
 		await expect(getCommitsFiltered(cwd, dir)).rejects.toMatchObject({
-			message: expect.stringMatching("dir: Must be inside cwd")
+			message: expect.stringMatching("dir: Must be inside cwd"),
 		});
 		await expect(getCommitsFiltered(cwd, "..")).rejects.toBeInstanceOf(TypeError);
 		await expect(getCommitsFiltered(cwd, "..")).rejects.toMatchObject({
-			message: expect.stringMatching("dir: Must be inside cwd")
+			message: expect.stringMatching("dir: Must be inside cwd"),
 		});
 	});
 	test("TypeError if lastHead is not 40char alphanumeric Git SHA hash", async () => {
@@ -113,15 +113,15 @@ describe("getCommitsFiltered()", () => {
 		mkdirSync(join(cwd, "dir"));
 		await expect(getCommitsFiltered(cwd, "dir", false)).rejects.toBeInstanceOf(TypeError);
 		await expect(getCommitsFiltered(cwd, "dir", false)).rejects.toMatchObject({
-			message: expect.stringMatching("lastHead: Must be alphanumeric string with size 40 or empty")
+			message: expect.stringMatching("lastHead: Must be alphanumeric string with size 40 or empty"),
 		});
 		await expect(getCommitsFiltered(cwd, "dir", 123)).rejects.toBeInstanceOf(TypeError);
 		await expect(getCommitsFiltered(cwd, "dir", 123)).rejects.toMatchObject({
-			message: expect.stringMatching("lastHead: Must be alphanumeric string with size 40 or empty")
+			message: expect.stringMatching("lastHead: Must be alphanumeric string with size 40 or empty"),
 		});
 		await expect(getCommitsFiltered(cwd, "dir", "nottherightlength")).rejects.toBeInstanceOf(TypeError);
 		await expect(getCommitsFiltered(cwd, "dir", "nottherightlength")).rejects.toMatchObject({
-			message: expect.stringMatching("lastHead: Must be alphanumeric string with size 40 or empty")
+			message: expect.stringMatching("lastHead: Must be alphanumeric string with size 40 or empty"),
 		});
 	});
 });
