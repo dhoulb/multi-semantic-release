@@ -1,3 +1,10 @@
+# [2.6.0](https://github.com/qiwi/multi-semantic-release/compare/v2.5.0...v2.6.0) (2020-05-21)
+
+
+### Features
+
+* let publish step run in parallel ([4d5c451](https://github.com/qiwi/multi-semantic-release/commit/4d5c451e9400437820002a54a297a3c031856997))
+
 # [2.5.0](https://github.com/qiwi/multi-semantic-release/compare/v2.4.3...v2.5.0) (2020-05-20)
 
 
