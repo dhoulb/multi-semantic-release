@@ -13,8 +13,6 @@ const {
 	gitTag,
 	gitGetTags,
 } = require("../helpers/git");
-const execa = require("execa");
-const tempy = require("tempy");
 
 // Clear mocks before tests.
 beforeEach(() => {
