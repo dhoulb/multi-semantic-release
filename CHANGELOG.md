@@ -1,3 +1,10 @@
+## [2.6.2](https://github.com/qiwi/multi-semantic-release/compare/v2.6.1...v2.6.2) (2020-05-22)
+
+
+### Bug Fixes
+
+* beautify log labels ([78cbc8a](https://github.com/qiwi/multi-semantic-release/commit/78cbc8a773076c370f43894d35423a0a23b0cafb))
+
 ## [2.6.1](https://github.com/qiwi/multi-semantic-release/compare/v2.6.0...v2.6.1) (2020-05-22)
 
 
