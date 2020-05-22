@@ -1,3 +1,10 @@
+## [2.6.1](https://github.com/qiwi/multi-semantic-release/compare/v2.6.0...v2.6.1) (2020-05-22)
+
+
+### Bug Fixes
+
+* provide partial release ([898998a](https://github.com/qiwi/multi-semantic-release/commit/898998a25f100e3450b14dd55ea6c468d3a02432))
+
 # [2.6.0](https://github.com/qiwi/multi-semantic-release/compare/v2.5.0...v2.6.0) (2020-05-21)
 
 
