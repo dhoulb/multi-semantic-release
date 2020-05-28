@@ -1,3 +1,10 @@
+## [2.6.3](https://github.com/qiwi/multi-semantic-release/compare/v2.6.2...v2.6.3) (2020-05-28)
+
+
+### Performance Improvements
+
+* straighten plugins execution pipeline ([e57fe2f](https://github.com/qiwi/multi-semantic-release/commit/e57fe2fc3274d66520fbeacdac488b1a29430835)), closes [#4](https://github.com/qiwi/multi-semantic-release/issues/4)
+
 ## [2.6.2](https://github.com/qiwi/multi-semantic-release/compare/v2.6.1...v2.6.2) (2020-05-22)
 
 
