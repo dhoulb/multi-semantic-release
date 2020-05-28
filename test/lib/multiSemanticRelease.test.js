@@ -386,14 +386,15 @@ describe("multiSemanticRelease()", () => {
 			[`packages/d/package.json`],
 			{
 				// Override to add our own plugins.
-				plugins: ["@semantic-release/commit-analyzer", "@semantic-release/release-notes-generator", plugin],
+				plugins: ["@semantic-release/release-notes-generator", plugin],
+				analyzeCommits: ["@semantic-release/commit-analyzer"],
 			},
 			{ cwd, stdout, stderr }
 		);
 
 		// Check calls.
 		expect(plugin.verifyConditions).toBeCalledTimes(1);
-		expect(plugin.analyzeCommits).toBeCalledTimes(1);
+		expect(plugin.analyzeCommits).toBeCalledTimes(0); // NOTE overridden
 		expect(plugin.verifyRelease).toBeCalledTimes(1);
 		expect(plugin.generateNotes).toBeCalledTimes(1);
 		expect(plugin.prepare).toBeCalledTimes(1);
