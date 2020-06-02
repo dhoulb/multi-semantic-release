@@ -11,10 +11,8 @@ const {
 	gitInitOrigin,
 	gitPush,
 	gitTag,
-	gitGetTags
+	gitGetTags,
 } = require("../helpers/git");
-const execa = require("execa");
-const tempy = require("tempy");
 
 // Clear mocks before tests.
 beforeEach(() => {
@@ -44,7 +42,7 @@ describe("multiSemanticRelease()", () => {
 				`packages/a/package.json`,
 				`packages/b/package.json`,
 				`packages/c/package.json`,
-				`packages/d/package.json`
+				`packages/d/package.json`,
 			],
 			{},
 			{ cwd, stdout, stderr }
@@ -73,7 +71,7 @@ describe("multiSemanticRelease()", () => {
 			gitHead: sha,
 			gitTag: "msr-test-a@1.0.0",
 			type: "minor",
-			version: "1.0.0"
+			version: "1.0.0",
 		});
 		expect(result[0].result.nextRelease.notes).toMatch("# msr-test-a 1.0.0");
 		expect(result[0].result.nextRelease.notes).toMatch("### Features\n\n* Initial release");
@@ -86,7 +84,7 @@ describe("multiSemanticRelease()", () => {
 			gitHead: sha,
 			gitTag: "msr-test-b@1.0.0",
 			type: "minor",
-			version: "1.0.0"
+			version: "1.0.0",
 		});
 		expect(result[1].result.nextRelease.notes).toMatch("# msr-test-b 1.0.0");
 		expect(result[1].result.nextRelease.notes).toMatch("### Features\n\n* Initial release");
@@ -101,7 +99,7 @@ describe("multiSemanticRelease()", () => {
 			gitHead: sha,
 			gitTag: "msr-test-c@1.0.0",
 			type: "minor",
-			version: "1.0.0"
+			version: "1.0.0",
 		});
 		expect(result[2].result.nextRelease.notes).toMatch("# msr-test-c 1.0.0");
 		expect(result[2].result.nextRelease.notes).toMatch("### Features\n\n* Initial release");
@@ -114,7 +112,7 @@ describe("multiSemanticRelease()", () => {
 			gitHead: sha,
 			gitTag: "msr-test-d@1.0.0",
 			type: "minor",
-			version: "1.0.0"
+			version: "1.0.0",
 		});
 		expect(result[3].result.nextRelease.notes).toMatch("# msr-test-d 1.0.0");
 		expect(result[3].result.nextRelease.notes).toMatch("### Features\n\n* Initial release");
@@ -126,22 +124,22 @@ describe("multiSemanticRelease()", () => {
 		// Check manifests.
 		expect(require(`${cwd}/packages/a/package.json`)).toMatchObject({
 			peerDependencies: {
-				"msr-test-c": "1.0.0"
-			}
+				"msr-test-c": "1.0.0",
+			},
 		});
 		expect(require(`${cwd}/packages/b/package.json`)).toMatchObject({
 			dependencies: {
-				"msr-test-a": "1.0.0"
+				"msr-test-a": "1.0.0",
 			},
 			devDependencies: {
-				"msr-test-c": "1.0.0"
-			}
+				"msr-test-c": "1.0.0",
+			},
 		});
 		expect(require(`${cwd}/packages/c/package.json`)).toMatchObject({
 			devDependencies: {
 				"msr-test-b": "1.0.0",
-				"msr-test-d": "1.0.0"
-			}
+				"msr-test-d": "1.0.0",
+			},
 		});
 	});
 	test("No changes in any packages", async () => {
@@ -169,7 +167,7 @@ describe("multiSemanticRelease()", () => {
 				`packages/c/package.json`,
 				`packages/a/package.json`,
 				`packages/d/package.json`,
-				`packages/b/package.json`
+				`packages/b/package.json`,
 			],
 			{},
 			{ cwd, stdout, stderr }
@@ -224,7 +222,7 @@ describe("multiSemanticRelease()", () => {
 				`packages/c/package.json`,
 				`packages/d/package.json`,
 				`packages/b/package.json`,
-				`packages/a/package.json`
+				`packages/a/package.json`,
 			],
 			{},
 			{ cwd, stdout, stderr }
@@ -251,13 +249,13 @@ describe("multiSemanticRelease()", () => {
 		expect(result[3].result.lastRelease).toMatchObject({
 			gitHead: sha1,
 			gitTag: "msr-test-a@1.0.0",
-			version: "1.0.0"
+			version: "1.0.0",
 		});
 		expect(result[3].result.nextRelease).toMatchObject({
 			gitHead: sha2,
 			gitTag: "msr-test-a@1.1.0",
 			type: "minor",
-			version: "1.1.0"
+			version: "1.1.0",
 		});
 		expect(result[3].result.nextRelease.notes).toMatch("# msr-test-a [1.1.0]");
 		expect(result[3].result.nextRelease.notes).toMatch("### Features\n\n* **aaa:** Add missing text file");
@@ -266,15 +264,17 @@ describe("multiSemanticRelease()", () => {
 		// B.
 		expect(result[2].name).toBe("msr-test-b");
 		expect(result[2].result.lastRelease).toEqual({
+			channels: [null],
 			gitHead: sha1,
 			gitTag: "msr-test-b@1.0.0",
-			version: "1.0.0"
+			name: "msr-test-b@1.0.0",
+			version: "1.0.0",
 		});
 		expect(result[2].result.nextRelease).toMatchObject({
 			gitHead: sha2,
 			gitTag: "msr-test-b@1.0.1",
 			type: "patch",
-			version: "1.0.1"
+			version: "1.0.1",
 		});
 		expect(result[2].result.nextRelease.notes).toMatch("# msr-test-b [1.0.1]");
 		expect(result[2].result.nextRelease.notes).not.toMatch("### Features");
@@ -284,15 +284,17 @@ describe("multiSemanticRelease()", () => {
 		// C.
 		expect(result[0].name).toBe("msr-test-c");
 		expect(result[0].result.lastRelease).toEqual({
+			channels: [null],
 			gitHead: sha1,
 			gitTag: "msr-test-c@1.0.0",
-			version: "1.0.0"
+			name: "msr-test-c@1.0.0",
+			version: "1.0.0",
 		});
 		expect(result[0].result.nextRelease).toMatchObject({
 			gitHead: sha2,
 			gitTag: "msr-test-c@1.0.1",
 			type: "patch",
-			version: "1.0.1"
+			version: "1.0.1",
 		});
 		expect(result[0].result.nextRelease.notes).toMatch("# msr-test-c [1.0.1]");
 		expect(result[0].result.nextRelease.notes).not.toMatch("### Features");
@@ -309,22 +311,22 @@ describe("multiSemanticRelease()", () => {
 		// Check manifests.
 		expect(require(`${cwd}/packages/a/package.json`)).toMatchObject({
 			peerDependencies: {
-				"msr-test-c": "1.0.1"
-			}
+				"msr-test-c": "1.0.1",
+			},
 		});
 		expect(require(`${cwd}/packages/b/package.json`)).toMatchObject({
 			dependencies: {
-				"msr-test-a": "1.1.0"
+				"msr-test-a": "1.1.0",
 			},
 			devDependencies: {
-				"msr-test-c": "1.0.1"
-			}
+				"msr-test-c": "1.0.1",
+			},
 		});
 		expect(require(`${cwd}/packages/c/package.json`)).toMatchObject({
 			devDependencies: {
 				"msr-test-b": "1.0.1",
-				"msr-test-d": "1.0.0"
-			}
+				"msr-test-d": "1.0.0",
+			},
 		});
 	});
 	test("Error if release's local deps have no version number", async () => {
@@ -371,7 +373,7 @@ describe("multiSemanticRelease()", () => {
 			generateNotes: jest.fn(),
 			prepare: jest.fn(),
 			success: jest.fn(),
-			fail: jest.fn()
+			fail: jest.fn(),
 		};
 
 		// Capture output.
@@ -384,14 +386,15 @@ describe("multiSemanticRelease()", () => {
 			[`packages/d/package.json`],
 			{
 				// Override to add our own plugins.
-				plugins: ["@semantic-release/commit-analyzer", "@semantic-release/release-notes-generator", plugin]
+				plugins: ["@semantic-release/release-notes-generator", plugin],
+				analyzeCommits: ["@semantic-release/commit-analyzer"],
 			},
 			{ cwd, stdout, stderr }
 		);
 
 		// Check calls.
 		expect(plugin.verifyConditions).toBeCalledTimes(1);
-		expect(plugin.analyzeCommits).toBeCalledTimes(1);
+		expect(plugin.analyzeCommits).toBeCalledTimes(0); // NOTE overridden
 		expect(plugin.verifyRelease).toBeCalledTimes(1);
 		expect(plugin.generateNotes).toBeCalledTimes(1);
 		expect(plugin.prepare).toBeCalledTimes(1);
@@ -424,9 +427,9 @@ describe("multiSemanticRelease()", () => {
 						{
 							analyzeCommits: () => {
 								throw new Error("NOPE");
-							}
-						}
-					]
+							},
+						},
+					],
 				},
 				{ cwd, stdout, stderr }
 			);
@@ -474,32 +477,32 @@ describe("multiSemanticRelease()", () => {
 		const r1 = multiSemanticRelease(["test/fixtures/invalidPackage.json"], {}, { stdout });
 		await expect(r1).rejects.toBeInstanceOf(SyntaxError);
 		await expect(r1).rejects.toMatchObject({
-			message: expect.stringMatching("could not be parsed")
+			message: expect.stringMatching("could not be parsed"),
 		});
 		const r2 = multiSemanticRelease(["test/fixtures/numberPackage.json"], {}, { stdout });
 		await expect(r2).rejects.toBeInstanceOf(SyntaxError);
 		await expect(r2).rejects.toMatchObject({
-			message: expect.stringMatching("not an object")
+			message: expect.stringMatching("not an object"),
 		});
 		const r3 = multiSemanticRelease(["test/fixtures/badNamePackage.json"], {}, { stdout });
 		await expect(r3).rejects.toBeInstanceOf(SyntaxError);
 		await expect(r3).rejects.toMatchObject({
-			message: expect.stringMatching("Package name must be non-empty string")
+			message: expect.stringMatching("Package name must be non-empty string"),
 		});
 		const r4 = multiSemanticRelease(["test/fixtures/badDepsPackage.json"], {}, { stdout });
 		await expect(r4).rejects.toBeInstanceOf(SyntaxError);
 		await expect(r4).rejects.toMatchObject({
-			message: expect.stringMatching("Package dependencies must be object")
+			message: expect.stringMatching("Package dependencies must be object"),
 		});
 		const r5 = multiSemanticRelease(["test/fixtures/badDevDepsPackage.json"], {}, { stdout });
 		await expect(r5).rejects.toBeInstanceOf(SyntaxError);
 		await expect(r5).rejects.toMatchObject({
-			message: expect.stringMatching("Package devDependencies must be object")
+			message: expect.stringMatching("Package devDependencies must be object"),
 		});
 		const r6 = multiSemanticRelease(["test/fixtures/badPeerDepsPackage.json"], {}, { stdout });
 		await expect(r6).rejects.toBeInstanceOf(SyntaxError);
 		await expect(r6).rejects.toMatchObject({
-			message: expect.stringMatching("Package peerDependencies must be object")
+			message: expect.stringMatching("Package peerDependencies must be object"),
 		});
 	});
 });
