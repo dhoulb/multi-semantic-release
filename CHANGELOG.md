@@ -1,3 +1,15 @@
+# [3.0.0](https://github.com/qiwi/multi-semantic-release/compare/v2.6.4...v3.0.0) (2020-06-04)
+
+
+### Features
+
+* **engine:** up nodejs version ([10af385](https://github.com/qiwi/multi-semantic-release/commit/10af3850de9cc04a1f4a85c505752b659e3f47ff))
+
+
+### BREAKING CHANGES
+
+* **engine:** the latest semantic-release requires Node.js 10.18
+
 ## [2.6.4](https://github.com/qiwi/multi-semantic-release/compare/v2.6.3...v2.6.4) (2020-05-28)
 
 
