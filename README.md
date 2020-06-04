@@ -21,3 +21,21 @@ yarn add @qiwi/multi-semantic-release --dev
 ```sh
 multi-semantic-release
 ```
+
+## Configuration
+**MSR** requires **semrel** config to be added [in any supported format](https://github.com/semantic-release/semantic-release/blob/master/docs/usage/configuration.md#configuration) for each package or/and declared in repo root (`globalConfig` is extremely useful if all the modules have the same strategy of release).  
+NOTE config resolver joins `globalConfig` and `packageConfig` during execution.
+```javascript
+// Load the package-specific options.
+const { options: pkgOptions } = await getConfig(dir);
+
+// The 'final options' are the global options merged with package-specific options.
+// We merge this ourselves because package-specific options can override global options.
+const finalOptions = Object.assign({}, globalOptions, pkgOptions);
+```
+
+## Verified examples
+We use this tool to release our JS platform code inhouse (GitHub Enterprise + JB TeamCity) and for our OSS (GitHub + Travis CI). Guaranteed working configurations available in projects.
+* [qiwi/substrate](https://github.com/qiwi/substrate)
+* [qiwi/json-rpc](https://github.com/qiwi/json-rpc)
+* [qiwi/lint-config-qiwi](https://github.com/qiwi/lint-config-qiwi)
