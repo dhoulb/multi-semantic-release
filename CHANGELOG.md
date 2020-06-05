@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/qiwi/multi-semantic-release/compare/v3.0.0...v3.0.1) (2020-06-05)
+
+
+### Bug Fixes
+
+* filter queued packages on generateNotes stage ([e0625ce](https://github.com/qiwi/multi-semantic-release/commit/e0625ced9c52d027246b58305d8206c949b4958c)), closes [#6](https://github.com/qiwi/multi-semantic-release/issues/6)
+
 # [3.0.0](https://github.com/qiwi/multi-semantic-release/compare/v2.6.4...v3.0.0) (2020-06-04)
 
 
