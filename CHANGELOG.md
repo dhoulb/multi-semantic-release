@@ -1,3 +1,10 @@
+## [3.0.2](https://github.com/qiwi/multi-semantic-release/compare/v3.0.1...v3.0.2) (2020-06-16)
+
+
+### Bug Fixes
+
+* allow any `todo` package to run the `generateNotes` queue ([26a87d7](https://github.com/qiwi/multi-semantic-release/commit/26a87d7f88c09417b47b55fe6e21edb6d13f5520)), closes [#9](https://github.com/qiwi/multi-semantic-release/issues/9)
+
 ## [3.0.1](https://github.com/qiwi/multi-semantic-release/compare/v3.0.0...v3.0.1) (2020-06-05)
 
 
