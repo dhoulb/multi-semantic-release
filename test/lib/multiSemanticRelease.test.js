@@ -12,6 +12,7 @@ const {
 	gitPush,
 	gitTag,
 	gitGetTags,
+	gitReleaseBranches,
 } = require("../helpers/git");
 
 // Clear mocks before tests.
@@ -25,6 +26,7 @@ describe("multiSemanticRelease()", () => {
 	test("Initial commit (changes in all packages)", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();
+		const branches = gitReleaseBranches();
 		copyDirectory(`test/fixtures/yarnWorkspaces/`, cwd);
 		const sha = gitCommitAll(cwd, "feat: Initial release");
 		const url = gitInitOrigin(cwd);
@@ -44,7 +46,7 @@ describe("multiSemanticRelease()", () => {
 				`packages/c/package.json`,
 				`packages/d/package.json`,
 			],
-			{},
+			{ branches },
 			{ cwd, stdout, stderr }
 		);
 
@@ -145,6 +147,7 @@ describe("multiSemanticRelease()", () => {
 	test("No changes in any packages", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();
+		const branches = gitReleaseBranches();
 		copyDirectory(`test/fixtures/yarnWorkspaces/`, cwd);
 		const sha = gitCommitAll(cwd, "feat: Initial release");
 		// Creating the four tags so there are no changes in any packages.
@@ -169,7 +172,7 @@ describe("multiSemanticRelease()", () => {
 				`packages/d/package.json`,
 				`packages/b/package.json`,
 			],
-			{},
+			{ branches },
 			{ cwd, stdout, stderr }
 		);
 
@@ -197,6 +200,7 @@ describe("multiSemanticRelease()", () => {
 	test("Changes in some packages", async () => {
 		// Create Git repo.
 		const cwd = gitInit();
+		const branches = gitReleaseBranches();
 		// Initial commit.
 		copyDirectory(`test/fixtures/yarnWorkspaces/`, cwd);
 		const sha1 = gitCommitAll(cwd, "feat: Initial release");
@@ -224,7 +228,7 @@ describe("multiSemanticRelease()", () => {
 				`packages/b/package.json`,
 				`packages/a/package.json`,
 			],
-			{},
+			{ branches },
 			{ cwd, stdout, stderr }
 		);
 
@@ -332,6 +336,7 @@ describe("multiSemanticRelease()", () => {
 	test("Error if release's local deps have no version number", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();
+		const branches = gitReleaseBranches();
 		copyDirectory(`test/fixtures/yarnWorkspaces/`, cwd);
 		gitAdd(cwd, "packages/a/package.json");
 		const sha = gitCommit(cwd, "feat: Commit first package only");
@@ -347,7 +352,7 @@ describe("multiSemanticRelease()", () => {
 			const multiSemanticRelease = require("../../");
 			const result = await multiSemanticRelease(
 				[`packages/a/package.json`, `packages/c/package.json`],
-				{},
+				{ branches },
 				{ cwd, stdout, stderr }
 			);
 
@@ -360,6 +365,7 @@ describe("multiSemanticRelease()", () => {
 	test("Configured plugins are called as normal", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();
+		const branches = gitReleaseBranches();
 		copyDirectory(`test/fixtures/yarnWorkspaces/`, cwd);
 		const sha = gitCommitAll(cwd, "feat: Initial release");
 		const url = gitInitOrigin(cwd);
@@ -388,6 +394,7 @@ describe("multiSemanticRelease()", () => {
 				// Override to add our own plugins.
 				plugins: ["@semantic-release/release-notes-generator", plugin],
 				analyzeCommits: ["@semantic-release/commit-analyzer"],
+				branches,
 			},
 			{ cwd, stdout, stderr }
 		);
@@ -404,6 +411,7 @@ describe("multiSemanticRelease()", () => {
 	test("Deep errors (e.g. in plugins) bubble up and out", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();
+		const branches = gitReleaseBranches();
 		copyDirectory(`test/fixtures/yarnWorkspaces/`, cwd);
 		const sha = gitCommitAll(cwd, "feat: Initial release");
 		const url = gitInitOrigin(cwd);
@@ -430,6 +438,7 @@ describe("multiSemanticRelease()", () => {
 							},
 						},
 					],
+					branches,
 				},
 				{ cwd, stdout, stderr }
 			);

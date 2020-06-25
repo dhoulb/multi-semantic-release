@@ -9,6 +9,7 @@ const execa = require("execa");
 const fileUrl = require("file-url");
 const gitLogParser = require("git-log-parser");
 const { array: getStreamArray } = require("get-stream");
+const envCi = require("env-ci");
 
 /**
  * @typedef {Object} Commit
@@ -76,6 +77,7 @@ function gitInitOrigin(cwd) {
 
 	// Set origin on local repo.
 	execa.sync("git", ["remote", "add", "origin", url], { cwd });
+	execa.sync("git", ["push", "--all", "origin"], { cwd });
 
 	// Return URL for remote.
 	return url;
@@ -162,6 +164,26 @@ function gitPush(cwd, remote = "origin", branch = "master") {
 }
 
 // Branches.
+
+/**
+ * Return current git branch.
+ * @param {string} cwd The CWD of the Git repository.
+ * @returns {execa.ExecaSyncReturnValue} Branch name
+ */
+function gitReleaseBranch() {
+	const ciCxt = envCi();
+	const { prBranch, isPr } = ciCxt;
+
+	return isPr ? prBranch : "master";
+}
+
+/**
+ * Return the list of release branches.
+ * @returns {string[]} Branch name
+ */
+function gitReleaseBranches() {
+	return ["master"];
+}
 
 /**
  * Create a branch in a local Git repository.
@@ -314,4 +336,6 @@ module.exports = {
 	gitGetTagHash,
 	gitConfig,
 	gitGetConfig,
+	gitReleaseBranch,
+	gitReleaseBranches,
 };
