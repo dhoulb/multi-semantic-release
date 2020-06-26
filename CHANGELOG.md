@@ -1,3 +1,10 @@
+## [3.0.3](https://github.com/qiwi/multi-semantic-release/compare/v3.0.2...v3.0.3) (2020-06-26)
+
+
+### Bug Fixes
+
+* override env.TRAVIS_PULL_REQUEST_BRANCH to fix PR checks on travis-ci ([e4b1929](https://github.com/qiwi/multi-semantic-release/commit/e4b192971f3cba0ad8e341cdc64116285a9de220)), closes [#11](https://github.com/qiwi/multi-semantic-release/issues/11)
+
 ## [3.0.2](https://github.com/qiwi/multi-semantic-release/compare/v3.0.1...v3.0.2) (2020-06-16)
 
 
