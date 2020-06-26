@@ -76,6 +76,7 @@ function gitInitOrigin(cwd) {
 
 	// Set origin on local repo.
 	execa.sync("git", ["remote", "add", "origin", url], { cwd });
+	execa.sync("git", ["push", "--all", "origin"], { cwd });
 
 	// Return URL for remote.
 	return url;
