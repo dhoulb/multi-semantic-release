@@ -19,7 +19,7 @@
 	],
 	"scripts": {
 		"watch": "jest --watchAll",
-		"jest": "jest --coverage",
+		"jest": "TRAVIS_PULL_REQUEST_BRANCH=master jest --coverage",
 		"lint": "eslint ./",
 		"lint:fix": "eslint --fix ./",
 		"test": "yarn lint && yarn jest",
