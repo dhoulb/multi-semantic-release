@@ -71,6 +71,9 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://git@github.com:dhoulb/multi-semantic-release.git"
+		"url": "https://github.com/dhoulb/multi-semantic-release.git"
+	},
+	"bugs": {
+		"url": "https://github.com/dhoulb/multi-semantic-release/issues"
 	}
 }
