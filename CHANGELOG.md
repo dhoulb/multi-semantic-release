@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/qiwi/multi-semantic-release/compare/v3.0.3...v3.1.0) (2020-07-07)
+
+
+### Features
+
+* uphold the prev package.json indents ([ac5832f](https://github.com/qiwi/multi-semantic-release/commit/ac5832f20c8218c95fc46719cbd532732db53419))
+
 ## [3.0.3](https://github.com/qiwi/multi-semantic-release/compare/v3.0.2...v3.0.3) (2020-06-26)
 
 
