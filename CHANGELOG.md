@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/qiwi/multi-semantic-release/compare/v3.1.0...v3.2.0) (2020-07-14)
+
+
+### Features
+
+* apply --first-parent filter to commits ([14a896b](https://github.com/qiwi/multi-semantic-release/commit/14a896b5e501e6c900b8d89ee16ff17289c1d3a1))
+
 # [3.1.0](https://github.com/qiwi/multi-semantic-release/compare/v3.0.3...v3.1.0) (2020-07-07)
 
 
