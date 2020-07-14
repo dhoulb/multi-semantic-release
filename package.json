@@ -28,7 +28,7 @@
 		"coveralls:push": "cat ./coverage/lcov.info | coveralls",
 		"_publish": "semantic-release",
 		"build": "echo 'There is no need for build && exit 0'",
-		"postupdate": "yarn && yarn build && yarn test",
+		"postupdate": "npx yarn-audit-fix && yarn build && yarn test",
 		"publish:beta": "npm publish --no-git-tag-version --tag beta"
 	},
 	"husky": {
@@ -54,7 +54,7 @@
 		"cosmiconfig": "^6.0.0",
 		"get-stream": "^5.1.0",
 		"git-log-parser": "^1.2.0",
-		"lodash": "^4.17.15",
+		"lodash": "^4.17.19",
 		"meow": "^7.0.1",
 		"promise-events": "^0.1.8",
 		"semantic-release": "^17.1.1",
@@ -62,18 +62,18 @@
 		"signale": "^1.4.0",
 		"stream-buffers": "^3.0.2",
 		"tempy": "^0.5.0",
-		"execa": "^4.0.2"
+		"execa": "^4.0.3"
 	},
 	"devDependencies": {
-		"@commitlint/config-conventional": "^9.0.1",
+		"@commitlint/config-conventional": "^9.1.1",
 		"@semantic-release/changelog": "^5.0.1",
 		"@semantic-release/git": "^9.0.0",
 		"@semantic-release/github": "^7.0.7",
 		"@semantic-release/npm": "^7.0.5",
 		"codeclimate-test-reporter": "^0.5.1",
-		"commitlint": "^9.0.1",
+		"commitlint": "^9.1.0",
 		"coveralls": "^3.1.0",
-		"eslint": "^7.3.1",
+		"eslint": "^7.4.0",
 		"eslint-config-prettier": "^6.11.0",
 		"eslint-plugin-prettier": "^3.1.4",
 		"file-url": "^3.0.0",
