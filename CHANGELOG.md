@@ -1,3 +1,10 @@
+# [3.4.0](https://github.com/qiwi/multi-semantic-release/compare/v3.3.0...v3.4.0) (2020-07-19)
+
+
+### Features
+
+* add sequential-init flag to avoid hypothetical concurrent initialization collisions ([348678e](https://github.com/qiwi/multi-semantic-release/commit/348678ef1997ec914c0471bd60e47b987244ba54))
+
 # [3.3.0](https://github.com/qiwi/multi-semantic-release/compare/v3.2.0...v3.3.0) (2020-07-17)
 
 
