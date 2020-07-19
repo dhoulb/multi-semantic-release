@@ -18,7 +18,7 @@ module.exports = (flags) => {
 		console.log("yarn paths", paths);
 
 		// Do multirelease (log out any errors).
-		multiSemanticRelease(paths, {}, { cwd }).then(
+		multiSemanticRelease(paths, {}, { cwd }, flags).then(
 			() => {
 				// Success.
 				process.exit(0);

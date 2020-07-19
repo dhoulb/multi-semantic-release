@@ -9,7 +9,7 @@ const cli = meow(
     $ multi-semantic-release
 
   Options
-    'none'
+    --sequential-init  Avoid hypothetical concurrent initialization collisions.
 
   Examples
     $ multi-semantic-release
