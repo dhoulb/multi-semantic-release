@@ -1,3 +1,10 @@
+# [3.5.0](https://github.com/qiwi/multi-semantic-release/compare/v3.4.0...v3.5.0) (2020-07-20)
+
+
+### Features
+
+* **debug:** print passed cli flags ([d720cd7](https://github.com/qiwi/multi-semantic-release/commit/d720cd717b2b99fa32a2d6a438a5142ebc453c26))
+
 # [3.4.0](https://github.com/qiwi/multi-semantic-release/compare/v3.3.0...v3.4.0) (2020-07-19)
 
 
