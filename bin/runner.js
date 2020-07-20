@@ -12,6 +12,7 @@ module.exports = (flags) => {
 	try {
 		console.log(`multi-semantic-release version: ${multisemrelPkgJson.version}`);
 		console.log(`semantic-release version: ${semrelPkgJson.version}`);
+		console.log(`flags: ${JSON.stringify(flags, null, 2)}`);
 
 		// Get list of package.json paths according to Yarn workspaces.
 		const paths = getWorkspacesYarn(cwd);
