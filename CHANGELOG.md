@@ -1,3 +1,10 @@
+## [3.5.1](https://github.com/qiwi/multi-semantic-release/compare/v3.5.0...v3.5.1) (2020-07-20)
+
+
+### Performance Improvements
+
+* various synchronizer optimizations ([87a7602](https://github.com/qiwi/multi-semantic-release/commit/87a760293fd97ab3aeaf361a256659897c96af9c))
+
 # [3.5.0](https://github.com/qiwi/multi-semantic-release/compare/v3.4.0...v3.5.0) (2020-07-20)
 
 
