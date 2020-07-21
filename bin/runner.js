@@ -1,4 +1,8 @@
 module.exports = (flags) => {
+	if (flags.debug) {
+		require("debug").enable("msr:*");
+	}
+
 	// Imports.
 	const getWorkspacesYarn = require("../lib/getWorkspacesYarn");
 	const multiSemanticRelease = require("../lib/multiSemanticRelease");

@@ -10,16 +10,20 @@ const cli = meow(
 
   Options
     --sequential-init  Avoid hypothetical concurrent initialization collisions.
+    --debug Output debugging information.
+    --help Help info.
 
   Examples
     $ multi-semantic-release
 `,
 	{
 		flags: {
-			/*execasync: {
+			sequentialInit: {
 				type: "boolean",
-				alias: "sync",
-			},*/
+			},
+			debug: {
+				type: "boolean",
+			},
 		},
 	}
 );
