@@ -1,3 +1,10 @@
+# [3.6.0](https://github.com/qiwi/multi-semantic-release/compare/v3.5.1...v3.6.0) (2020-07-21)
+
+
+### Features
+
+* add some debug messages ([ec792e1](https://github.com/qiwi/multi-semantic-release/commit/ec792e15a4223880054186035571f8ca647add0e))
+
 ## [3.5.1](https://github.com/qiwi/multi-semantic-release/compare/v3.5.0...v3.5.1) (2020-07-20)
 
 
