@@ -329,6 +329,62 @@ describe("multiSemanticRelease()", () => {
 			},
 		});
 	});
+	test("Changes in some packages (sequential-init)", async () => {
+		// Create Git repo.
+		const cwd = gitInit();
+		// Initial commit.
+		copyDirectory(`test/fixtures/yarnWorkspaces/`, cwd);
+		const sha1 = gitCommitAll(cwd, "feat: Initial release");
+		gitTag(cwd, "msr-test-a@1.0.0");
+		gitTag(cwd, "msr-test-b@1.0.0");
+		gitTag(cwd, "msr-test-c@1.0.0");
+		gitTag(cwd, "msr-test-d@1.0.0");
+		// Second commit.
+		writeFileSync(`${cwd}/packages/a/aaa.txt`, "AAA");
+		const sha2 = gitCommitAll(cwd, "feat(aaa): Add missing text file");
+		const url = gitInitOrigin(cwd);
+		gitPush(cwd);
+
+		// Capture output.
+		const stdout = new WritableStreamBuffer();
+		const stderr = new WritableStreamBuffer();
+
+		// Call multiSemanticRelease()
+		// Doesn't include plugins that actually publish.
+		const multiSemanticRelease = require("../../");
+		const result = await multiSemanticRelease(
+			[
+				`packages/c/package.json`,
+				`packages/d/package.json`,
+				`packages/b/package.json`,
+				`packages/a/package.json`,
+			],
+			{},
+			{ cwd, stdout, stderr },
+			{ sequentialInit: true }
+		);
+
+		// Check manifests.
+		expect(require(`${cwd}/packages/a/package.json`)).toMatchObject({
+			peerDependencies: {
+				"msr-test-c": "1.0.1",
+			},
+		});
+		expect(require(`${cwd}/packages/b/package.json`)).toMatchObject({
+			dependencies: {
+				"msr-test-a": "1.1.0",
+			},
+			devDependencies: {
+				"msr-test-c": "1.0.1",
+			},
+		});
+		expect(require(`${cwd}/packages/c/package.json`)).toMatchObject({
+			devDependencies: {
+				"msr-test-b": "1.0.1",
+				"msr-test-d": "1.0.0",
+			},
+		});
+	});
 	test("Error if release's local deps have no version number", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();
