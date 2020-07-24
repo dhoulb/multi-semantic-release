@@ -11,6 +11,7 @@ const cli = meow(
   Options
     --sequential-init  Avoid hypothetical concurrent initialization collisions.
     --debug Output debugging information.
+    --first-parent Apply commit filtering to current branch only.
     --help Help info.
 
   Examples
@@ -19,6 +20,9 @@ const cli = meow(
 	{
 		flags: {
 			sequentialInit: {
+				type: "boolean",
+			},
+			firstParent: {
 				type: "boolean",
 			},
 			debug: {
