@@ -32,6 +32,15 @@ _But_ in multi-semantic-release this configuration can be done globally (in your
 
 multi-semantic-release does not support any command line arguments (this wasn't possible without duplicating files from semantic-release, which I've tried to avoid).
 
+## CLI
+There are several tweaks to adapt **msr** to some corner cases:
+
+|Flag|Type|Description|Default|
+|---|---|---|---|
+|`--sequential-init`|bool|Avoid hypothetical concurrent initialization collisions|`false`|
+|`--debug`|bool|Output debugging information|`false`|
+|`--first-parent`|bool|Apply commit filtering to current branch only|`false`|
+
 ## API
 
 multi-semantic-release default exports a `multirelease()` method which takes the following arguments:
