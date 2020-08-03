@@ -6,7 +6,7 @@
 [![Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![npm](https://img.shields.io/npm/dm/multi-semantic-release.svg)](https://www.npmjs.com/package/multi-semantic-release)
 
-Proof of concept that wraps [semantic-release](https://github.com/semantic-release/semantic-release) to work with monorepos. 
+Proof of concept that wraps [semantic-release](https://github.com/semantic-release/semantic-release) to work with monorepos.
 
 This package should work well, but may not be fundamentally stable enough for important production use as it's pretty dependent on how semantic-release works (so it may break or get out-of-date in future versions of semantic-release).
 
@@ -26,7 +26,7 @@ multi-semantic-release
 
 ## Configuration
 
-Configuration for releases is the same as [semantic-release configuration](https://github.com/semantic-release/semantic-release/blob/master/docs/usage/configuration.md), i.e. using a `release` key under `package.json` or in `.releaserc` file of any type e.g. `.yaml`, `.json`. 
+Configuration for releases is the same as [semantic-release configuration](https://github.com/semantic-release/semantic-release/blob/master/docs/usage/configuration.md), i.e. using a `release` key under `package.json` or in `.releaserc` file of any type e.g. `.yaml`, `.json`.
 
 _But_ in multi-semantic-release this configuration can be done globally (in your top-level dir), or per-package (in that individual package's dir). If you set both then per-package settings will override global settings.
 
@@ -96,18 +96,18 @@ The plugin starts all release at once, then pauses them (using Promises) at vari
 The inline plugin does the following:
 
 - **verifyConditions:** _not used_
-- **analyzeCommits:** 
+- **analyzeCommits:**
   - Replaces `context.commits` with a list of commits filtered to the folder only
-  - Calls `plugins.analyzeCommits()` to get the next release type (e.g. from @semantic-release/commit-analyzer) 
+  - Calls `plugins.analyzeCommits()` to get the next release type (e.g. from @semantic-release/commit-analyzer)
   - Waits for _all_ packages to catch up to this point.
   - For packages that haven't bumped, checks if it has local deps (or deps of deps) that have bumped and returns `patch` if that's true
 - **verifyRelease:** _not used_
-- **generateNotes:** 
-  - Calls `plugins.generateNotes()` to get the notes (e.g. from @semantic-release/release-notes-generator) 
+- **generateNotes:**
+  - Calls `plugins.generateNotes()` to get the notes (e.g. from @semantic-release/release-notes-generator)
   - Appends a section listing any local deps bumps (e.g. "my-pkg-2: upgraded to 1.2.1")
-- **prepare:** 
+- **prepare:**
   - Writes in the correct version for local deps in `dependencies`, `devDependencies`, `peerDependencies` in `package.json`
-  - Serialize the releases so they happen one-at-a-time (because semantic-release calls `git push` asyncronously, multiple releases at once fail because Git refs aren't locked — semantic-release should use `execa.sync()` so Git operations are atomic)
+  - Serialize the releases so they happen one-at-a-time (because semantic-release calls `git push` asynchronously, multiple releases at once fail because Git refs aren't locked — semantic-release should use `execa.sync()` so Git operations are atomic)
 - **publish:** _not used_
 - **success:** _not used_
 - **fail:** _not used_
@@ -119,13 +119,13 @@ The integration with semantic release is pretty janky — this is a quick summar
 1. Had to filter `context.commits` object before it was used by `@semantic-release/commit-analyzer` (so it only lists commits for the corresponding directory).
   - The actual Git filtering is easy peasy: see [getCommitsFiltered.js](https://github.com/dhoulb/multi-semantic-release/blob/master/lib/getCommitsFiltered.js)
   - But overriding `context.commits` was very difficult! I did it eventually creating an _inline plugin_ and passing it into `semanticRelease()` via `options.plugins`
-  - The inline plugin proxies between semantic release and other configured plugins. It does what it needs to then calls e.g. `plugins.analyzeCommits()` with an overridden `context.commits` — see [createInlinePluginCreator.js](https://github.com/dhoulb/multi-semantic-release/blob/master/lib/createInlinePluginCreator.js) 
+  - The inline plugin proxies between semantic release and other configured plugins. It does what it needs to then calls e.g. `plugins.analyzeCommits()` with an overridden `context.commits` — see [createInlinePluginCreator.js](https://github.com/dhoulb/multi-semantic-release/blob/master/lib/createInlinePluginCreator.js)
   - I think this is messy — inline plugins aren't even documented :(
 2. Need to run the analyze commit step on *all* plugins before any proceed to the publish step
   - The inline plugin returns a Promise for every package then waits for all packages to analyze their commits before resolving them one at a time
   - If packages have local deps (e.g. `dependencies` in package.json points to an internal package) this step also does a `patch` bump if any of them did a bump.
   - This has to work recursively! See [hasChangedDeep.js](https://github.com/dhoulb/multi-semantic-release/blob/master/lib/hasChangedDeep.js)
-3. The configuration can be layered (i.e. global `.releaserc` and then per-directory overrides for individual packages). 
+3. The configuration can be layered (i.e. global `.releaserc` and then per-directory overrides for individual packages).
   - Had to duplicate the internal cosmiconfig setup from semantic release to get this working :(
 4. I found Git getting itself into weird states because e.g. `git tag` is done asynchronously
   - To get around this I had to stagger package publishing so they were done one at a time (which slows things down)
