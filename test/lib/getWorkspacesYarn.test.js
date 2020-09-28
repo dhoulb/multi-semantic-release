@@ -36,4 +36,15 @@ describe("getWorkspacesYarn()", () => {
 			`${resolved}/packages/d/package.json`,
 		]);
 	});
+	test("Checks `bash` to be installed", () => {
+		jest.isolateModules(() => {
+			jest.resetModules();
+			jest.mock("bash-path", () => undefined);
+
+			const resolved = resolve(`${__dirname}/../fixtures/yarnWorkspaces`);
+			const getWorkspaces = require("../../lib/getWorkspacesYarn");
+
+			expect(() => getWorkspaces(resolved)).toThrowError("`bash` must be installed");
+		});
+	});
 });
