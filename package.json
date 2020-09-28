@@ -61,14 +61,14 @@
 		"semver": "^7.3.2",
 		"signale": "^1.4.0",
 		"stream-buffers": "^3.0.2",
-		"tempy": "^0.7.0"
+		"tempy": "^0.7.1"
 	},
 	"devDependencies": {
 		"@commitlint/config-conventional": "^11.0.0",
 		"commitlint": "^11.0.0",
 		"coveralls": "^3.1.0",
-		"eslint": "^7.9.0",
-		"eslint-config-prettier": "^6.11.0",
+		"eslint": "^7.10.0",
+		"eslint-config-prettier": "^6.12.0",
 		"eslint-plugin-prettier": "^3.1.4",
 		"file-url": "^3.0.0",
 		"husky": "^4.3.0",
