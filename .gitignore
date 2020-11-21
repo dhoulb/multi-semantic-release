@@ -1,7 +1,3 @@
-<<<<<<< HEAD
 /node_modules/
 /coverage/
 *.log
-=======
-node_modules
->>>>>>> be23f54... WIP

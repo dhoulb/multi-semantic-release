@@ -1364,6 +1364,11 @@ bash-path@^1.0.1:
     arr-union "^3.1.0"
     is-windows "^1.0.1"
 
+batching-toposort@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/batching-toposort/-/batching-toposort-1.2.0.tgz#3a40e7c31c2e27b950a03ea630d0b8aace4c9821"
+  integrity sha512-HDf0OOv00dqYGm+M5tJ121RTzX0sK9fxzBMKXYsuQrY0pKSOJjc5qa0DUtzvCGkgIVf1YON2G1e/MHEdHXVaRQ==
+
 bcrypt-pbkdf@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/bcrypt-pbkdf/-/bcrypt-pbkdf-1.0.2.tgz#a4301d389b6a43f9b67ff3ca11a3f6637e360e9e"
