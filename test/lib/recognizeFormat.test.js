@@ -1,4 +1,3 @@
-/** @typedef {import('@types/jest')} */
 const recognizeFormat = require("../../lib/recognizeFormat");
 
 // Tests.
