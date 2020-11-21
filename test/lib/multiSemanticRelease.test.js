@@ -361,7 +361,7 @@ describe("multiSemanticRelease()", () => {
 			],
 			{},
 			{ cwd, stdout, stderr },
-			{ sequentialInit: true }
+			{ sequentialInit: true, deps: {} }
 		);
 
 		// Check manifests.

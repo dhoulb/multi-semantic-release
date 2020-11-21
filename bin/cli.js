@@ -9,13 +9,16 @@ const cli = meow(
     $ multi-semantic-release
 
   Options
-    --sequential-init  Avoid hypothetical concurrent initialization collisions.
     --debug Output debugging information.
+    --sequential-init  Avoid hypothetical concurrent initialization collisions.
     --first-parent Apply commit filtering to current branch only.
+    --deps.bump Define deps version updating rule. Allowed: override, satisfy, inherit.
+    --deps.release Define release type for dependent package if any of its deps changes. Supported values: patch, minor, major, inherit.
     --help Help info.
 
   Examples
-    $ multi-semantic-release
+    $ multi-semantic-release --debug
+    $ multi-semantic-release --deps.bump=satisfy --deps.release=patch
 `,
 	{
 		flags: {
@@ -27,6 +30,14 @@ const cli = meow(
 			},
 			debug: {
 				type: "boolean",
+			},
+			"deps.bump": {
+				type: "string",
+				default: "override",
+			},
+			"deps.release": {
+				type: "string",
+				default: "patch",
 			},
 		},
 	}
