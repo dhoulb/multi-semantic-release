@@ -225,7 +225,8 @@ describe("multiSemanticRelease()", () => {
 				`packages/a/package.json`,
 			],
 			{},
-			{ cwd, stdout, stderr }
+			{ cwd, stdout, stderr },
+			{ deps: {}, dryRun: false }
 		);
 
 		// Get stdout and stderr output.

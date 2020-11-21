@@ -9,6 +9,7 @@ const cli = meow(
     $ multi-semantic-release
 
   Options
+    --dry-run Dry run mode.
     --debug Output debugging information.
     --sequential-init  Avoid hypothetical concurrent initialization collisions.
     --first-parent Apply commit filtering to current branch only.
@@ -38,6 +39,9 @@ const cli = meow(
 			"deps.release": {
 				type: "string",
 				default: "patch",
+			},
+			dryRun: {
+				type: "boolean",
 			},
 		},
 	}
