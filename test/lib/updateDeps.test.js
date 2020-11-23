@@ -1,4 +1,4 @@
-const { resolveReleaseType, resolveNextVersion } = require("../../lib/updateDeps");
+const { resolveReleaseType, resolveNextVersion, getNextVersion } = require("../../lib/updateDeps");
 
 describe("resolveNextVersion()", () => {
 	// prettier-ignore
@@ -137,6 +137,25 @@ describe("resolveReleaseType()", () => {
 	cases.forEach(([name, pkg, bumpStrategy, releaseStrategy, result]) => {
 		it(name, () => {
 			expect(resolveReleaseType(pkg, bumpStrategy, releaseStrategy)).toBe(result);
+		});
+	});
+});
+
+describe("getNextVersion()", () => {
+	// prettier-ignore
+	const cases = [
+		[undefined, "patch", "1.0.0"],
+		["1.0.0", "patch", "1.0.1"],
+		["2.0.0", undefined, "2.0.0"],
+	]
+
+	cases.forEach(([lastVersion, releaseType, nextVersion]) => {
+		it(`${lastVersion} and ${releaseType} gives ${nextVersion}`, () => {
+			// prettier-ignore
+			expect(getNextVersion({
+				_nextType: releaseType,
+				_lastRelease: {version: lastVersion}
+			})).toBe(nextVersion);
 		});
 	});
 });
