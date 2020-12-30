@@ -1,6 +1,6 @@
 {
 	"name": "msr-test-yarn-bad",
-	"author": "Dave Houlbrooke <dave@shax.com",
+	"author": "Dave Houlbrooke <dave@shax.com>",
 	"version": "0.0.0-semantically-released",
 	"private": true,
 	"license": "0BSD",

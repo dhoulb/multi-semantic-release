@@ -458,6 +458,37 @@ describe("multiSemanticRelease()", () => {
 		expect(plugin.success).toBeCalledTimes(1);
 		expect(plugin.fail).not.toBeCalled();
 	});
+	test("Package-specific configuration overrides global configuration", async () => {
+		// Create Git repo with copy of Yarn workspaces fixture.
+		const cwd = gitInit();
+		copyDirectory(`test/fixtures/packageOptions/`, cwd);
+		// Create a docs commit that should be a patch release with package B's config
+		const sha = gitCommitAll(cwd, "docs: testing");
+		const url = gitInitOrigin(cwd);
+		gitPush(cwd);
+
+		// Capture output.
+		const stdout = new WritableStreamBuffer();
+		const stderr = new WritableStreamBuffer();
+
+		// Call multiSemanticRelease()
+		const multiSemanticRelease = require("../../");
+		const [aResult, bResult] = await multiSemanticRelease(
+			[`packages/a/package.json`, `packages/b/package.json`],
+			{},
+			{ cwd, stdout, stderr }
+		);
+
+		// Check no stderr
+		const err = stderr.getContentsAsString("utf8");
+		expect(err).toBe(false);
+
+		// A: no releases
+		expect(aResult.result).toBe(false);
+
+		// B: patch release
+		expect(bResult.result.nextRelease.type).toBe("patch");
+	});
 	test("Deep errors (e.g. in plugins) bubble up and out", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();

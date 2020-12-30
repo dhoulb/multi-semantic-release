@@ -1,5 +1,5 @@
 {
-	"name": "msr-test-yarn",
+	"name": "msr-test-package-options",
 	"author": "Dave Houlbrooke <dave@shax.com>",
 	"version": "0.0.0-semantically-released",
 	"private": true,
