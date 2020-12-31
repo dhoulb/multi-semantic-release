@@ -65,9 +65,10 @@ function gitInitRemote() {
  * _Created in a temp folder._
  *
  * @param {string} cwd The cwd to create and set the origin for.
+ * @param {string} releaseBranch="null" Optional branch to be added in case of prerelease is activated for a branch.
  * @return {Promise<string>} Promise that resolves to string URL of the of the remote origin.
  */
-function gitInitOrigin(cwd) {
+function gitInitOrigin(cwd, releaseBranch = null) {
 	// Check params.
 	check(cwd, "cwd: absolute");
 
@@ -76,6 +77,13 @@ function gitInitOrigin(cwd) {
 
 	// Set origin on local repo.
 	execa.sync("git", ["remote", "add", "origin", url], { cwd });
+
+	// Set up a release branch. Return to master afterwards.
+	if (releaseBranch) {
+		execa.sync("git", ["checkout", "-b", releaseBranch], { cwd });
+		execa.sync("git", ["checkout", "master"], { cwd });
+	}
+
 	execa.sync("git", ["push", "--all", "origin"], { cwd });
 
 	// Return URL for remote.

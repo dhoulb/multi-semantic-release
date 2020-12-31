@@ -1,4 +1,4 @@
-const { resolveReleaseType, resolveNextVersion, getNextVersion } = require("../../lib/updateDeps");
+const { resolveReleaseType, resolveNextVersion, getNextVersion, getNextPreVersion } = require("../../lib/updateDeps");
 
 describe("resolveNextVersion()", () => {
 	// prettier-ignore
@@ -147,6 +147,10 @@ describe("getNextVersion()", () => {
 		[undefined, "patch", "1.0.0"],
 		["1.0.0", "patch", "1.0.1"],
 		["2.0.0", undefined, "2.0.0"],
+		["1.0.0-dev.1", "major", "1.0.0"],
+		["1.0.0-dev.1", undefined, "1.0.0-dev.1"],
+		["1.0.0-dev.1", "minor", "1.0.0"],
+		["1.0.0-dev.1", "patch", "1.0.0"],
 	]
 
 	cases.forEach(([lastVersion, releaseType, nextVersion]) => {
@@ -155,6 +159,28 @@ describe("getNextVersion()", () => {
 			expect(getNextVersion({
 				_nextType: releaseType,
 				_lastRelease: {version: lastVersion}
+			})).toBe(nextVersion);
+		});
+	});
+});
+
+describe("getNextPreVersion()", () => {
+	// prettier-ignore
+	const cases = [
+		[undefined, "patch", "rc", "1.0.0-rc.1"],
+		[undefined, "patch", "rc", "1.0.0-rc.1"],
+		["1.0.0-rc.0", "minor", "dev", "1.0.0-dev.0"],
+		["1.0.0-dev.0", "major", "dev", "1.0.0-dev.1"],
+		
+	]
+
+	cases.forEach(([lastVersion, releaseType, preRelease, nextVersion]) => {
+		it(`${lastVersion} and ${releaseType} gives ${nextVersion}`, () => {
+			// prettier-ignore
+			expect(getNextPreVersion({
+				_nextType: releaseType,
+				_lastRelease: {version: lastVersion},
+				_preRelease: preRelease
 			})).toBe(nextVersion);
 		});
 	});

@@ -1,5 +1,5 @@
 const { basename, join } = require("path");
-const { copyFileSync, existsSync, mkdirSync, lstatSync, readdirSync, readFileSync } = require("fs");
+const { copyFileSync, existsSync, mkdirSync, lstatSync, readdirSync, readFileSync, writeFileSync } = require("fs");
 
 // Deep copy a directory.
 function copyDirectory(source, target) {
@@ -37,8 +37,16 @@ function isDirectory(path) {
 	return typeof path === "string" && existsSync(path) && lstatSync(path).isDirectory();
 }
 
+// Creates testing files on all specified folders.
+function createNewTestingFiles(folders, cwd) {
+	folders.forEach((fld) => {
+		writeFileSync(`${cwd}/${fld}test.txt`, fld);
+	});
+}
+
 // Exports.
 module.exports = {
 	copyDirectory,
 	isDirectory,
+	createNewTestingFiles,
 };
