@@ -352,6 +352,98 @@ describe("multiSemanticRelease()", () => {
 			},
 		});
 	});
+	test("Two separate releases (release to prerelease)", async () => {
+		const packages = ["packages/c/", "packages/d/"];
+
+		// Create Git repo with copy of Yarn workspaces fixture.
+		const cwd = gitInit("master", "release");
+		copyDirectory(`test/fixtures/yarnWorkspaces2Packages/`, cwd);
+		const sha1 = gitCommitAll(cwd, "feat: Initial release");
+		gitInitOrigin(cwd, "release");
+		gitPush(cwd);
+
+		let stdout = new WritableStreamBuffer();
+		let stderr = new WritableStreamBuffer();
+
+		// Call multiSemanticRelease()
+		// Doesn't include plugins that actually publish.
+		const multiSemanticRelease = require("../../");
+		let result = await multiSemanticRelease(
+			packages.map((folder) => `${folder}package.json`),
+			{
+				branches: [{ name: "master" }, { name: "release" }],
+			},
+			{ cwd, stdout, stderr }
+		);
+
+		// Add new testing files for a new release.
+		createNewTestingFiles(packages, cwd);
+		const sha = gitCommitAll(cwd, "feat: New prerelease\n\nBREAKING CHANGE: bump to bigger value");
+		gitPush(cwd);
+
+		// Capture output.
+		stdout = new WritableStreamBuffer();
+		stderr = new WritableStreamBuffer();
+
+		// Call multiSemanticRelease() for a second release
+		// Doesn't include plugins that actually publish.
+		// Change the master branch from release to prerelease to test bumping.
+		result = await multiSemanticRelease(
+			packages.map((folder) => `${folder}package.json`),
+			{
+				branches: [{ name: "master", prerelease: "beta" }, { name: "release" }],
+			},
+			{ cwd, stdout, stderr }
+		);
+
+		// Get stdout and stderr output.
+		const err = stderr.getContentsAsString("utf8");
+		expect(err).toBe(false);
+		const out = stdout.getContentsAsString("utf8");
+		expect(out).toMatch("Started multirelease! Loading 2 packages...");
+		expect(out).toMatch("Loaded package msr-test-c");
+		expect(out).toMatch("Loaded package msr-test-d");
+		expect(out).toMatch("Queued 2 packages! Starting release...");
+		expect(out).toMatch("Created tag msr-test-c@2.0.0-beta.1");
+		expect(out).toMatch("Created tag msr-test-d@2.0.0-beta.1");
+		expect(out).toMatch("Released 2 of 2 packages, semantically!");
+
+		// D.
+		expect(result[0].name).toBe("msr-test-c");
+		expect(result[0].result.lastRelease).toEqual({
+			channels: [null],
+			gitHead: sha1,
+			gitTag: "msr-test-c@1.0.0",
+			name: "msr-test-c@1.0.0",
+			version: "1.0.0",
+		});
+		expect(result[0].result.nextRelease).toMatchObject({
+			gitHead: sha,
+			gitTag: "msr-test-c@2.0.0-beta.1",
+			type: "major",
+			version: "2.0.0-beta.1",
+		});
+
+		expect(result[0].result.nextRelease.notes).toMatch("# msr-test-c [2.0.0-beta.1]");
+		expect(result[0].result.nextRelease.notes).toMatch("### Features\n\n* New prerelease");
+		expect(result[0].result.nextRelease.notes).toMatch(
+			"### Dependencies\n\n* **msr-test-d:** upgraded to 2.0.0-beta.1"
+		);
+
+		expect(result[1].result.nextRelease.notes).toMatch("# msr-test-d [2.0.0-beta.1]");
+		expect(result[1].result.nextRelease.notes).toMatch("### Features\n\n* New prerelease");
+		expect(result[1].result.nextRelease.notes).not.toMatch("### Dependencies");
+
+		// ONLY 1 time.
+		expect(result).toHaveLength(2);
+
+		// Check manifests.
+		expect(require(`${cwd}/packages/c/package.json`)).toMatchObject({
+			dependencies: {
+				"msr-test-d": "2.0.0-beta.1",
+			},
+		});
+	});
 	test("Two separate releases (changes in all packages with prereleases)", async () => {
 		const packages = ["packages/a/", "packages/b/", "packages/c/", "packages/d/"];
 
