@@ -32,6 +32,10 @@ _But_ in multi-semantic-release this configuration can be done globally (in your
 
 multi-semantic-release does not support any command line arguments (this wasn't possible without duplicating files from semantic-release, which I've tried to avoid).
 
+multi-semantic-release automatically detects packages within workspaces for the following package-managers:
+
+### yarn / npm (Version 7.x)
+
 Make sure to have a `workspaces` attribute inside your `package.json` project file. In there, you can set a list of packages that you might want to process in the msr process, as well as ignore others. For example, let's say your project has 4 packages (i.e. a, b, c and d) and you want to process only a and d (ignore b and c). You can set the following structure in your `package.json` file:
 ```json
 {
@@ -48,6 +52,52 @@ Make sure to have a `workspaces` attribute inside your `package.json` project fi
       "!packages/b/**",
       "!packages/c/**"
 	],
+	"release": {
+		"plugins": [
+			"@semantic-release/commit-analyzer",
+			"@semantic-release/release-notes-generator"
+		],
+		"noCi": true
+	}
+}
+```
+
+### pnpm
+
+Make sure to have a `packages` attribute inside your `pnpm-workspace.yaml` in the root of your project.
+In there, you can set a list of packages that you might want to process in the msr process, as well as ignore others.
+For example, let's say your project has 4 packages (i.e. a, b, c and d) and you want to process only a and d (ignore b and c). You can set the following structure in your `pnpm-workspace.yaml` file:
+
+```yaml
+packages:
+  - 'packages/**'
+  - '!packages/b/**'
+  - '!packages/c/**'
+```
+
+### bolt
+
+Make sure to have a `bolt.workspaces` attribute inside your `package.json` project file.
+In there, you can set a list of packages that you might want to process in the msr process, as well as ignore others.
+For example, let's say your project has 4 packages (i.e. a, b, c and d) and you want to process only a and d (ignore b and c). You can set the following structure in your `package.json` file:
+
+```json
+{
+	"name": "msr-test-bolt",
+	"author": "Dave Houlbrooke <dave@shax.com",
+	"version": "0.0.0-semantically-released",
+	"private": true,
+	"license": "0BSD",
+	"engines": {
+		"node": ">=8.3"
+	},
+	"bolt": {
+		"workspaces": [
+				"packages/*",
+				"!packages/b/**",
+				"!packages/c/**"
+		]
+	},
 	"release": {
 		"plugins": [
 			"@semantic-release/commit-analyzer",
@@ -103,7 +153,12 @@ multirelease([
 
 ### Support for monorepos
 
-Automatically finds packages as long as workspaces are configured as-per [Yarn workspaces](https://yarnpkg.com/lang/en/docs/workspaces/). _You don't need to use Yarn but the way they define monorepos seems intuitive, and is likely what NPM will copy when they add this functionality (as rumoured)._
+Automatically finds packages as long as workspaces are configured as-per the workspace-feature of one of the support package managers.
+
+- [Yarn workspaces](https://yarnpkg.com/lang/en/docs/workspaces/).
+- [Npm workspaces (Version 7.x)](https://docs.npmjs.com/cli/v7/using-npm/workspaces)
+- [pnpm workspace](https://pnpm.js.org/workspaces/)
+- [bolt workspaces](https://github.com/boltpkg/bolt#configuration)
 
 I'm aware Lerna is the best-known tool right now, but in future it seems clear it will be replaced by functionality in Yarn and NPM directly. If you use Yarn workspaces today (January 2019), then publishing is the only remaining feature Lerna is _really_ required for (though it'd be lovely if Yarn added parallel script execution). Thus using multi-semantic-release means you can probably remove Lerna entirely from your project.
 

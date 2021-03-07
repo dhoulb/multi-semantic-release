@@ -4,7 +4,7 @@ module.exports = (flags) => {
 	}
 
 	// Imports.
-	const getWorkspacesYarn = require("../lib/getWorkspacesYarn");
+	const getPackagePaths = require("../lib/getPackagePaths");
 	const multiSemanticRelease = require("../lib/multiSemanticRelease");
 	const multisemrelPkgJson = require("../package.json");
 	const semrelPkgJson = require("semantic-release/package.json");
@@ -18,9 +18,9 @@ module.exports = (flags) => {
 		console.log(`semantic-release version: ${semrelPkgJson.version}`);
 		console.log(`flags: ${JSON.stringify(flags, null, 2)}`);
 
-		// Get list of package.json paths according to Yarn workspaces.
-		const paths = getWorkspacesYarn(cwd, flags.ignorePackages);
-		console.log("yarn paths", paths);
+		// Get list of package.json paths according to workspaces.
+		const paths = getPackagePaths(cwd, flags.ignorePackages);
+		console.log("package paths", paths);
 
 		// Do multirelease (log out any errors).
 		multiSemanticRelease(paths, {}, { cwd }, flags).then(
