@@ -46,7 +46,6 @@
 		]
 	},
 	"dependencies": {
-		"bash-glob": "^2.0.0",
 		"blork": "^9.2.2",
 		"cosmiconfig": "^7.0.0",
 		"debug": "^4.3.1",
@@ -55,6 +54,7 @@
 		"execa": "^4.1.0",
 		"get-stream": "^6.0.0",
 		"git-log-parser": "^1.2.0",
+		"globby": "11.0.2",
 		"lodash": "^4.17.20",
 		"meow": "^8.0.0",
 		"promise-events": "^0.2.1",

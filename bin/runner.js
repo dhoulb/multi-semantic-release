@@ -19,7 +19,7 @@ module.exports = (flags) => {
 		console.log(`flags: ${JSON.stringify(flags, null, 2)}`);
 
 		// Get list of package.json paths according to Yarn workspaces.
-		const paths = getWorkspacesYarn(cwd);
+		const paths = getWorkspacesYarn(cwd, flags.ignorePackages);
 		console.log("yarn paths", paths);
 
 		// Do multirelease (log out any errors).

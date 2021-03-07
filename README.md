@@ -32,6 +32,32 @@ _But_ in multi-semantic-release this configuration can be done globally (in your
 
 multi-semantic-release does not support any command line arguments (this wasn't possible without duplicating files from semantic-release, which I've tried to avoid).
 
+Make sure to have a `workspaces` attribute inside your `package.json` project file. In there, you can set a list of packages that you might want to process in the msr process, as well as ignore others. For example, let's say your project has 4 packages (i.e. a, b, c and d) and you want to process only a and d (ignore b and c). You can set the following structure in your `package.json` file:
+```json
+{
+	"name": "msr-test-yarn",
+	"author": "Dave Houlbrooke <dave@shax.com",
+	"version": "0.0.0-semantically-released",
+	"private": true,
+	"license": "0BSD",
+	"engines": {
+		"node": ">=8.3"
+	},
+	"workspaces": [
+      "packages/*",
+      "!packages/b/**",
+      "!packages/c/**"
+	],
+	"release": {
+		"plugins": [
+			"@semantic-release/commit-analyzer",
+			"@semantic-release/release-notes-generator"
+		],
+		"noCi": true
+	}
+}
+```
+
 ## CLI
 There are several tweaks to adapt **msr** to some corner cases:
 
@@ -43,6 +69,17 @@ There are several tweaks to adapt **msr** to some corner cases:
 |`--deps.bump`|string| Define deps version update rule. `override` — replace any prev version with the next one, `satisfy` — check the next pkg version against its current references. If it matches (`*` matches to any, `1.1.0` matches `1.1.x`, `1.5.0` matches to `^1.0.0` and so on) release will not be triggered, if not `override` strategy will be applied instead; `inherit` will try to follow the current declaration version/range. `~1.0.0` + `minor` turns into `~1.1.0`, `1.x` + `major` gives `2.x`, but `1.x` + `minor` gives `1.x` so there will be no release, etc. +  **Experimental feat**  | `override`
 |`--deps.release`|string| Define release type for dependent package if any of its deps changes. `patch`, `minor`, `major` — strictly declare the release type that occurs when any dependency is updated; `inherit` — applies the "highest" release of updated deps to the package. For example, if any dep has a breaking change, `major` release will be applied to the all dependants up the chain. **Experimental feat** | `patch`
 |`--dry-run`|bool |Dry run mode| `false`
+|`--ignore-packages`|string|Packages list to be ignored on bumping process (append to the ones that already exist at package.json workspaces)|`null`
+
+Examples:
+
+```
+$ multi-semantic-release --debug
+$ multi-semantic-release --deps.bump=satisfy --deps.release=patch
+$ multi-semantic-release --ignore-packages=packages/a/**,packages/b/**
+```
+
+You can also combine the CLI `--ignore-packages` options with the `!` operator at each package inside `package.json.workspaces` attribute. Even though you can use the CLI to ignore options, you can't use it to set which packages to be released – i.e. you still need to set the `workspaces` attribute inside the `package.json`.
 
 ## API
 

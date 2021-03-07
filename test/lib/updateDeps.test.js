@@ -159,12 +159,13 @@ describe("getNextVersion()", () => {
 		["1.0.0-dev.1", "patch", "1.0.0"],
 	]
 
-	cases.forEach(([lastVersion, releaseType, nextVersion]) => {
+	cases.forEach(([lastVersion, releaseType, nextVersion, preRelease]) => {
 		it(`${lastVersion} and ${releaseType} gives ${nextVersion}`, () => {
 			// prettier-ignore
 			expect(getNextVersion({
 				_nextType: releaseType,
-				_lastRelease: {version: lastVersion}
+				_lastRelease: {version: lastVersion},
+				_preRelease: preRelease
 			})).toBe(nextVersion);
 		});
 	});

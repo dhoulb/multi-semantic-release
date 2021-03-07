@@ -443,7 +443,7 @@ describe("multiSemanticRelease()", () => {
 				"msr-test-d": "2.0.0-beta.1",
 			},
 		});
-	});
+	}, 10000);
 	test("Two separate releases (changes in all packages with prereleases)", async () => {
 		const packages = ["packages/a/", "packages/b/", "packages/c/", "packages/d/"];
 
@@ -608,7 +608,7 @@ describe("multiSemanticRelease()", () => {
 				"msr-test-d": "1.0.0-dev.2",
 			},
 		});
-	});
+	}, 10000);
 	test("No changes in any packages", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();
