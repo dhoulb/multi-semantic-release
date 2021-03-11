@@ -38,6 +38,17 @@ describe("getPackagePaths()", () => {
 			`${resolvedSplit}/packages/c/package.json`,
 		]);
 	});
+	test("yarn: Should ignore some packages via config", () => {
+		const resolved = resolve(`${__dirname}/../fixtures/yarnWorkspacesConfigIgnore`);
+		expect(getPackagePaths(resolved)).toEqual([
+			`${resolved}/packages/c/package.json`,
+			`${resolved}/packages/d/package.json`,
+		]);
+	});
+	test("yarn: Should ignore some packages via config and some via cli", () => {
+		const resolved = resolve(`${__dirname}/../fixtures/yarnWorkspacesConfigIgnore`);
+		expect(getPackagePaths(resolved, ["packages/c"])).toEqual([`${resolved}/packages/d/package.json`]);
+	});
 	test("yarn: Should throw when ignored packages from CLI and workspaces sets an empty workspace list to be processed", () => {
 		const resolved = resolve(`${__dirname}/../fixtures/yarnWorkspacesIgnore`);
 		expect(() => getPackagePaths(resolved, ["packages/a/**", "packages/b/**", "packages/c/**"])).toThrow(TypeError);
