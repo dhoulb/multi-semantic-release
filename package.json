@@ -56,7 +56,7 @@
 		"get-stream": "^6.0.0",
 		"git-log-parser": "^1.2.0",
 		"globby": "11.0.2",
-		"lodash": "^4.17.20",
+		"lodash": "^4.17.21",
 		"meow": "^8.0.0",
 		"promise-events": "^0.2.1",
 		"semantic-release": "^17.3.0",
