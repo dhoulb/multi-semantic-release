@@ -6,7 +6,7 @@ const { gitInit, gitCommitAll, gitGetCommits } = require("../helpers/git");
 
 // Tests.
 describe("getCommitsFiltered()", () => {
-	test("Works correctly (no lastHead)", async () => {
+	test("Works correctly (no lastRelease)", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = await gitInit();
 		writeFileSync(`${cwd}/AAA.txt`, "AAA");
@@ -24,7 +24,7 @@ describe("getCommitsFiltered()", () => {
 		expect(commits[0].hash).toBe(sha2);
 		expect(commits[0].subject).toBe("Commit 2");
 	});
-	test("Works correctly (with lastHead)", async () => {
+	test("Works correctly (with lastRelease)", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = await gitInit();
 		writeFileSync(`${cwd}/AAA.txt`, "AAA");
@@ -39,6 +39,26 @@ describe("getCommitsFiltered()", () => {
 		// Filter a single directory of the repo since sha3
 		const commits = await getCommitsFiltered(cwd, "bbb/", sha3);
 		expect(commits.length).toBe(0);
+	});
+
+	test("Works correctly (with lastRelease and nextRelease)", async () => {
+		// Create Git repo with copy of Yarn workspaces fixture.
+		const cwd = await gitInit();
+		writeFileSync(`${cwd}/AAA.txt`, "AAA");
+		const sha1 = await gitCommitAll(cwd, "Commit 1");
+		mkdirSync(`${cwd}/bbb`);
+		writeFileSync(`${cwd}/bbb/BBB.txt`, "BBB");
+		const sha2 = await gitCommitAll(cwd, "Commit 2");
+		writeFileSync(`${cwd}/bbb/BBB2.txt`, "BBB2");
+		const sha3 = await gitCommitAll(cwd, "Commit 3");
+		mkdirSync(`${cwd}/ccc`);
+		writeFileSync(`${cwd}/ccc/CCC.txt`, "CCC");
+		const sha4 = await gitCommitAll(cwd, "Commit 4");
+
+		// Filter a single directory from sha2 (lastRelease) to sha3 (nextRelease)
+		const commits = await getCommitsFiltered(cwd, "bbb/", sha2, sha3);
+		expect(commits.length).toBe(1);
+		expect(commits[0].hash).toBe(sha3);
 	});
 	test("Works correctly (initial commit)", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
@@ -108,20 +128,37 @@ describe("getCommitsFiltered()", () => {
 			message: expect.stringMatching("dir: Must be inside cwd"),
 		});
 	});
-	test("TypeError if lastHead is not 40char alphanumeric Git SHA hash", async () => {
+	test("TypeError if lastRelease is not 40char alphanumeric Git SHA hash", async () => {
 		const cwd = tempy.directory();
 		mkdirSync(join(cwd, "dir"));
 		await expect(getCommitsFiltered(cwd, "dir", false)).rejects.toBeInstanceOf(TypeError);
 		await expect(getCommitsFiltered(cwd, "dir", false)).rejects.toMatchObject({
-			message: expect.stringMatching("lastHead: Must be alphanumeric string with size 40 or empty"),
+			message: expect.stringMatching("lastRelease: Must be alphanumeric string with size 40 or empty"),
 		});
 		await expect(getCommitsFiltered(cwd, "dir", 123)).rejects.toBeInstanceOf(TypeError);
 		await expect(getCommitsFiltered(cwd, "dir", 123)).rejects.toMatchObject({
-			message: expect.stringMatching("lastHead: Must be alphanumeric string with size 40 or empty"),
+			message: expect.stringMatching("lastRelease: Must be alphanumeric string with size 40 or empty"),
 		});
 		await expect(getCommitsFiltered(cwd, "dir", "nottherightlength")).rejects.toBeInstanceOf(TypeError);
 		await expect(getCommitsFiltered(cwd, "dir", "nottherightlength")).rejects.toMatchObject({
-			message: expect.stringMatching("lastHead: Must be alphanumeric string with size 40 or empty"),
+			message: expect.stringMatching("lastRelease: Must be alphanumeric string with size 40 or empty"),
+		});
+	});
+
+	test("TypeError if nextRelease is not 40char alphanumeric Git SHA hash", async () => {
+		const cwd = tempy.directory();
+		mkdirSync(join(cwd, "dir"));
+		await expect(getCommitsFiltered(cwd, "dir", undefined, false)).rejects.toBeInstanceOf(TypeError);
+		await expect(getCommitsFiltered(cwd, "dir", undefined, false)).rejects.toMatchObject({
+			message: expect.stringMatching("nextRelease: Must be alphanumeric string with size 40 or empty"),
+		});
+		await expect(getCommitsFiltered(cwd, "dir", undefined, 123)).rejects.toBeInstanceOf(TypeError);
+		await expect(getCommitsFiltered(cwd, "dir", undefined, 123)).rejects.toMatchObject({
+			message: expect.stringMatching("nextRelease: Must be alphanumeric string with size 40 or empty"),
+		});
+		await expect(getCommitsFiltered(cwd, "dir", undefined, "nottherightlength")).rejects.toBeInstanceOf(TypeError);
+		await expect(getCommitsFiltered(cwd, "dir", undefined, "nottherightlength")).rejects.toMatchObject({
+			message: expect.stringMatching("nextRelease: Must be alphanumeric string with size 40 or empty"),
 		});
 	});
 });
