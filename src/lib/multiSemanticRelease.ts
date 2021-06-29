@@ -2,12 +2,12 @@ import { dirname } from 'path'
 import semanticRelease, { Options } from 'semantic-release'
 import { uniq } from 'lodash'
 import { WriteStream } from 'tty'
+import batchingToposort from 'batching-toposort'
 
 import { BaseMultiContext, Flags, Package } from '../typings'
 
 import { check } from './blork'
 import getLogger from './getLogger'
-import getSynchronizer from './getSynchronizer'
 import getConfig from './getConfig'
 import getConfigSemantic from './getConfigSemantic'
 import getManifest from './getManifest'
@@ -23,7 +23,7 @@ import { isDefined } from './utils'
  * @param inputOptions An object containing semantic-release options.
  * @param settings An object containing: cwd, env, stdout, stderr (mainly for configuring tests).
  * @param flags Argv flags.
- * @returns {Promise<Package[]>} Promise that resolves to a list of package objects with `result` property describing whether it released or not.
+ * @returns Promise that resolves to a list of package objects with `result` property describing whether it released or not.
  */
 export default async function multiSemanticRelease(
   paths: string[],
@@ -79,44 +79,55 @@ export default async function multiSemanticRelease(
 
   logger.complete(`Queued ${packages.length} packages! Starting release...`)
 
-  // Shared signal bus.
-  const synchronizer = getSynchronizer(packages)
-  const { getLucky, waitFor } = synchronizer
-
   // Release all packages.
-  const createInlinePlugin = createInlinePluginCreator(
-    multiContext,
-    synchronizer,
-    flags,
-  )
-  await Promise.all(
-    packages.map(async pkg => {
-      // Avoid hypothetical concurrent initialization collisions / throttling issues.
-      // https://github.com/dhoulb/multi-semantic-release/issues/24
-      if (flags.sequentialInit) {
-        getLucky('_readyForRelease', pkg)
-        await waitFor('_readyForRelease', pkg)
-      }
+  const createInlinePlugin = createInlinePluginCreator(multiContext, flags)
 
-      return await releasePackage(pkg, createInlinePlugin, multiContext, flags)
-    }),
+  const pkgDag = packages.reduce<Record<string, string[]>>(
+    (acc, pkg) => {
+      pkg.localDeps.forEach(dep => acc[dep.name].push(pkg.name))
+      return acc
+    },
+    packages.reduce((acc, pkg) => ({ ...acc, [pkg.name]: [] }), {}),
   )
-  const released = packages.filter(pkg => pkg.result).length
+  
+  try {
+    const batches = batchingToposort(pkgDag)
+    for (const batch of batches) {
+      await Promise.all(
+        batch.map(async pkgName => {
+          const pkg = packages.find(_pkg => _pkg.name === pkgName)
+          if (!pkg) {
+            throw new Error(`Inexistant package ${pkgName} in batch`)
+          }
 
-  // Return packages list.
-  logger.complete(
-    `Released ${released} of ${packages.length} packages, semantically!`,
-  )
-  return packages
+          await releasePackage(pkg, createInlinePlugin, multiContext, flags)
+        }),
+      )
+    }
+
+    const released = packages.filter(pkg => pkg.result).length
+
+    // Return packages list.
+    logger.complete(
+      `Released ${released} of ${packages.length} packages, semantically!`,
+    )
+    return packages
+  } catch (err) {
+    if (err.message?.startsWith('Cycle(s) detected;')) {
+      throw new Error('Cycle has been detected in local dependencies.')
+    }
+
+    throw err
+  }
 }
 
 /**
  * Load details about a package.
  *
- * @param {string} path The path to load details about.
- * @param {Object} allOptions Options that apply to all packages.
- * @param {MultiContext} multiContext Context object for the multirelease.
- * @returns {Promise<Package|void>} A package object, or void if the package was skipped.
+ * @param path The path to load details about.
+ * @param allOptions Options that apply to all packages.
+ * @param multiContext Context object for the multirelease.
+ * @returns>} A package object, or void if the package was skipped.
  *
  * @internal
  */
@@ -188,11 +199,11 @@ async function getPackage(
 /**
  * Release an individual package.
  *
- * @param {Package} pkg The specific package.
- * @param {Function} createInlinePlugin A function that creates an inline plugin.
- * @param {MultiContext} multiContext Context object for the multirelease.
- * @param {Object} flags Argv flags.
- * @returns {Promise<void>} Promise that resolves when done.
+ * @param pkg The specific package.
+ * @param createInlinePlugin A function that creates an inline plugin.
+ * @param multiContext Context object for the multirelease.
+ * @param flags Argv flags.
+ * @returns Promise that resolves when done.
  *
  * @internal
  */

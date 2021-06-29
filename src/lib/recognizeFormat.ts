@@ -9,8 +9,8 @@ interface FileFormat {
 /**
  * Detects the indentation and trailing whitespace of a file.
  *
- * @param {string} contents contents of the file
- * @returns {FileFormat} Formatting of the file
+ * @param contents contents of the file
+ * @returns Formatting of the file
  */
 export default function recognizeFormat(contents: string): FileFormat {
   return {

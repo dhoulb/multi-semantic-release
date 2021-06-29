@@ -11,9 +11,9 @@ import { BaseMultiContext } from '../typings'
  * Get the release configuration options for a given directory.
  * Unfortunately we've had to copy this over from semantic-release, creating unnecessary duplication.
  *
- * @param {Object} context Object containing cwd, env, and logger properties that are passed to getConfig()
- * @param {Object} options Options object for the config.
- * @returns {Object} Returns what semantic-release's get config returns (object with options and plugins objects).
+ * @param context Object containing cwd, env, and logger properties that are passed to getConfig()
+ * @param options Options object for the config.
+ * @returns Returns what semantic-release's get config returns (object with options and plugins objects).
  *
  * @internal
  */

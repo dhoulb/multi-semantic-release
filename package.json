@@ -21,7 +21,7 @@
     "build": "tsc -p tsconfig-build.json",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ./",
-    "test": "est --coverage",
+    "test": "jest --coverage",
     "test:watch": "jest --watchAll",
     "prepublish": "yarn build",
     "publish": "semantic-release"
@@ -45,6 +45,7 @@
     "@types/semantic-release": "17.2.0",
     "@types/signale": "1.4.1",
     "@types/stream-buffers": "3.0.3",
+    "batching-toposort": "1.2.0",
     "blork": "^9.2.2",
     "cosmiconfig": "^7.0.0",
     "debug": "^4.3.1",

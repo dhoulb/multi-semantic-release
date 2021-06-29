@@ -21,29 +21,27 @@ const debug = debugFactory('msr:inlinePlugin')
  * Create an inline plugin creator for a multirelease.
  * This is caused once per multirelease and returns a function which should be called once per package within the release.
  *
- * @param {Package[]} packages The multi-semantic-release context.
- * @param {MultiContext} multiContext The multi-semantic-release context.
- * @param {Synchronizer} synchronizer Shared synchronization assets
- * @param {Object} flags argv options
- * @returns {Function} A function that creates an inline package.
+ * @param packages The multi-semantic-release context.
+ * @param multiContext The multi-semantic-release context.
+ * @param synchronizer Shared synchronization assets
+ * @param flags argv options
+ * @returns A function that creates an inline package.
  *
  * @internal
  */
 export default function createInlinePluginCreator(
   multiContext: BaseMultiContext,
-  synchronizer: Record<string, any>,
   flags: Flags,
 ) {
   // Vars.
   const { cwd } = multiContext
-  const { todo, waitFor, waitForAll, emit, getLucky } = synchronizer
 
   /**
    * Create an inline plugin for an individual package in a multirelease.
    * This is called once per package and returns the inline plugin used for semanticRelease()
    *
-   * @param {Package} pkg The package this function is being called on.
-   * @returns {Object} A semantic-release inline plugin containing plugin step functions.
+   * @param pkg The package this function is being called on.
+   * @returns A semantic-release inline plugin containing plugin step functions.
    *
    * @internal
    */
@@ -52,17 +50,12 @@ export default function createInlinePluginCreator(
     const { plugins, dir, name } = pkg
     const next = () => {
       pkg._tagged = true
-
-      emit(
-        '_readyForTagging',
-        todo().find((p: Package) => p._nextType !== undefined && !p._tagged),
-      )
     }
 
     /**
-     * @param {object} pluginOptions Options to configure this plugin.
-     * @param {object} context The semantic-release context.
-     * @returns {Promise<void>} void
+     * @param pluginOptions Options to configure this plugin.
+     * @param context The semantic-release context.
+     * @returnsvoid>} void
      * @internal
      */
     const verifyConditions = async (
@@ -76,10 +69,6 @@ export default function createInlinePluginCreator(
       Object.assign(pkg.loggerRef, context.logger)
 
       pkg._ready = true
-      emit(
-        '_readyForRelease',
-        todo().find((p: Package) => !p._ready),
-      )
 
       const res = await plugins.verifyConditions(context) // Semantic release don't expose methods in their types
 
@@ -95,9 +84,9 @@ export default function createInlinePluginCreator(
      * In multirelease: Returns "patch" if the package contains references to other local packages that have changed, or null if this package references no local packages or they have not changed.
      * Also updates the `context.commits` setting with one returned from `getCommitsFiltered()` (which is filtered by package directory).
      *
-     * @param {object} pluginOptions Options to configure this plugin.
-     * @param {object} context The semantic-release context.
-     * @returns {Promise<void>} Promise that resolves when done.
+     * @param pluginOptions Options to configure this plugin.
+     * @param context The semantic-release context.
+     * @returnsvoid>} Promise that resolves when done.
      *
      * @internal
      */
@@ -131,7 +120,6 @@ export default function createInlinePluginCreator(
 
       // Wait until all todo packages have been analyzed.
       pkg._analyzed = true
-      await waitForAll('_analyzed')
 
       // Make sure type is "patch" if the package has any deps that have changed.
       pkg._nextType = resolveReleaseType(
@@ -167,9 +155,9 @@ export default function createInlinePluginCreator(
      *     * **my-amazing-plugin:** upgraded to 1.2.3
      *     * **my-other-plugin:** upgraded to 4.9.6
      *
-     * @param {object} pluginOptions Options to configure this plugin.
-     * @param {object} context The semantic-release context.
-     * @returns {Promise<void>} Promise that resolves to the string
+     * @param pluginOptions Options to configure this plugin.
+     * @param context The semantic-release context.
+     * @returnsvoid>} Promise that resolves to the string
      *
      * @internal
      */
@@ -179,9 +167,6 @@ export default function createInlinePluginCreator(
     ) => {
       // Set nextRelease for package.
       pkg._nextRelease = context.nextRelease
-
-      // Wait until all todo packages are ready to generate notes.
-      await waitForAll('_nextRelease', (p: Package) => p._nextType)
 
       // Vars.
       const notes = []
@@ -246,10 +231,6 @@ export default function createInlinePluginCreator(
     }
 
     const prepare = async (pluginOptions: Config, context: Context) => {
-      // Wait until the current pkg is ready to be tagged
-      getLucky('_readyForTagging', pkg)
-      await waitFor('_readyForTagging', pkg)
-
       updateManifestDeps(pkg)
       pkg._depsUpdated = true
 

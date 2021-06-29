@@ -102,7 +102,6 @@ export type PluginOption = Record<string, any>
 
 // TODO Do it from multi-semrel documentation
 export interface Flags extends Record<string, any> {
-  sequentialInit?: boolean
   debug?: boolean
   firstParent?: boolean
   dryRun?: boolean

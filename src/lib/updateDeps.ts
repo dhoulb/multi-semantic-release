@@ -372,9 +372,9 @@ export function resolveReleaseType(
 
 /**
  * Clarify what exactly was changed in manifest file.
- * @param {object} actualManifest manifest object
- * @param {string} path manifest path
- * @returns {boolean} has changed or not
+ * @param actualManifest manifest object
+ * @param path manifest path
+ * @returns has changed or not
  * @internal
  */
 const auditManifestChanges = (
@@ -427,7 +427,7 @@ const auditManifestChanges = (
  * Update pkg deps.
  *
  * @param pkg The package this function is being called on.
- * @returns {undefined}
+ * @returns
  * @internal
  */
 export const updateManifestDeps = (pkg: Package): void => {
