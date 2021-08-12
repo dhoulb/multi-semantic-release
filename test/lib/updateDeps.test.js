@@ -52,6 +52,7 @@ describe("resolveReleaseType()", () => {
 			{
 				manifest: { dependencies: { a: "1.0.0" } },
 				_nextType: undefined,
+				_lastRelease: { version: "1.0.0" },
 				localDeps: [
 					{
 						name: "a",
@@ -63,8 +64,8 @@ describe("resolveReleaseType()", () => {
 							{ name: "c", _nextType: "patch", localDeps: [], _lastRelease: { version: "1.0.0" }  },
 							{ name: "d", _nextType: "major", localDeps: [], _lastRelease: { version: "1.0.0" }  },
 						],
-					},
-				],
+					}
+				]
 			},
 			undefined,
 			"inherit",
@@ -75,10 +76,11 @@ describe("resolveReleaseType()", () => {
 			{
 				manifest: { dependencies: { a: "1.0.0" } },
 				_nextType: undefined,
+				_lastRelease: { version: "1.0.0" },
 				localDeps: [
 					{
 						name: "a",
-						// _lastRelease: { version: "1.0.0" },
+						_lastRelease: { version: "1.0.0" },
 						manifest: { dependencies: { b: "1.0.0", c: "1.0.0", d: "1.0.0" } },
 						_nextType: false,
 						localDeps: [
@@ -98,11 +100,12 @@ describe("resolveReleaseType()", () => {
 			{
 				manifest: { dependencies: { a: "1.0.0" } },
 				_nextType: undefined,
+				_lastRelease: { version: "1.0.0" },
 				localDeps: [
 					{
 						name: "a",
 						_nextType: false,
-						//_lastRelease: { version: "1.0.0" },
+						_lastRelease: { version: "1.0.0" },
 						manifest: { dependencies: { b: "1.0.0", c: "1.0.0", d: "1.0.0" } },
 						localDeps: [
 							{ name: "b", _nextType: false, localDeps: [], _lastRelease: { version: "1.0.0" }  },
