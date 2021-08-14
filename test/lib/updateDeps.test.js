@@ -5,6 +5,7 @@ const {
 	getNextPreVersion,
 	getPreReleaseTag,
 	getVersionFromTag,
+	updateManifestDeps,
 } = require("../../lib/updateDeps");
 
 describe("resolveNextVersion()", () => {
@@ -30,123 +31,6 @@ describe("resolveNextVersion()", () => {
 	cases.forEach(([currentVersion, nextVersion, strategy, resolvedVersion]) => {
 		it(`${currentVersion}/${nextVersion}/${strategy} gives ${resolvedVersion}`, () => {
 			expect(resolveNextVersion(currentVersion, nextVersion, strategy)).toBe(resolvedVersion);
-		});
-	});
-});
-
-describe("resolveReleaseType()", () => {
-	// prettier-ignore
-	const cases = [
-		[
-			"returns own package's _nextType if exists",
-			{
-				_nextType: "patch",
-				localDeps: [],
-			},
-			undefined,
-			undefined,
-			"patch",
-		],
-		[
-			"implements `inherit` strategy: returns the highest release type of any deps",
-			{
-				manifest: { dependencies: { a: "1.0.0" } },
-				_nextType: undefined,
-				_lastRelease: { version: "1.0.0" },
-				localDeps: [
-					{
-						name: "a",
-						manifest: { dependencies: { b: "1.0.0", c: "1.0.0", d: "1.0.0" } },
-						_lastRelease: { version: "1.0.0" },
-						_nextType: false,
-						localDeps: [
-							{ name: "b", _nextType: false, localDeps: [], _lastRelease: { version: "1.0.0" }  },
-							{ name: "c", _nextType: "patch", localDeps: [], _lastRelease: { version: "1.0.0" }  },
-							{ name: "d", _nextType: "major", localDeps: [], _lastRelease: { version: "1.0.0" }  },
-						],
-					}
-				]
-			},
-			undefined,
-			"inherit",
-			"major"
-		],
-		[
-			"overrides dependent release type with custom value if defined",
-			{
-				manifest: { dependencies: { a: "1.0.0" } },
-				_nextType: undefined,
-				_lastRelease: { version: "1.0.0" },
-				localDeps: [
-					{
-						name: "a",
-						_lastRelease: { version: "1.0.0" },
-						manifest: { dependencies: { b: "1.0.0", c: "1.0.0", d: "1.0.0" } },
-						_nextType: false,
-						localDeps: [
-							{ name: "b", _nextType: false, localDeps: [], _lastRelease: { version: "1.0.0" }  },
-							{ name: "c", _nextType: "minor", localDeps: [], _lastRelease: { version: "1.0.0" }  },
-							{ name: "d", _nextType: "patch", localDeps: [], _lastRelease: { version: "1.0.0" }  },
-						],
-					},
-				],
-			},
-			undefined,
-			"major",
-			"major"
-		],
-		[
-			"uses `patch` strategy as default (legacy flow)",
-			{
-				manifest: { dependencies: { a: "1.0.0" } },
-				_nextType: undefined,
-				_lastRelease: { version: "1.0.0" },
-				localDeps: [
-					{
-						name: "a",
-						_nextType: false,
-						_lastRelease: { version: "1.0.0" },
-						manifest: { dependencies: { b: "1.0.0", c: "1.0.0", d: "1.0.0" } },
-						localDeps: [
-							{ name: "b", _nextType: false, localDeps: [], _lastRelease: { version: "1.0.0" }  },
-							{ name: "c", _nextType: "minor", localDeps: [], _lastRelease: { version: "1.0.0" }  },
-							{ name: "d", _nextType: "major", localDeps: [], _lastRelease: { version: "1.0.0" }  },
-						],
-					},
-				],
-			},
-			undefined,
-			undefined,
-			"patch"
-		],
-		[
-			"returns undefined if no _nextRelease found",
-			{
-				_nextType: undefined,
-				localDeps: [
-					{
-						_nextType: false,
-						localDeps: [
-							{ _nextType: false, localDeps: [] },
-							{
-								_nextType: undefined,
-								localDeps: [
-									{ _nextType: undefined, localDeps: [] }
-								]
-							},
-						],
-					},
-				],
-			},
-			undefined,
-			undefined,
-			undefined,
-		],
-	]
-
-	cases.forEach(([name, pkg, bumpStrategy, releaseStrategy, result]) => {
-		it(name, () => {
-			expect(resolveReleaseType(pkg, bumpStrategy, releaseStrategy)).toBe(result);
 		});
 	});
 });
@@ -261,6 +145,102 @@ describe("getVersionFromTag()", () => {
 		it(`${JSON.stringify(pkg)} pkg with tag ${tag} gives ${versionFromTag}`, () => {
 			// prettier-ignore
 			expect(getVersionFromTag(pkg, tag)).toBe(versionFromTag);
+		});
+	});
+});
+
+describe("updateManifestDeps()", () => {
+	test("updates all changed dependencies to next version", () => {
+		const pkg = {
+			name: "a",
+			_lastRelease: { version: "1.0.0" },
+			_nextType: false,
+			manifest: { name: "a", dependencies: { b: "1.0.0", c: "1.0.0", d: "1.0.0" } },
+			localDeps: [
+				{ name: "b", _nextType: false, localDeps: [], _lastRelease: { version: "1.0.0" } },
+				{
+					name: "c",
+					_nextType: "patch",
+					localDeps: [],
+					_lastRelease: { version: "1.0.0" },
+					_nextRelease: { version: "1.0.1" },
+				},
+				{
+					name: "d",
+					_nextType: "major",
+					localDeps: [],
+					_lastRelease: { version: "1.0.0" },
+					_nextRelease: { version: "2.0.0" },
+				},
+			],
+		};
+		pkg._depsChanged = [pkg.localDeps[1], pkg.localDeps[2]];
+
+		updateManifestDeps(pkg, false);
+		expect(pkg.manifest).toMatchObject({ name: "a", dependencies: { b: "1.0.0", c: "1.0.1", d: "2.0.0" } });
+	});
+
+	test("updates dependency with existing version", () => {
+		const pkg = {
+			name: "a",
+			_lastRelease: { version: "1.0.0" },
+			_nextType: false,
+			manifest: { name: "a", dependencies: { b: "*", c: "1.0.0", d: "1.0.0" } },
+			localDeps: [
+				{ name: "b", _nextType: false, localDeps: [], _lastRelease: { version: "1.0.0" } },
+				{
+					name: "c",
+					_nextType: "patch",
+					localDeps: [],
+					_lastRelease: { version: "1.0.0" },
+					_nextRelease: { version: "1.0.1" },
+				},
+				{
+					name: "d",
+					_nextType: "major",
+					localDeps: [],
+					_lastRelease: { version: "1.0.0" },
+					_nextRelease: { version: "2.0.0" },
+				},
+			],
+		};
+		pkg._depsChanged = pkg.localDeps;
+
+		updateManifestDeps(pkg, false);
+		expect(pkg.manifest).toMatchObject({ name: "a", dependencies: { b: "1.0.0", c: "1.0.1", d: "2.0.0" } });
+	});
+
+	test("updates dependencies if mentioned twice", () => {
+		const pkg = {
+			name: "a",
+			_lastRelease: { version: "1.0.0" },
+			_nextType: false,
+			manifest: { name: "a", dependencies: { b: "*", c: "1.0.0", d: "1.0.0" }, devDependencies: { c: "1.0.0" } },
+			localDeps: [
+				{ name: "b", _nextType: false, localDeps: [], _lastRelease: { version: "1.0.0" } },
+				{
+					name: "c",
+					_nextType: "patch",
+					localDeps: [],
+					_lastRelease: { version: "1.0.0" },
+					_nextRelease: { version: "1.0.1" },
+				},
+				{
+					name: "d",
+					_nextType: "major",
+					localDeps: [],
+					_lastRelease: { version: "1.0.0" },
+					_nextRelease: { version: "2.0.0" },
+				},
+			],
+		};
+		pkg._depsChanged = pkg.localDeps;
+
+		updateManifestDeps(pkg, false);
+		expect(pkg.manifest).toMatchObject({
+			name: "a",
+			dependencies: { b: "1.0.0", c: "1.0.1", d: "2.0.0" },
+			devDependencies: { c: "1.0.1" },
 		});
 	});
 });
