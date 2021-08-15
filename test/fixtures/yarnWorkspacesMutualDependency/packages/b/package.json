@@ -1,0 +1,7 @@
+{
+	"name": "msr-test-b",
+	"version": "1.0.0",
+	"dependencies": {
+		"msr-test-a": "1.0.0"
+	}
+}

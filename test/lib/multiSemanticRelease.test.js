@@ -1060,4 +1060,99 @@ describe("multiSemanticRelease()", () => {
 			message: expect.stringMatching("Package peerDependencies must be object"),
 		});
 	});
+
+	test("Changes in packages with mutual dependency", async () => {
+		// Create Git repo.
+		const cwd = gitInit();
+		// Initial commit.
+		copyDirectory(`test/fixtures/yarnWorkspacesMutualDependency/`, cwd);
+		const sha1 = gitCommitAll(cwd, "feat: Initial release");
+		gitTag(cwd, "msr-test-a@1.0.0");
+		gitTag(cwd, "msr-test-b@1.0.0");
+		// Second commit.
+		writeFileSync(`${cwd}/packages/a/aaa.txt`, "AAA");
+		const sha2 = gitCommitAll(cwd, "feat(aaa): Add missing text file");
+		const url = gitInitOrigin(cwd);
+		gitPush(cwd);
+
+		// Capture output.
+		const stdout = new WritableStreamBuffer();
+		const stderr = new WritableStreamBuffer();
+
+		// Call multiSemanticRelease()
+		// Doesn't include plugins that actually publish.
+		const multiSemanticRelease = require("../../");
+		const result = await multiSemanticRelease(
+			[`packages/a/package.json`, `packages/b/package.json`],
+			{},
+			{ cwd, stdout, stderr },
+			{ deps: { bump: "satisfy" }, dryRun: false }
+		);
+
+		// Get stdout and stderr output.
+		const err = stderr.getContentsAsString("utf8");
+		expect(err).toBe(false);
+		const out = stdout.getContentsAsString("utf8");
+		expect(out).toMatch("Started multirelease! Loading 2 packages...");
+		expect(out).toMatch("Loaded package msr-test-a");
+		expect(out).toMatch("Loaded package msr-test-b");
+		expect(out).toMatch("Queued 2 packages! Starting release...");
+		expect(out).toMatch("Created tag msr-test-a@1.1.0");
+		expect(out).toMatch("Created tag msr-test-b@1.0.1");
+		expect(out).toMatch("Released 2 of 2 packages, semantically!");
+
+		const a = 0;
+		const b = 1;
+		// A.
+		expect(result[a].name).toBe("msr-test-a");
+		expect(result[a].result.lastRelease).toMatchObject({
+			gitHead: sha1,
+			gitTag: "msr-test-a@1.0.0",
+			version: "1.0.0",
+		});
+		expect(result[a].result.nextRelease).toMatchObject({
+			gitHead: sha2,
+			gitTag: "msr-test-a@1.1.0",
+			type: "minor",
+			version: "1.1.0",
+		});
+		expect(result[a].result.nextRelease.notes).toMatch("# msr-test-a [1.1.0]");
+		expect(result[a].result.nextRelease.notes).toMatch("### Features\n\n* **aaa:** Add missing text file");
+		expect(result[a].result.nextRelease.notes).toMatch("### Dependencies\n\n* **msr-test-b:** upgraded to 1.0.1");
+
+		// B.
+		expect(result[b].name).toBe("msr-test-b");
+		expect(result[b].result.lastRelease).toEqual({
+			channels: [null],
+			gitHead: sha1,
+			gitTag: "msr-test-b@1.0.0",
+			name: "msr-test-b@1.0.0",
+			version: "1.0.0",
+		});
+		expect(result[b].result.nextRelease).toMatchObject({
+			gitHead: sha2,
+			gitTag: "msr-test-b@1.0.1",
+			type: "patch",
+			version: "1.0.1",
+		});
+		expect(result[b].result.nextRelease.notes).toMatch("# msr-test-b [1.0.1]");
+		expect(result[b].result.nextRelease.notes).not.toMatch("### Features");
+		expect(result[b].result.nextRelease.notes).not.toMatch("### Bug Fixes");
+		expect(result[b].result.nextRelease.notes).toMatch("### Dependencies\n\n* **msr-test-a:** upgraded to 1.1.0");
+
+		// ONLY 3 times.
+		expect(result[2]).toBe(undefined);
+
+		// Check manifests.
+		expect(require(`${cwd}/packages/a/package.json`)).toMatchObject({
+			dependencies: {
+				"msr-test-b": "1.0.1",
+			},
+		});
+		expect(require(`${cwd}/packages/b/package.json`)).toMatchObject({
+			dependencies: {
+				"msr-test-a": "1.1.0",
+			},
+		});
+	});
 });
