@@ -120,6 +120,7 @@ There are several tweaks to adapt **msr** to some corner cases:
 |`--deps.release`|string| Define release type for dependent package if any of its deps changes. `patch`, `minor`, `major` — strictly declare the release type that occurs when any dependency is updated; `inherit` — applies the "highest" release of updated deps to the package. For example, if any dep has a breaking change, `major` release will be applied to the all dependants up the chain. **Experimental feat** | `patch`
 |`--dry-run`|bool |Dry run mode| `false`
 |`--ignore-packages`|string|Packages list to be ignored on bumping process (append to the ones that already exist at package.json workspaces)|`null`
+|`--ignore-private-packages`|bool |Private packages will be ignored |`false`
 
 Examples:
 
