@@ -1191,13 +1191,14 @@ describe("multiSemanticRelease()", () => {
 		expect(out).toMatch("Loaded package msr-test-b");
 		expect(out).toMatch("Loaded package msr-test-c");
 		expect(out).toMatch("Loaded package msr-test-d");
-		expect(out).toMatch("[msr-test-e] is private, will be ignored");
-		expect(out).toMatch("Queued 4 packages! Starting release...");
+		expect(out).toMatch("Loaded package msr-test-e");
+		expect(out).toMatch("Queued 5 packages! Starting release...");
 		expect(out).toMatch("Created tag msr-test-a@1.0.0");
 		expect(out).toMatch("Created tag msr-test-b@1.0.0");
 		expect(out).toMatch("Created tag msr-test-c@1.0.0");
 		expect(out).toMatch("Created tag msr-test-d@1.0.0");
-		expect(out).toMatch("Released 4 of 4 packages, semantically!");
+		expect(out).toMatch("Created tag msr-test-e@1.0.0");
+		expect(out).toMatch("Released 5 of 5 packages, semantically!");
 
 		// A.
 		expect(result[0].name).toBe("msr-test-a");
@@ -1253,8 +1254,21 @@ describe("multiSemanticRelease()", () => {
 		expect(result[3].result.nextRelease.notes).toMatch("### Features\n\n* Initial release");
 		expect(result[3].result.nextRelease.notes).not.toMatch("### Dependencies");
 
-		// ONLY four times.
-		expect(result).toHaveLength(4);
+		// E.
+		expect(result[4].name).toBe("msr-test-e");
+		expect(result[4].result.lastRelease).toEqual({});
+		expect(result[4].result.nextRelease).toMatchObject({
+			gitHead: sha,
+			gitTag: "msr-test-e@1.0.0",
+			type: "minor",
+			version: "1.0.0",
+		});
+		expect(result[4].result.nextRelease.notes).toMatch("# msr-test-e 1.0.0");
+		expect(result[4].result.nextRelease.notes).toMatch("### Features\n\n* Initial release");
+		expect(result[4].result.nextRelease.notes).toMatch("### Dependencies\n\n* **msr-test-c:** upgraded to 1.0.0");
+
+		// ONLY five times.
+		expect(result).toHaveLength(5);
 
 		// Check manifests.
 		expect(require(`${cwd}/packages/a/package.json`)).toMatchObject({
@@ -1274,6 +1288,11 @@ describe("multiSemanticRelease()", () => {
 			devDependencies: {
 				"msr-test-b": "1.0.0",
 				"msr-test-d": "1.0.0",
+			},
+		});
+		expect(require(`${cwd}/packages/e/package.json`)).toMatchObject({
+			devDependencies: {
+				"msr-test-c": "1.0.0",
 			},
 		});
 	});
