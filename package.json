@@ -62,7 +62,8 @@
 		"semantic-release": "^17.3.0",
 		"semver": "^7.3.2",
 		"signale": "^1.4.0",
-		"stream-buffers": "^3.0.2"
+		"stream-buffers": "^3.0.2",
+		"unixify": "^1.0.0"
 	},
 	"devDependencies": {
 		"@commitlint/config-conventional": "^11.0.0",
