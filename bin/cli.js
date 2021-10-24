@@ -15,14 +15,14 @@ const cli = meow(
     --first-parent Apply commit filtering to current branch only.
     --deps.bump Define deps version updating rule. Allowed: override, satisfy, inherit.
     --deps.release Define release type for dependent package if any of its deps changes. Supported values: patch, minor, major, inherit.
-	  --ignore-packages  Packages' list to be ignored on bumping process
+    --ignore-packages  Packages' list to be ignored on bumping process
     --ignore-private-packages Ignore private packages
-		--help Help info.
+	--help Help info.
 
   Examples
     $ multi-semantic-release --debug
     $ multi-semantic-release --deps.bump=satisfy --deps.release=patch
-	$ multi-semantic-release --ignore-packages=packages/a/**,packages/b/**
+    $ multi-semantic-release --ignore-packages=packages/a/**,packages/b/**
 `,
 	{
 		flags: {
