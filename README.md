@@ -1,4 +1,4 @@
-# multi-semantic-release: hacky semantic-release for monorepos
+# multi-semantic-release
 
 [![Travis CI](https://travis-ci.com/dhoulb/multi-semantic-release.svg?branch=master)](https://travis-ci.com/dhoulb/multi-semantic-release)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat)](https://github.com/semantic-release/semantic-release)
@@ -6,22 +6,51 @@
 [![Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![npm](https://img.shields.io/npm/dm/multi-semantic-release.svg)](https://www.npmjs.com/package/multi-semantic-release)
 
-Proof of concept that wraps [semantic-release](https://github.com/semantic-release/semantic-release) to work with monorepos.
+Hacky semantic-release for monorepos
 
-This package should work well, but may not be fundamentally stable enough for important production use as it's pretty dependent on how semantic-release works (so it may break or get out-of-date in future versions of semantic-release).
+## Overview
+Proof of concept that wraps [semantic-release](https://github.com/semantic-release/semantic-release) 
+to work with [monorepos](https://en.wikipedia.org/wiki/Monorepo).
 
-One of the best things about semantic-release is forgetting about version numbers. In a monorepo though there's still a lot of version number management required for local deps (packages in the same monorepo referenced in `dependencies` or `devDependencies` or `peerDependencies`). However in multi-semantic-release the version numbers of local deps are written into `package.json` at release time. This means there's no need to hard-code versions any more (we recommend just using `*` asterisk instead in your repo code).
+This package should work well, but **may not be fundamentally stable enough** for important production use as 
+it's pretty dependent on how semantic-release works (so it may break or get out-of-date in future versions 
+of semantic-release).
+
+One of the best things about semantic-release is forgetting about version numbers. In a monorepo though there's still 
+a lot of version number management required for local deps (packages in the same monorepo referenced in `dependencies` 
+or `devDependencies` or `peerDependencies`). However in multi-semantic-release the version numbers of local deps are 
+written into `package.json` at release time. This means there's no need to hard-code versions any more 
+(we recommend just using `*` asterisk instead in your repo code).
+
+### Table of contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+  - [yarn/npm](#yarn--npm-version-7x)
+  - [pnpm](#pnpm)
+  - [bolt](#bolt)
+- [CLI](#cli)
+- [API](#api)
+- [Implementation notes](#implementation-notes-and-other-thoughts)
+  - [Support for monorepos](#support-for-monorepos)
+  - [Iteration vs coordination](#iteration-vs-coordination)
+  - [Local deps and versioning](#local-dependencies-and-version-numbers)
+  - [Integration with semantic-release](#integration-with-semantic-release)
+  - [Git tags](#git-tags)
+- [License](#license)
 
 ## Installation
 
 ```sh
 yarn add multi-semantic-release --dev
+npm i multi-semantic-release -D
 ```
 
 ## Usage
 
 ```sh
-multi-semantic-release
+multi-semantic-release [options]
+npx multi-semantic-release [options]
 ```
 
 ## Configuration
@@ -39,26 +68,26 @@ multi-semantic-release automatically detects packages within workspaces for the 
 Make sure to have a `workspaces` attribute inside your `package.json` project file. In there, you can set a list of packages that you might want to process in the msr process, as well as ignore others. For example, let's say your project has 4 packages (i.e. a, b, c and d) and you want to process only a and d (ignore b and c). You can set the following structure in your `package.json` file:
 ```json
 {
-	"name": "msr-test-yarn",
-	"author": "Dave Houlbrooke <dave@shax.com",
-	"version": "0.0.0-semantically-released",
-	"private": true,
-	"license": "0BSD",
-	"engines": {
-		"node": ">=8.3"
-	},
-	"workspaces": [
-      "packages/*",
-      "!packages/b/**",
-      "!packages/c/**"
-	],
-	"release": {
-		"plugins": [
-			"@semantic-release/commit-analyzer",
-			"@semantic-release/release-notes-generator"
-		],
-		"noCi": true
-	}
+  "name": "msr-test-yarn",
+  "author": "Dave Houlbrooke <dave@shax.com",
+  "version": "0.0.0-semantically-released",
+  "private": true,
+  "license": "0BSD",
+  "engines": {
+    "node": ">=8.3"
+  },
+  "workspaces": [
+    "packages/*",
+    "!packages/b/**",
+    "!packages/c/**"
+  ],
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator"
+    ],
+    "noCi": true
+  }
 }
 ```
 
@@ -83,28 +112,28 @@ For example, let's say your project has 4 packages (i.e. a, b, c and d) and you 
 
 ```json
 {
-	"name": "msr-test-bolt",
-	"author": "Dave Houlbrooke <dave@shax.com",
-	"version": "0.0.0-semantically-released",
-	"private": true,
-	"license": "0BSD",
-	"engines": {
-		"node": ">=8.3"
-	},
-	"bolt": {
-		"workspaces": [
-				"packages/*",
-				"!packages/b/**",
-				"!packages/c/**"
-		]
-	},
-	"release": {
-		"plugins": [
-			"@semantic-release/commit-analyzer",
-			"@semantic-release/release-notes-generator"
-		],
-		"noCi": true
-	}
+  "name": "msr-test-bolt",
+  "author": "Dave Houlbrooke <dave@shax.com",
+  "version": "0.0.0-semantically-released",
+  "private": true,
+  "license": "0BSD",
+  "engines": {
+    "node": ">=8.3"
+  },
+  "bolt": {
+    "workspaces": [
+      "packages/*",
+      "!packages/b/**",
+      "!packages/c/**"
+    ]
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator"
+    ],
+    "noCi": true
+  }
 }
 ```
 
@@ -145,8 +174,8 @@ multi-semantic-release default exports a `multirelease()` method which takes the
 const multirelease = require("multi-semantic-release");
 
 multirelease([
-	`${__dirname}/packages/my-pkg-1/package.json`,
-	`${__dirname}/packages/my-pkg-2/package.json`,
+  `${__dirname}/packages/my-pkg-1/package.json`,
+  `${__dirname}/packages/my-pkg-2/package.json`,
 ]);
 ```
 
@@ -238,3 +267,6 @@ To make the `tagFormat` option work as intended the following would need to happ
 - semantic-release needs to check if a given tag already exists at a given commit, and not create it / push it if that's true
 - Release notes for multiple package releases need to be merged BUT the Github release only done once (by having the notes merged at the semantic-release level but only published once, or having the Github plugin merge them)
 - Make it clear in documentation that the default tag `v1.0.0` will have the same effect as Lerna's fixed mode (all changed monorepo packages released at same time)
+
+## License
+[0BSD](./LICENSE.md)
