@@ -37,6 +37,7 @@ written into `package.json` at release time. This means there's no need to hard-
   - [Local deps and versioning](#local-dependencies-and-version-numbers)
   - [Integration with semantic-release](#integration-with-semantic-release)
   - [Git tags](#git-tags)
+- [Contributing](#contributing)
 - [License](#license)
 
 ## Installation
@@ -267,6 +268,11 @@ To make the `tagFormat` option work as intended the following would need to happ
 - semantic-release needs to check if a given tag already exists at a given commit, and not create it / push it if that's true
 - Release notes for multiple package releases need to be merged BUT the Github release only done once (by having the notes merged at the semantic-release level but only published once, or having the Github plugin merge them)
 - Make it clear in documentation that the default tag `v1.0.0` will have the same effect as Lerna's fixed mode (all changed monorepo packages released at same time)
+
+## Contributing
+Feel free to open any kind of issues: bugs, feature requests or questions.
+You're always welcome to suggest a PR. Just fork this repo, write some code, add a pinch of tests and push your changes.
+Any feedback is appreciated.
 
 ## License
 [0BSD](./LICENSE.md)
