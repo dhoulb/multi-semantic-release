@@ -24,6 +24,7 @@ written into `package.json` at release time. This means there's no need to hard-
 
 ### Table of contents
 - [Installation](#installation)
+- [Requirements](#requirements)
 - [Usage](#usage)
 - [Configuration](#configuration)
   - [yarn/npm](#yarn--npm-version-7x)
@@ -46,6 +47,10 @@ written into `package.json` at release time. This means there's no need to hard-
 yarn add multi-semantic-release --dev
 npm i multi-semantic-release -D
 ```
+
+## Requirements
+* Node.js >= 10
+* [git-notes enabled](https://github.com/semantic-release/semantic-release/blob/2e4b901c4f412980a425469fae49cfaef500d47a/docs/support/troubleshooting.md#release-not-found-release-branch-after-git-push---force)
 
 ## Usage
 
