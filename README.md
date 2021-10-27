@@ -40,6 +40,7 @@ written into `package.json` at release time. This means there's no need to hard-
   - [bolt](#bolt)
 - [CLI](#cli)
 - [API](#api)
+- [CI/CD](#cicd)
 - [Implementation notes](#implementation-notes-and-other-thoughts)
   - [Support for monorepos](#support-for-monorepos)
   - [Iteration vs coordination](#iteration-vs-coordination)
@@ -195,6 +196,12 @@ multirelease([
   `${__dirname}/packages/my-pkg-2/package.json`,
 ]);
 ```
+
+## CI/CD
+Multi-semantic release seems to be compatible with _many_ CI/CD systems. At least we are sure about three of them, here are examples of configurations:
+- GitHub Actions → https://github.com/qiwi/semantic-release-toolkit
+- Travis CI → https://github.com/qiwi/pijma
+- AppVeyor → https://github.com/qiwi/masker
 
 ## Implementation notes (and other thoughts)
 
