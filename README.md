@@ -47,6 +47,7 @@ written into `package.json` at release time. This means there's no need to hard-
   - [Integration with semantic-release](#integration-with-semantic-release)
   - [Git tags](#git-tags)
 - [Contributing](#contributing)
+- [Alternatives](#alternatives)
 - [License](#license)
 
 ## Installation
@@ -286,9 +287,14 @@ To make the `tagFormat` option work as intended the following would need to happ
 - Make it clear in documentation that the default tag `v1.0.0` will have the same effect as Lerna's fixed mode (all changed monorepo packages released at same time)
 
 ## Contributing
+
 Feel free to open any kind of issues: bugs, feature requests or questions.
 You're always welcome to suggest a PR. Just fork this repo, write some code, add a pinch of tests and push your changes.
 Any feedback is appreciated.
+
+## Alternatives
+- https://github.com/intuit/auto
+- https://github.com/pmowrer/semantic-release-monorepo
 
 ## License
 [0BSD](./LICENSE.md)
