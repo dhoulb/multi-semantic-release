@@ -22,12 +22,20 @@ or `devDependencies` or `peerDependencies`). However in multi-semantic-release t
 written into `package.json` at release time. This means there's no need to hard-code versions any more 
 (we recommend just using `*` asterisk instead in your repo code).
 
+### Key features
+- CLI & JS API
+- Automated & configurable cross-pkg version bumping
+- Provides alpha & beta-branched release flow
+- Supports npm (v7+), yarn, pnpm, bolt-based monorepos
+- Optional packages ignoring
+- Linux/MacOs/Windows support
+
 ### Table of contents
 - [Installation](#installation)
 - [Requirements](#requirements)
 - [Usage](#usage)
 - [Configuration](#configuration)
-  - [yarn/npm](#yarn--npm-version-7x)
+  - [yarn/npm](#yarn--npm-v7)
   - [pnpm](#pnpm)
   - [bolt](#bolt)
 - [CLI](#cli)
@@ -69,7 +77,7 @@ multi-semantic-release does not support any command line arguments (this wasn't 
 
 multi-semantic-release automatically detects packages within workspaces for the following package-managers:
 
-### yarn / npm (Version 7.x)
+### yarn / npm (v7+)
 
 Make sure to have a `workspaces` attribute inside your `package.json` project file. In there, you can set a list of packages that you might want to process in the msr process, as well as ignore others. For example, let's say your project has 4 packages (i.e. a, b, c and d) and you want to process only a and d (ignore b and c). You can set the following structure in your `package.json` file:
 ```json
@@ -148,13 +156,13 @@ There are several tweaks to adapt **msr** to some corner cases:
 
 |Flag|Type|Description|Default|
 |---|---|---|---|
-|`--sequential-init`|bool|Avoid hypothetical concurrent initialization collisions|`false`|
-|`--debug`|bool|Output debugging information|`false`|
-|`--first-parent`|bool|Apply commit filtering to current branch only|`false`|
-|`--deps.bump`|string| Define deps version update rule. `override` — replace any prev version with the next one, `satisfy` — check the next pkg version against its current references. If it matches (`*` matches to any, `1.1.0` matches `1.1.x`, `1.5.0` matches to `^1.0.0` and so on) release will not be triggered, if not `override` strategy will be applied instead; `inherit` will try to follow the current declaration version/range. `~1.0.0` + `minor` turns into `~1.1.0`, `1.x` + `major` gives `2.x`, but `1.x` + `minor` gives `1.x` so there will be no release, etc. +  **Experimental feat**  | `override`
-|`--deps.release`|string| Define release type for dependent package if any of its deps changes. `patch`, `minor`, `major` — strictly declare the release type that occurs when any dependency is updated; `inherit` — applies the "highest" release of updated deps to the package. For example, if any dep has a breaking change, `major` release will be applied to the all dependants up the chain. **Experimental feat** | `patch`
-|`--dry-run`|bool |Dry run mode| `false`
-|`--ignore-packages`|string|Packages list to be ignored on bumping process (append to the ones that already exist at package.json workspaces)|`null`
+|`--sequential-init`|bool   |Avoid hypothetical concurrent initialization collisions|`false`|
+|`--debug`          |bool   |Output debugging information|`false`|
+|`--first-parent`   |bool   |Apply commit filtering to current branch only|`false`|
+|`--deps.bump`      |string |Define deps version update rule. `override` — replace any prev version with the next one, `satisfy` — check the next pkg version against its current references. If it matches (`*` matches to any, `1.1.0` matches `1.1.x`, `1.5.0` matches to `^1.0.0` and so on) release will not be triggered, if not `override` strategy will be applied instead; `inherit` will try to follow the current declaration version/range. `~1.0.0` + `minor` turns into `~1.1.0`, `1.x` + `major` gives `2.x`, but `1.x` + `minor` gives `1.x` so there will be no release, etc. +  **Experimental feat**  | `override`
+|`--deps.release`   |string |Define release type for dependent package if any of its deps changes. `patch`, `minor`, `major` — strictly declare the release type that occurs when any dependency is updated; `inherit` — applies the "highest" release of updated deps to the package. For example, if any dep has a breaking change, `major` release will be applied to the all dependants up the chain. **Experimental feat** | `patch`
+|`--dry-run`        |bool   |Dry run mode| `false`
+|`--ignore-packages`|string |Packages list to be ignored on bumping process (append to the ones that already exist at package.json workspaces)|`null`
 |`--ignore-private-packages`|bool |Private packages will be ignored |`false`
 
 Examples:
