@@ -176,6 +176,8 @@ $ multi-semantic-release --ignore-packages=packages/a/**,packages/b/**
 
 You can also combine the CLI `--ignore-packages` options with the `!` operator at each package inside `package.json.workspaces` attribute. Even though you can use the CLI to ignore options, you can't use it to set which packages to be released – i.e. you still need to set the `workspaces` attribute inside the `package.json`.
 
+⚠️ Keep in mind, that [`allowUnknownFlags`](https://github.com/sindresorhus/meow#allowunknownflags) is enabled, so the rest of flags will be passed to internal `semrel` call as `options` argument for all packages.
+
 ## API
 
 multi-semantic-release default exports a `multirelease()` method which takes the following arguments:

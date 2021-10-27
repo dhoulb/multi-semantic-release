@@ -53,6 +53,7 @@ const cli = meow(
 				type: "boolean",
 			},
 		},
+		allowUnknownFlags: true,
 	}
 );
 
