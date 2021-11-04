@@ -120,6 +120,8 @@ packages:
   - '!packages/c/**'
 ```
 
+**Note**, `workspace:` prefix in pkg versions is not supported yet. [issues/85](https://github.com/dhoulb/multi-semantic-release/issues/85) 
+
 ### bolt
 
 Make sure to have a `bolt.workspaces` attribute inside your `package.json` project file.
