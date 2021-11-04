@@ -23,6 +23,7 @@
 		"lint": "eslint ./",
 		"lint:fix": "eslint --fix ./",
 		"test": "yarn lint && yarn jest",
+		"audit:fix": "npm_config_yes=true npx yarn-audit-fix",
 		"publish": "semantic-release"
 	},
 	"husky": {
@@ -46,7 +47,7 @@
 		]
 	},
 	"dependencies": {
-		"@manypkg/get-packages": "^1.1.1",
+		"@manypkg/get-packages": "^1.1.2",
 		"blork": "^9.3.0",
 		"cosmiconfig": "^7.0.1",
 		"debug": "^4.3.2",
@@ -66,15 +67,15 @@
 		"unixify": "^1.0.0"
 	},
 	"devDependencies": {
-		"@commitlint/config-conventional": "^14.1.0",
-		"commitlint": "^14.1.0",
+		"@commitlint/config-conventional": "^12.1.4",
+		"commitlint": "^12.1.4",
 		"coveralls": "^3.1.1",
-		"eslint": "^8.1.0",
-		"eslint-config-prettier": "^8.3.0",
+		"eslint": "^7.32.0",
+		"eslint-config-prettier": "^7.2.0",
 		"eslint-plugin-prettier": "^4.0.0",
 		"file-url": "^3.0.0",
 		"husky": "^4.3.8",
-		"jest": "^26.6.3",
+		"jest": "^27.3.1",
 		"prettier": "^2.4.1",
 		"tempy": "^1.0.1"
 	},
