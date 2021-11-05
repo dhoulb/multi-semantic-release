@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "noImplicitReturns": false,
+    "noUnusedLocals": false,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": false,
+    "downlevelIteration": true,
+    "resolveJsonModule": true,
+    "sourceMap": false,
+    "declaration": false,
+    "strict": true,
+    "module": "commonjs",
+    "target": "es2019",
+    "lib": ["es2020"],
+    "baseUrl": ".",
+    "outDir": "dist",
+    "typeRoots": ["./node_modules/@types", "./typings"],
+    "rootDir": "."
+  },
+  "include": [
+    "./src/**/*",
+    "./package.json",
+    "./.eslintrc.js",
+    "./jest.config.js"
+  ]
+}
