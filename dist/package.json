@@ -1,0 +1,100 @@
+{
+    "name": "@payfit/multi-semantic-release",
+    "author": "Dave Houlbrooke <dave@shax.com>",
+    "version": "3.16.0-alpha.21",
+    "license": "0BSD",
+    "engines": {
+        "node": ">=10.18",
+        "yarn": ">=1.0.0"
+    },
+    "main": "dist/src/lib/multiSemanticRelease.js",
+    "bin": {
+        "multi-semantic-release": "./dist/bin/cli.js"
+    },
+    "files": [
+        "README.md",
+        "CHANGELOG.md",
+        "dist",
+        "lib",
+        "bin"
+    ],
+    "scripts": {
+        "build": "tsc -p tsconfig-build.json",
+        "lint": "eslint .",
+        "lint:fix": "eslint --fix ./",
+        "test": "jest --coverage",
+        "test:watch": "jest --watchAll",
+        "prepublish": "yarn build"
+    },
+    "husky": {
+        "hooks": {
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
+    },
+    "commitlint": {
+        "extends": [
+            "@commitlint/config-conventional"
+        ]
+    },
+    "dependencies": {
+        "@manypkg/get-packages": "^1.1.1",
+        "@schemastore/package": "0.0.6",
+        "@types/cosmiconfig": "6.0.0",
+        "@types/execa": "2.0.0",
+        "@types/lodash": "4.14.170",
+        "@types/semantic-release": "17.2.0",
+        "@types/signale": "1.4.1",
+        "@types/stream-buffers": "3.0.3",
+        "batching-toposort": "1.2.0",
+        "blork": "^9.2.2",
+        "cosmiconfig": "^7.0.0",
+        "debug": "^4.3.1",
+        "detect-indent": "^6.0.0",
+        "detect-newline": "^3.1.0",
+        "execa": "^4.1.0",
+        "get-stream": "^6.0.0",
+        "git-log-parser": "^1.2.0",
+        "globby": "11.0.2",
+        "lodash": "^4.17.21",
+        "meow": "^8.0.0",
+        "promise-events": "^0.2.1",
+        "semantic-release": "npm:@payfit/semantic-release@0.0.0-notes-fix.5",
+        "semver": "^7.3.2",
+        "signale": "^1.4.0",
+        "stream-buffers": "^3.0.2"
+    },
+    "devDependencies": {
+        "@commitlint/config-conventional": "^11.0.0",
+        "@types/debug": "4.1.5",
+        "@types/jest": "26.0.23",
+        "@types/node": "15.12.4",
+        "@types/semver": "7.3.6",
+        "@typescript-eslint/eslint-plugin": "4.28.0",
+        "@typescript-eslint/parser": "4.28.0",
+        "commitlint": "^11.0.0",
+        "coveralls": "^3.1.0",
+        "eslint": "7.29.0",
+        "eslint-config-prettier": "8.3.0",
+        "eslint-config-standard-with-typescript": "20.0.0",
+        "eslint-plugin-import": "2.23.4",
+        "eslint-plugin-jest": "24.3.6",
+        "eslint-plugin-node": "11.1.0",
+        "eslint-plugin-prettier": "3.1.4",
+        "eslint-plugin-promise": "5.1.0",
+        "file-url": "^3.0.0",
+        "husky": "^4.3.0",
+        "jest": "^27.0.5",
+        "prettier": "2.3.1",
+        "tempy": "^1.0.0",
+        "ts-jest": "27.0.3",
+        "ts-node": "10.0.0",
+        "typescript": "4.3.4"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dhoulb/multi-semantic-release.git"
+    },
+    "bugs": {
+        "url": "https://github.com/dhoulb/multi-semantic-release/issues"
+    }
+}

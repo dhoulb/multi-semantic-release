@@ -307,6 +307,7 @@ const getDependentRelease = (
         if (nextType) {
           nextVersion = p._preRelease ? getNextPreVersion(p) : getNextVersion(p)
         }
+
         const lastVersion = pkg._lastRelease?.version
 
         // 3. And this change should correspond to manifest updating rule.

@@ -89,20 +89,18 @@ export default async function multiSemanticRelease(
     },
     packages.reduce((acc, pkg) => ({ ...acc, [pkg.name]: [] }), {}),
   )
-  
+
   try {
     const batches = batchingToposort(pkgDag)
     for (const batch of batches) {
-      await Promise.all(
-        batch.map(async pkgName => {
-          const pkg = packages.find(_pkg => _pkg.name === pkgName)
-          if (!pkg) {
-            throw new Error(`Inexistant package ${pkgName} in batch`)
-          }
+      for (const pkgName of batch) {
+        const pkg = packages.find(_pkg => _pkg.name === pkgName)
+        if (!pkg) {
+          throw new Error(`Inexistant package ${pkgName} in batch`)
+        }
 
-          await releasePackage(pkg, createInlinePlugin, multiContext, flags)
-        }),
-      )
+        await releasePackage(pkg, createInlinePlugin, multiContext, flags)
+      }
     }
 
     const released = packages.filter(pkg => pkg.result).length
