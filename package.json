@@ -1,7 +1,7 @@
 {
   "name": "@payfit/multi-semantic-release",
   "author": "Dave Houlbrooke <dave@shax.com>",
-  "version": "3.16.0-alpha.21",
+  "version": "3.16.0-alpha.22",
   "license": "0BSD",
   "engines": {
     "node": ">=10.18",
@@ -9,7 +9,7 @@
   },
   "main": "dist/src/lib/multiSemanticRelease.js",
   "bin": {
-    "multi-semantic-release": "./dist/bin/cli.js"
+    "multi-semantic-release": "./dist/src/bin/cli.js"
   },
   "files": [
     "README.md",
