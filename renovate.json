@@ -36,5 +36,6 @@
     "enabled": true,
     "supportPolicy": ["lts_latest"]
   },
-  "postUpdateOptions": ["yarnDedupeHighest"]
+  "postUpdateOptions": ["yarnDedupeHighest"],
+  "includeForks": true
 }
