@@ -1,10 +1,11 @@
 {
   "plugins": [
-    ["@semantic-release/commit-analyzer", {
-      "releaseRules": [
-        {"type": "docs", "release": "patch"}
-      ]
-    }],
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "releaseRules": [{ "type": "docs", "release": "patch" }]
+      }
+    ],
     "@semantic-release/release-notes-generator"
   ]
 }

@@ -21,13 +21,8 @@
     "lib": ["es2020"],
     "baseUrl": ".",
     "outDir": "dist",
-    "typeRoots": ["./node_modules/@types", "./typings"],
-    "rootDir": "."
+    "rootDir": "src"
   },
-  "include": [
-    "./src/**/*",
-    "./package.json",
-    "./.eslintrc.js",
-    "./jest.config.js"
-  ]
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

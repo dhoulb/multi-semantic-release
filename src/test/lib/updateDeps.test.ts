@@ -1,4 +1,6 @@
 import { ReleaseType } from 'semver'
+import { mocked } from 'ts-jest/utils'
+
 import {
   resolveReleaseType,
   resolveNextVersion,
@@ -7,7 +9,13 @@ import {
   getPreReleaseTag,
   getVersionFromTag,
 } from '../../lib/updateDeps'
-import { Package } from '../../typings'
+import { BaseMultiContext, Package } from '../../typings'
+import { getTags } from '../../lib/git'
+
+jest.mock('../../lib/git', () => {
+  const actual = jest.requireActual('../../lib/git')
+  return { ...actual, getTags: jest.fn() }
+})
 
 describe('resolveNextVersion()', () => {
   // prettier-ignore
@@ -156,6 +164,7 @@ describe('resolveReleaseType()', () => {
       expect(
         resolveReleaseType(
           pkg as any as Package,
+          {} as any as BaseMultiContext,
           bumpStrategy as string,
           releaseStrategy as ReleaseType,
         ),
@@ -191,26 +200,28 @@ describe('getNextVersion()', () => {
 })
 
 describe('getNextPreVersion()', () => {
+  beforeEach(() => {
+    const mockedGetTags = mocked(getTags, true)
+    mockedGetTags.mockReturnValue([])
+  })
   // prettier-ignore
   const cases = [
-		[undefined, "patch", "rc", [], "1.0.0-rc.1"],
-		[undefined, "patch", "rc", [], "1.0.0-rc.1"],
-		[null, "patch", "rc", [], "1.0.0-rc.1"],
-		[null, "patch", "rc", [], "1.0.0-rc.1"],
-		["1.0.0-rc.0", "minor", "dev", [], "1.0.0-dev.1"],
-		["1.0.0-dev.0", "major", "dev", [], "1.0.0-dev.1"],
-		["1.0.0-dev.0", "major", "dev", ["1.0.0-dev.1"], "1.0.0-dev.2"],
-		["1.0.0-dev.0", "major", "dev", ["1.0.0-dev.1", "1.0.1-dev.0"], "1.0.1-dev.1"],
-		["11.0.0", "major", "beta", [], "12.0.0-beta.1"],
-		["1.0.0", "minor", "beta", [], "1.1.0-beta.1"],
-		["1.0.0", "patch", "beta", [], "1.0.1-beta.1"],
+		[undefined, "patch", "rc", "1.0.0-rc.1"],
+		[undefined, "patch", "rc", "1.0.0-rc.1"],
+		[null, "patch", "rc", "1.0.0-rc.1"],
+		[null, "patch", "rc", "1.0.0-rc.1"],
+		["1.0.0-rc.0", "minor", "dev", "1.0.0-dev.1"],
+		["1.0.0-dev.0", "major", "dev", "1.0.0-dev.1"],
+		["11.0.0", "major", "beta", "12.0.0-beta.1"],
+		["1.0.0", "minor", "beta", "1.1.0-beta.1"],
+		["1.0.0", "patch", "beta", "1.0.1-beta.1"],
 	]
 
   cases.forEach(
-    ([lastVersion, releaseType, preRelease, lastTags, nextVersion]: any[]) => {
-      it(`${String(lastVersion)} and ${String(releaseType)} ${
-        lastTags.length ? 'with existent tags ' : ''
-      }gives ${String(nextVersion)}`, () => {
+    ([lastVersion, releaseType, preRelease, nextVersion]: any[]) => {
+      it(`${String(lastVersion)} and ${String(releaseType)} gives ${String(
+        nextVersion,
+      )}`, () => {
         // prettier-ignore
         expect(getNextPreVersion(
 				{
@@ -219,7 +230,7 @@ describe('getNextPreVersion()', () => {
 					_preRelease: preRelease,
 					_branch: "master",
 				},
-				lastTags
+        {} as any as BaseMultiContext,
 			)).toBe(nextVersion);
       })
     },

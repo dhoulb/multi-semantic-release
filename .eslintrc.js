@@ -2,6 +2,7 @@
  * @type {import("eslint").Linter.Config}
  */
 module.exports = {
+  root: true,
   extends: [
     'standard-with-typescript',
     'plugin:jest/recommended',

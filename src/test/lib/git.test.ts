@@ -6,6 +6,8 @@ import { copyDirectory, createNewTestingFiles } from '../helpers/file'
 import { gitInit, gitCommitAll, gitInitOrigin, gitPush } from '../helpers/git'
 import { getTags } from '../../lib/git'
 
+jest.setTimeout(50000)
+
 test('Fetch all tags on master after two package release', async () => {
   const packages = ['packages/c/', 'packages/d/']
 

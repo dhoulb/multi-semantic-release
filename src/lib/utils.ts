@@ -28,7 +28,7 @@ const _selectVersionBy = (
   version1?: string,
   version2?: string,
 ): string | undefined => {
-  if ((predicate != null) && version1 != null && version2 != null) {
+  if (predicate != null && version1 != null && version2 != null) {
     return predicate(version1, version2) ? version1 : version2
   }
   return version1 ?? version2
@@ -56,7 +56,7 @@ export function getLatestVersion(
   withPrerelease: boolean = false,
 ): string | undefined {
   return versions
-    .filter(version => withPrerelease || (prerelease(version) == null))
+    .filter(version => withPrerelease || prerelease(version) == null)
     .sort(rcompare)[0]
 }
 
@@ -70,13 +70,12 @@ export function isDefined<T>(value: T | undefined): value is T {
   return value !== undefined
 }
 
-
 /**
  * Check if a value is not null
  *
  * @param value
  * @returns
  */
- export function isNotNull<T>(value: T | null): value is T {
+export function isNotNull<T>(value: T | null): value is T {
   return value !== null
 }

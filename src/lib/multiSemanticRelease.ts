@@ -110,7 +110,7 @@ export default async function multiSemanticRelease(
       `Released ${released} of ${packages.length} packages, semantically!`,
     )
     return packages
-  } catch (err) {
+  } catch (err: any) {
     if (err.message?.startsWith('Cycle(s) detected;')) {
       throw new Error('Cycle has been detected in local dependencies.')
     }

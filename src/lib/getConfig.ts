@@ -30,5 +30,5 @@ export default async function getConfig(cwd: string): Promise<Options> {
 
   // Return the found config or empty object.
   // istanbul ignore next (not important).
-  return (config != null) ? config.config : {}
+  return config != null ? config.config : {}
 }

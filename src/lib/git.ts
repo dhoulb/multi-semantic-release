@@ -26,7 +26,7 @@ export function getTags(
     .map(tag => tag.trim())
     .filter(Boolean)
 
-  if ((filters == null) || (filters.length === 0)) {
+  if (filters == null || filters.length === 0) {
     return tags
   }
 

@@ -1,5 +1,4 @@
 import { isAbsolute, join, normalize } from 'path'
-
 import { check } from './blork'
 
 /**

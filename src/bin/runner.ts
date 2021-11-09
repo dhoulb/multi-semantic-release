@@ -2,7 +2,6 @@ import semrelPkgJson from 'semantic-release/package.json'
 
 import getPackagePaths from '../lib/getPackagePaths'
 import multiSemanticRelease from '../lib/multiSemanticRelease'
-import multisemrelPkgJson from '../../package.json'
 
 import debugFactory from 'debug'
 
@@ -16,7 +15,6 @@ export default (flags: Record<string, any>) => {
 
   // Catch errors.
   try {
-    console.log(`multi-semantic-release version: ${multisemrelPkgJson.version}`)
     console.log(`semantic-release version: ${semrelPkgJson.version}`)
     console.log(`flags: ${JSON.stringify(flags, null, 2)}`)
 

@@ -2,7 +2,7 @@ import { writeFileSync } from 'fs'
 import semver, { ReleaseType } from 'semver'
 import debugFactory from 'debug'
 
-import { Package } from '../typings'
+import { BaseMultiContext, Package } from '../typings'
 
 import recognizeFormat from './recognizeFormat'
 import getManifest from './getManifest'
@@ -144,13 +144,10 @@ const _nextPreHighestVersion = (
   lastVersion: string,
   pkgPreRelease: string,
 ): string | null | undefined => {
-  const bumpFromTags = latestTag
-    ? semver.inc(latestTag, 'prerelease', pkgPreRelease)
-    : null
   const bumpFromLast = semver.inc(lastVersion, 'prerelease', pkgPreRelease)
 
-  return bumpFromTags
-    ? getHighestVersion(bumpFromLast ?? undefined, bumpFromTags)
+  return latestTag
+    ? getHighestVersion(bumpFromLast ?? undefined, latestTag)
     : bumpFromLast
 }
 
@@ -194,13 +191,13 @@ const _nextPreVersionCases = (
  * Resolve next package version on prereleases.
  *
  * @param pkg Package object.
- * @param tags Override list of tags from specific pkg and branch.
+ * @param BaseMultiContext Multi-context of the release.
  * @returns Next pkg version.
  * @internal
  */
 export const getNextPreVersion = (
   pkg: Record<string, any>,
-  tags?: string[],
+  multiContext: BaseMultiContext,
 ): string | undefined => {
   const tagFilters = [pkg._preRelease]
   const lastVersion = pkg._lastRelease?.version
@@ -208,14 +205,12 @@ export const getNextPreVersion = (
   // 1. Set filter to extract only package tags
   // 2. Get tags from a branch considering the filters established
   // 3. Resolve the versions from the tags
-  // TODO: replace {cwd: '.'} with multiContext.cwd
   if (pkg.name) {
     tagFilters.push(pkg.name)
   }
-  if (tags == null || tags.length === 0) {
-    // eslint-disable-next-line no-param-reassign
-    tags = getTags(pkg._branch, { cwd: '.' }, tagFilters)
-  }
+
+  const tags = getTags(pkg._branch, { cwd: multiContext.cwd }, tagFilters)
+
   const lastPreRelTag = getPreReleaseTag(lastVersion)
   const isNewPreRelTag = lastPreRelTag && lastPreRelTag !== pkg._preRelease
   const versionToSet =
@@ -236,6 +231,7 @@ export const getNextPreVersion = (
  * Get dependent release type by recursive scanning and updating its deps.
  *
  * @param pkg The package with local deps to check.
+ * @param multiContext BaseMultiContext of the release.
  * @param bumpStrategy Dependency resolution strategy: override, satisfy, inherit.
  * @param releaseStrategy Release type triggered by deps updating: patch, minor, major, inherit.
  * @param ignore Packages to ignore (to prevent infinite loops).
@@ -244,6 +240,7 @@ export const getNextPreVersion = (
  */
 const getDependentRelease = (
   pkg: Package,
+  multiContext: BaseMultiContext,
   bumpStrategy: string,
   releaseStrategy: ReleaseType | 'inherit',
   ignore: Package[],
@@ -295,17 +292,22 @@ const getDependentRelease = (
         // Has changed if...
         // 1. Any local dep package itself has changed
         // 2. Any local dep package has local deps that have changed.
-        const nextType = resolveReleaseType(p, bumpStrategy, releaseStrategy, [
-          ...ignore,
-          ...localDeps,
-        ])
+        const nextType = resolveReleaseType(
+          p,
+          multiContext,
+          bumpStrategy,
+          releaseStrategy,
+          [...ignore, ...localDeps],
+        )
 
         // Set the nextVersion fallback to the last local dependency package last version
         let nextVersion = p._lastRelease?.version
 
         // Update the nextVersion only if there is a next type to be bumped
         if (nextType) {
-          nextVersion = p._preRelease ? getNextPreVersion(p) : getNextVersion(p)
+          nextVersion = p._preRelease
+            ? getNextPreVersion(p, multiContext)
+            : getNextVersion(p)
         }
 
         const lastVersion = pkg._lastRelease?.version
@@ -330,6 +332,7 @@ const getDependentRelease = (
  * Resolve package release type taking into account the cascading dependency update.
  *
  * @param pkg Package object.
+ * @param multiContext BaseMultiContext of the release.
  * @param bumpStrategy Dependency resolution strategy: override, satisfy, inherit.
  * @param releaseStrategy Release type triggered by deps updating: patch, minor, major, inherit.
  * @param ignore=[] Packages to ignore (to prevent infinite loops).
@@ -338,6 +341,7 @@ const getDependentRelease = (
  */
 export function resolveReleaseType(
   pkg: Package,
+  multiContext: BaseMultiContext,
   bumpStrategy = 'override',
   releaseStrategy: ReleaseType | 'inherit' = 'patch',
   ignore: Package[] = [], // pkg[]
@@ -345,6 +349,7 @@ export function resolveReleaseType(
   // NOTE This fn also updates pkg deps, so it must be invoked anyway.
   const dependentReleaseType = getDependentRelease(
     pkg,
+    multiContext,
     bumpStrategy,
     releaseStrategy,
     ignore,

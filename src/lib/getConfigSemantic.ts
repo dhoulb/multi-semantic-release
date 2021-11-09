@@ -32,7 +32,7 @@ export default async function getConfigSemantic(
       { cwd, env, stdout, stderr, logger: blackhole },
       options,
     )
-  } catch (error) {
+  } catch (error: any) {
     // Log error and rethrow it.
     // istanbul ignore next (not important)
     logger.error(`Error in semantic-release getConfig(): %0`, error)

@@ -1,6 +1,6 @@
 import { join } from 'path'
 import tempy from 'tempy'
-import { writeFileSync, mkdirSync, } from 'fs'
+import { writeFileSync, mkdirSync } from 'fs'
 import getCommitsFiltered from '../../lib/getCommitsFiltered'
 import { gitInit, gitCommitAll } from '../helpers/git'
 

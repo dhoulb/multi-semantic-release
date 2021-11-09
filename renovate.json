@@ -1,0 +1,40 @@
+{
+  "extends": [
+    "config:base",
+    ":maintainLockFilesWeekly",
+    ":automergeRequireAllStatusChecks"
+  ],
+  "assignAutomerge": true,
+  "reviewers": ["KillianHmyd", "GuillaumeRahbari"],
+  "reviewersSampleSize": 1,
+  "packageRules": [
+    {
+      "matchDepTypes": ["dependencies"],
+      "semanticCommitType": "feat"
+    },
+    {
+      "matchDepTypes": ["peerDependencies"],
+      "semanticCommitType": "fix"
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true
+    },
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest",
+        "lockFileMaintenance"
+      ],
+      "automerge": true
+    }
+  ],
+  "labels": ["dependencies"],
+  "node": {
+    "enabled": true,
+    "supportPolicy": ["lts_latest"]
+  },
+  "postUpdateOptions": ["yarnDedupeHighest"]
+}

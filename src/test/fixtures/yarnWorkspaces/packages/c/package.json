@@ -1,7 +1,7 @@
 {
-	"name": "msr-test-c",
-	"version": "0.0.0",
-	"devDependencies": {
-		"msr-test-d": "*"
-	}
+  "name": "msr-test-c",
+  "version": "0.0.0",
+  "devDependencies": {
+    "msr-test-d": "*"
+  }
 }

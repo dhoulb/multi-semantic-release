@@ -1,19 +1,26 @@
 import { resolveReleaseType } from '../../lib/updateDeps'
-import { Package } from '../../typings'
+import { BaseMultiContext, Package } from '../../typings'
 
 // Tests.
 describe('resolveReleaseType()', () => {
   test('Works correctly with no deps', () => {
     expect(
-      resolveReleaseType({ localDeps: [] } as any as Package),
+      resolveReleaseType(
+        { localDeps: [] } as any as Package,
+        {} as any as BaseMultiContext,
+      ),
     ).toBeUndefined()
   })
   test('Works correctly with deps', () => {
     const pkg1: Package = { _nextType: 'patch', localDeps: [] } as any
-    expect(resolveReleaseType(pkg1)).toBe('patch')
+    expect(resolveReleaseType(pkg1, {} as any as BaseMultiContext)).toBe(
+      'patch',
+    )
 
     const pkg2: Package = { _nextType: undefined, localDeps: [] } as any
-    expect(resolveReleaseType(pkg2)).toBeUndefined()
+    expect(
+      resolveReleaseType(pkg2, {} as any as BaseMultiContext),
+    ).toBeUndefined()
 
     const pkg3: Package = {
       _nextType: undefined,
@@ -22,7 +29,9 @@ describe('resolveReleaseType()', () => {
         { _nextType: false, localDeps: [] },
       ],
     } as any
-    expect(resolveReleaseType(pkg3)).toBeUndefined()
+    expect(
+      resolveReleaseType(pkg3, {} as any as BaseMultiContext),
+    ).toBeUndefined()
 
     const pkg4: Package = {
       manifest: { dependencies: { a: '1.0.0' } },
@@ -42,7 +51,9 @@ describe('resolveReleaseType()', () => {
         },
       ],
     } as any
-    expect(resolveReleaseType(pkg4)).toBe('patch')
+    expect(resolveReleaseType(pkg4, {} as any as BaseMultiContext)).toBe(
+      'patch',
+    )
 
     const pkg5: Package = {
       _nextType: undefined,
@@ -56,7 +67,9 @@ describe('resolveReleaseType()', () => {
         },
       ],
     } as any
-    expect(resolveReleaseType(pkg5)).toBeUndefined()
+    expect(
+      resolveReleaseType(pkg5, {} as any as BaseMultiContext),
+    ).toBeUndefined()
 
     const pkg6: Package = {
       manifest: { dependencies: { a: '1.0.0' } },
@@ -90,17 +103,28 @@ describe('resolveReleaseType()', () => {
         },
       ],
     } as any
-    expect(resolveReleaseType(pkg6, 'override', 'inherit')).toBe('major')
+    expect(
+      resolveReleaseType(
+        pkg6,
+        {} as any as BaseMultiContext,
+        'override',
+        'inherit',
+      ),
+    ).toBe('major')
   })
 
   test('No infinite loops', () => {
     const pkg1: Package = { _nextType: 'patch', localDeps: [] } as any
     pkg1.localDeps.push(pkg1)
-    expect(resolveReleaseType(pkg1)).toBe('patch')
+    expect(resolveReleaseType(pkg1, {} as any as BaseMultiContext)).toBe(
+      'patch',
+    )
 
     const pkg2: Package = { _nextType: undefined, localDeps: [] } as any
     pkg2.localDeps.push(pkg2)
-    expect(resolveReleaseType(pkg2)).toBeUndefined()
+    expect(
+      resolveReleaseType(pkg2, {} as any as BaseMultiContext),
+    ).toBeUndefined()
 
     const pkg3: Package = {
       _nextType: undefined,
@@ -110,7 +134,9 @@ describe('resolveReleaseType()', () => {
       ],
     } as any
     pkg3.localDeps[0].localDeps.push(pkg3.localDeps[0])
-    expect(resolveReleaseType(pkg3)).toBeUndefined()
+    expect(
+      resolveReleaseType(pkg3, {} as any as BaseMultiContext),
+    ).toBeUndefined()
 
     const pkg4: Package = {
       manifest: { dependencies: { a: '1.0.0', b: '1.0.0' } },
@@ -131,6 +157,8 @@ describe('resolveReleaseType()', () => {
       ],
     } as any
     pkg4.localDeps[0].localDeps.push(pkg4.localDeps[0])
-    expect(resolveReleaseType(pkg4)).toBe('patch')
+    expect(resolveReleaseType(pkg4, {} as any as BaseMultiContext)).toBe(
+      'patch',
+    )
   })
 })

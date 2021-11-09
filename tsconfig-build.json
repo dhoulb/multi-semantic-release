@@ -1,14 +1,4 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": [
-    "node_modules",
-    "dist",
-    "./src/test/**/*",
-    "./.eslintrc.js",
-    "./jest.config.js"
-  ],
-  "include": ["./src/**/*", "./package.json"],
-  "compilerOptions": {
-    "sourceMap": false
-  }
+  "exclude": ["node_modules", "dist", "./src/test/**/*"]
 }

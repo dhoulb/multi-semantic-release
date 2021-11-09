@@ -37,28 +37,25 @@ multi-semantic-release automatically detects packages within workspaces for the 
 ### yarn / npm (Version 7.x)
 
 Make sure to have a `workspaces` attribute inside your `package.json` project file. In there, you can set a list of packages that you might want to process in the msr process, as well as ignore others. For example, let's say your project has 4 packages (i.e. a, b, c and d) and you want to process only a and d (ignore b and c). You can set the following structure in your `package.json` file:
+
 ```json
 {
-	"name": "msr-test-yarn",
-	"author": "Dave Houlbrooke <dave@shax.com",
-	"version": "0.0.0-semantically-released",
-	"private": true,
-	"license": "0BSD",
-	"engines": {
-		"node": ">=8.3"
-	},
-	"workspaces": [
-      "packages/*",
-      "!packages/b/**",
-      "!packages/c/**"
-	],
-	"release": {
-		"plugins": [
-			"@semantic-release/commit-analyzer",
-			"@semantic-release/release-notes-generator"
-		],
-		"noCi": true
-	}
+  "name": "msr-test-yarn",
+  "author": "Dave Houlbrooke <dave@shax.com",
+  "version": "0.0.0-semantically-released",
+  "private": true,
+  "license": "0BSD",
+  "engines": {
+    "node": ">=8.3"
+  },
+  "workspaces": ["packages/*", "!packages/b/**", "!packages/c/**"],
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator"
+    ],
+    "noCi": true
+  }
 }
 ```
 
@@ -83,43 +80,40 @@ For example, let's say your project has 4 packages (i.e. a, b, c and d) and you 
 
 ```json
 {
-	"name": "msr-test-bolt",
-	"author": "Dave Houlbrooke <dave@shax.com",
-	"version": "0.0.0-semantically-released",
-	"private": true,
-	"license": "0BSD",
-	"engines": {
-		"node": ">=8.3"
-	},
-	"bolt": {
-		"workspaces": [
-				"packages/*",
-				"!packages/b/**",
-				"!packages/c/**"
-		]
-	},
-	"release": {
-		"plugins": [
-			"@semantic-release/commit-analyzer",
-			"@semantic-release/release-notes-generator"
-		],
-		"noCi": true
-	}
+  "name": "msr-test-bolt",
+  "author": "Dave Houlbrooke <dave@shax.com",
+  "version": "0.0.0-semantically-released",
+  "private": true,
+  "license": "0BSD",
+  "engines": {
+    "node": ">=8.3"
+  },
+  "bolt": {
+    "workspaces": ["packages/*", "!packages/b/**", "!packages/c/**"]
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator"
+    ],
+    "noCi": true
+  }
 }
 ```
 
 ## CLI
+
 There are several tweaks to adapt **msr** to some corner cases:
 
-|Flag|Type|Description|Default|
-|---|---|---|---|
-|`--sequential-init`|bool|Avoid hypothetical concurrent initialization collisions|`false`|
-|`--debug`|bool|Output debugging information|`false`|
-|`--first-parent`|bool|Apply commit filtering to current branch only|`false`|
-|`--deps.bump`|string| Define deps version update rule. `override` — replace any prev version with the next one, `satisfy` — check the next pkg version against its current references. If it matches (`*` matches to any, `1.1.0` matches `1.1.x`, `1.5.0` matches to `^1.0.0` and so on) release will not be triggered, if not `override` strategy will be applied instead; `inherit` will try to follow the current declaration version/range. `~1.0.0` + `minor` turns into `~1.1.0`, `1.x` + `major` gives `2.x`, but `1.x` + `minor` gives `1.x` so there will be no release, etc. +  **Experimental feat**  | `override`
-|`--deps.release`|string| Define release type for dependent package if any of its deps changes. `patch`, `minor`, `major` — strictly declare the release type that occurs when any dependency is updated; `inherit` — applies the "highest" release of updated deps to the package. For example, if any dep has a breaking change, `major` release will be applied to the all dependants up the chain. **Experimental feat** | `patch`
-|`--dry-run`|bool |Dry run mode| `false`
-|`--ignore-packages`|string|Packages list to be ignored on bumping process (append to the ones that already exist at package.json workspaces)|`null`
+| Flag                | Type   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Default    |
+| ------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| `--sequential-init` | bool   | Avoid hypothetical concurrent initialization collisions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | `false`    |
+| `--debug`           | bool   | Output debugging information                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | `false`    |
+| `--first-parent`    | bool   | Apply commit filtering to current branch only                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | `false`    |
+| `--deps.bump`       | string | Define deps version update rule. `override` — replace any prev version with the next one, `satisfy` — check the next pkg version against its current references. If it matches (`*` matches to any, `1.1.0` matches `1.1.x`, `1.5.0` matches to `^1.0.0` and so on) release will not be triggered, if not `override` strategy will be applied instead; `inherit` will try to follow the current declaration version/range. `~1.0.0` + `minor` turns into `~1.1.0`, `1.x` + `major` gives `2.x`, but `1.x` + `minor` gives `1.x` so there will be no release, etc. + **Experimental feat** | `override` |
+| `--deps.release`    | string | Define release type for dependent package if any of its deps changes. `patch`, `minor`, `major` — strictly declare the release type that occurs when any dependency is updated; `inherit` — applies the "highest" release of updated deps to the package. For example, if any dep has a breaking change, `major` release will be applied to the all dependants up the chain. **Experimental feat**                                                                                                                                                                                        | `patch`    |
+| `--dry-run`         | bool   | Dry run mode                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | `false`    |
+| `--ignore-packages` | string | Packages list to be ignored on bumping process (append to the ones that already exist at package.json workspaces)                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | `null`     |
 
 Examples:
 
@@ -141,12 +135,12 @@ multi-semantic-release default exports a `multirelease()` method which takes the
 `multirelease()` returns an array of objects describing the result of the multirelease (corresponding to the `packages` array that is passed in).
 
 ```js
-const multirelease = require("multi-semantic-release");
+const multirelease = require('multi-semantic-release')
 
 multirelease([
-	`${__dirname}/packages/my-pkg-1/package.json`,
-	`${__dirname}/packages/my-pkg-2/package.json`,
-]);
+  `${__dirname}/packages/my-pkg-1/package.json`,
+  `${__dirname}/packages/my-pkg-2/package.json`,
+])
 ```
 
 ## Implementation notes (and other thoughts)
@@ -212,19 +206,26 @@ The inline plugin does the following:
 The integration with semantic release is pretty janky — this is a quick summary of the reasons this package will be hard to maintain:
 
 1. Had to filter `context.commits` object before it was used by `@semantic-release/commit-analyzer` (so it only lists commits for the corresponding directory).
-  - The actual Git filtering is easy peasy: see [getCommitsFiltered.js](https://github.com/dhoulb/multi-semantic-release/blob/master/lib/getCommitsFiltered.js)
-  - But overriding `context.commits` was very difficult! I did it eventually creating an _inline plugin_ and passing it into `semanticRelease()` via `options.plugins`
-  - The inline plugin proxies between semantic release and other configured plugins. It does what it needs to then calls e.g. `plugins.analyzeCommits()` with an overridden `context.commits` — see [createInlinePluginCreator.js](https://github.com/dhoulb/multi-semantic-release/blob/master/lib/createInlinePluginCreator.js)
-  - I think this is messy — inline plugins aren't even documented :(
-2. Need to run the analyze commit step on *all* plugins before any proceed to the publish step
-  - The inline plugin returns a Promise for every package then waits for all packages to analyze their commits before resolving them one at a time
-  - If packages have local deps (e.g. `dependencies` in package.json points to an internal package) this step also does a `patch` bump if any of them did a bump.
-  - This has to work recursively! See [hasChangedDeep.js](https://github.com/dhoulb/multi-semantic-release/blob/master/lib/hasChangedDeep.js)
+
+- The actual Git filtering is easy peasy: see [getCommitsFiltered.js](https://github.com/dhoulb/multi-semantic-release/blob/master/lib/getCommitsFiltered.js)
+- But overriding `context.commits` was very difficult! I did it eventually creating an _inline plugin_ and passing it into `semanticRelease()` via `options.plugins`
+- The inline plugin proxies between semantic release and other configured plugins. It does what it needs to then calls e.g. `plugins.analyzeCommits()` with an overridden `context.commits` — see [createInlinePluginCreator.js](https://github.com/dhoulb/multi-semantic-release/blob/master/lib/createInlinePluginCreator.js)
+- I think this is messy — inline plugins aren't even documented :(
+
+2. Need to run the analyze commit step on _all_ plugins before any proceed to the publish step
+
+- The inline plugin returns a Promise for every package then waits for all packages to analyze their commits before resolving them one at a time
+- If packages have local deps (e.g. `dependencies` in package.json points to an internal package) this step also does a `patch` bump if any of them did a bump.
+- This has to work recursively! See [hasChangedDeep.js](https://github.com/dhoulb/multi-semantic-release/blob/master/lib/hasChangedDeep.js)
+
 3. The configuration can be layered (i.e. global `.releaserc` and then per-directory overrides for individual packages).
-  - Had to duplicate the internal cosmiconfig setup from semantic release to get this working :(
+
+- Had to duplicate the internal cosmiconfig setup from semantic release to get this working :(
+
 4. I found Git getting itself into weird states because e.g. `git tag` is done asynchronously
-  - To get around this I had to stagger package publishing so they were done one at a time (which slows things down)
-  - I think calls to `execa()` in semantic release should be replaced with `execa.sync()` to ensure Git's internal state is atomic. For an experiment, you may add `--execasync` CLI flag that makes all calls synchronous through [ritm-hook](https://github.com/elastic/require-in-the-middle).
+
+- To get around this I had to stagger package publishing so they were done one at a time (which slows things down)
+- I think calls to `execa()` in semantic release should be replaced with `execa.sync()` to ensure Git's internal state is atomic. For an experiment, you may add `--execasync` CLI flag that makes all calls synchronous through [ritm-hook](https://github.com/elastic/require-in-the-middle).
 
 ### Git tags
 

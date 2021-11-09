@@ -104,8 +104,8 @@ export default function createInlinePluginCreator(
       const commits = await getCommitsFiltered(
         cwd,
         dir,
-        (context.lastRelease != null) ? context.lastRelease.gitHead : undefined,
-        (context.nextRelease != null) ? context.nextRelease.gitHead : undefined,
+        context.lastRelease != null ? context.lastRelease.gitHead : undefined,
+        context.nextRelease != null ? context.nextRelease.gitHead : undefined,
         firstParentBranch,
       )
 
@@ -124,6 +124,7 @@ export default function createInlinePluginCreator(
       // Make sure type is "patch" if the package has any deps that have changed.
       pkg._nextType = resolveReleaseType(
         pkg,
+        multiContext,
         flags.deps?.bump,
         flags.deps?.release,
       )
@@ -193,8 +194,8 @@ export default function createInlinePluginCreator(
       const commits = await getCommitsFiltered(
         cwd,
         dir,
-        (context.lastRelease != null) ? context.lastRelease.gitHead : undefined,
-        (context.nextRelease != null) ? context.nextRelease.gitHead : undefined,
+        context.lastRelease != null ? context.lastRelease.gitHead : undefined,
+        context.nextRelease != null ? context.nextRelease.gitHead : undefined,
         firstParentBranch,
       )
 

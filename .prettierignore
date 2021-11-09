@@ -1,0 +1,4 @@
+node_modules
+dist
+coverage
+src/test/fixtures/invalidPackage.json
