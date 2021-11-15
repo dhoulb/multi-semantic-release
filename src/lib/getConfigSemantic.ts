@@ -1,8 +1,5 @@
 // @ts-expect-error
 import semanticGetConfig from 'semantic-release/lib/get-config'
-import { WritableStreamBuffer } from 'stream-buffers'
-import { Signale } from 'signale'
-import { WriteStream } from 'tty'
 import { Options } from 'semantic-release'
 
 import { BaseMultiContext } from '../typings'
@@ -22,16 +19,8 @@ export default async function getConfigSemantic(
   options: Options,
 ) {
   try {
-    // Blackhole logger (so we don't clutter output with "loaded plugin" messages).
-    const blackhole = new Signale({
-      stream: new WritableStreamBuffer() as any as WriteStream,
-    })
-
     // Return semantic-release's getConfig script.
-    return semanticGetConfig(
-      { cwd, env, stdout, stderr, logger: blackhole },
-      options,
-    )
+    return semanticGetConfig({ cwd, env, stdout, stderr, logger }, options)
   } catch (error: any) {
     // Log error and rethrow it.
     // istanbul ignore next (not important)

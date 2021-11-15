@@ -65,9 +65,6 @@ export default function createInlinePluginCreator(
       // Restore context for plugins that does not rely on parsed opts.
       Object.assign(context.options, context.options?._pkgOptions)
 
-      // And bind actual logger.
-      Object.assign(pkg.loggerRef, context.logger)
-
       pkg._ready = true
 
       const res = await plugins.verifyConditions(context) // Semantic release don't expose methods in their types

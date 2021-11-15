@@ -131,14 +131,7 @@ export default async function multiSemanticRelease(
  */
 async function getPackage(
   path: string,
-  {
-    globalOptions,
-    inputOptions,
-    env,
-    cwd,
-    stdout,
-    stderr,
-  }: Record<string, any>, // Options
+  { globalOptions, inputOptions, env, cwd, stdout, stderr }: BaseMultiContext, // Options
 ): Promise<Package> {
   // Make path absolute.
   // eslint-disable-next-line no-param-reassign
@@ -170,8 +163,7 @@ async function getPackage(
     inputOptions,
   )
 
-  // Make a fake logger so semantic-release's get-config doesn't fail.
-  const logger = { error() {}, log() {} }
+  const logger = getLogger({ stdout, stderr, scope: name })
 
   // Use semantic-release's internal config (now we have the right `options.plugins` setting) to get the plugins object and the package options including defaults.
   // We need this so we can call e.g. plugins.analyzeCommit() to be able to affect the input and output of the whole set of plugins.

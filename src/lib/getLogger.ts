@@ -14,18 +14,20 @@ import { WriteStream } from 'tty'
 export default function getLogger({
   stdout,
   stderr,
+  scope,
 }: {
   stdout: WriteStream
   stderr: WriteStream
+  scope?: string
 }) {
   return new Signale({
     config: { displayTimestamp: true, displayLabel: false },
-    // scope: "multirelease",
+    scope,
     stream: stdout,
     types: {
-      error: { color: 'red', label: '', stream: [stderr], badge: '' },
-      log: { color: 'magenta', label: '', stream: [stdout], badge: '•' },
-      success: { color: 'green', label: '', stream: [stdout], badge: '' },
+      error: { color: 'red', label: '', stream: [stderr], badge: '✖' },
+      log: { color: 'magenta', label: '', stream: [stdout], badge: 'ℹ' },
+      success: { color: 'green', label: '', stream: [stdout], badge: '✔' },
       complete: { color: 'green', label: '', stream: [stdout], badge: '🎉' },
     },
   })
