@@ -1,5 +1,6 @@
 import { ReleaseType } from 'semver'
 import { mocked } from 'ts-jest/utils'
+import execa from 'execa'
 
 import {
   resolveReleaseType,
@@ -10,11 +11,10 @@ import {
   getVersionFromTag,
 } from '../../lib/updateDeps'
 import { BaseMultiContext, Package } from '../../typings'
-import { getTags } from '../../lib/git'
 
-jest.mock('../../lib/git', () => {
-  const actual = jest.requireActual('../../lib/git')
-  return { ...actual, getTags: jest.fn() }
+jest.mock('execa', () => {
+  const actual = jest.requireActual('execa')
+  return { ...actual, sync: jest.fn() }
 })
 
 describe('resolveNextVersion()', () => {
@@ -201,8 +201,13 @@ describe('getNextVersion()', () => {
 
 describe('getNextPreVersion()', () => {
   beforeEach(() => {
-    const mockedGetTags = mocked(getTags, true)
-    mockedGetTags.mockReturnValue([])
+    const mockedExeca = mocked(execa, true)
+    mockedExeca.sync.mockImplementation((cmd: any, arg: any) => {
+      if (cmd === 'git' && arg[0] === 'tag') {
+        return { stdout: 'toto@5.0.0-rc.0\ntoto@5.0.0-dev.0' } as any
+      }
+      throw new Error('not supposed to happen')
+    })
   })
   // prettier-ignore
   const cases = [
@@ -229,6 +234,7 @@ describe('getNextPreVersion()', () => {
 					_lastRelease: {version: lastVersion},
 					_preRelease: preRelease,
 					_branch: "master",
+					name: 'testing-package'
 				},
         {} as any as BaseMultiContext,
 			)).toBe(nextVersion);

@@ -30,8 +30,7 @@ export function getTags(
     return tags
   }
 
-  const validateSubstr = (t: string, f: string[]) =>
-    !!f.find(v => t.includes(v))
+  const validateSubstr = (t: string, f: string[]) => f.every(v => t.includes(v))
 
   return tags.filter(tag => validateSubstr(tag, filters))
 }
