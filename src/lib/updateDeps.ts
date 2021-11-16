@@ -6,8 +6,6 @@ import { BaseMultiContext, Package } from '../typings'
 
 import recognizeFormat from './recognizeFormat'
 import getManifest from './getManifest'
-import { getHighestVersion, getLatestVersion, isNotNull } from './utils'
-import { getTags } from './git'
 
 const debug = debugFactory('msr:updateDeps')
 
@@ -25,63 +23,6 @@ const getManifestDifference = (
     },
     {},
   )
-}
-
-/**
- * Resolve next package version.
- *
- * @param pkg Package object.
- * @returns Next pkg version.
- * @internal
- */
-export const getNextVersion = (pkg: Package): string => {
-  const lastVersion = pkg._lastRelease?.version
-  const defaultNextVersion = lastVersion ?? '1.0.0'
-
-  if (!lastVersion || !pkg._nextType || typeof pkg._nextType !== 'string') {
-    return defaultNextVersion
-  }
-
-  return semver.inc(lastVersion, pkg._nextType) ?? defaultNextVersion
-}
-
-/**
- * Resolve the package version from a tag
- *
- * @param pkg Package object.
- * @param tag The tag containing the version to resolve
- *
- * @returns The version of the package or null if no tag was passed
- * @internal
- */
-export const getVersionFromTag = (
-  pkg: Record<string, any>,
-  tag?: string,
-): string | null => {
-  if (!pkg.name) {
-    return tag ?? null
-  }
-  if (!tag) {
-    return null
-  }
-
-  const strMatch = tag.match(/[0-9].[0-9].[0-9].*/)
-  return strMatch?.[0] && semver.valid(strMatch[0]) ? strMatch[0] : null
-}
-
-/**
- * Parse the prerelease tag from a semver version.
- *
- * @param version Semver version in a string format.
- * @returns preReleaseTag Version prerelease tag or null.
- * @internal
- */
-export const getPreReleaseTag = (version: string): string | null => {
-  const parsed = semver.parse(version)
-  if (parsed == null) {
-    return null
-  }
-  return parsed.prerelease[0] ? String(parsed.prerelease[0]) : null
 }
 
 /**
@@ -128,103 +69,6 @@ export const resolveNextVersion = (
   // "override"
   // By default next package version would be set as is for the all dependants.
   return nextVersion
-}
-
-/**
- * Resolve next prerelease comparing bumped tags versions with last version.
- *
- * @param latestTag Last released tag from branch or null if non-existent.
- * @param lastVersion Last version released.
- * @param pkgPreRelease Prerelease tag from package to-be-released.
- * @returns Next pkg version.
- * @internal
- */
-const _nextPreHighestVersion = (
-  latestTag: string | undefined,
-  lastVersion: string,
-  pkgPreRelease: string,
-): string | null | undefined => {
-  const bumpFromLast = semver.inc(lastVersion, 'prerelease', pkgPreRelease)
-
-  return latestTag
-    ? getHighestVersion(bumpFromLast ?? undefined, latestTag)
-    : bumpFromLast
-}
-
-/**
- * Resolve next prerelease special cases: highest version from tags or major/minor/patch.
- *
- * @param tags List of all released tags from package.
- * @param lastVersion Last package version released.
- * @param pkgNextType Next type evaluated for the next package type.
- * @param pkgPreRelease Package prerelease suffix.
- * @returns Next pkg version.
- * @internal
- */
-const _nextPreVersionCases = (
-  tags: string[],
-  lastVersion: string,
-  pkgNextType: ReleaseType,
-  pkgPreRelease: string,
-): string | undefined | null => {
-  // Case 1: Normal release on last version and is now converted to a prerelease
-  if (semver.prerelease(lastVersion) == null) {
-    const semVerRes = semver.parse(lastVersion)
-    if (semVerRes == null) {
-      throw new Error('Can not parse the last version')
-    }
-    const { major, minor, patch } = semVerRes
-
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    return `${semver.inc(
-      `${major}.${minor}.${patch}`,
-      pkgNextType || 'patch',
-    )}-${pkgPreRelease}.1`
-  }
-
-  // Case 2: Validates version with tags
-  const latestTag = getLatestVersion(tags, true)
-  return _nextPreHighestVersion(latestTag, lastVersion, pkgPreRelease)
-}
-
-/**
- * Resolve next package version on prereleases.
- *
- * @param pkg Package object.
- * @param BaseMultiContext Multi-context of the release.
- * @returns Next pkg version.
- * @internal
- */
-export const getNextPreVersion = (
-  pkg: Record<string, any>,
-  multiContext: BaseMultiContext,
-): string | undefined => {
-  const tagFilters = [pkg._preRelease]
-  const lastVersion = pkg._lastRelease?.version
-  // Extract tags:
-  // 1. Set filter to extract only package tags
-  // 2. Get tags from a branch considering the filters established
-  // 3. Resolve the versions from the tags
-  if (pkg.name) {
-    tagFilters.push(pkg.name)
-  }
-
-  const tags = getTags(pkg._branch, { cwd: multiContext.cwd }, tagFilters)
-
-  const lastPreRelTag = getPreReleaseTag(lastVersion)
-  const isNewPreRelTag = lastPreRelTag && lastPreRelTag !== pkg._preRelease
-  const versionToSet =
-    isNewPreRelTag ?? !lastVersion
-      ? // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        `1.0.0-${pkg._preRelease}.1`
-      : _nextPreVersionCases(
-          tags.map(tag => getVersionFromTag(pkg, tag)).filter(isNotNull),
-          lastVersion,
-          pkg._nextType,
-          pkg._preRelease,
-        )
-
-  return versionToSet ?? undefined
 }
 
 /**
@@ -301,14 +145,7 @@ const getDependentRelease = (
         )
 
         // Set the nextVersion fallback to the last local dependency package last version
-        let nextVersion = p._lastRelease?.version
-
-        // Update the nextVersion only if there is a next type to be bumped
-        if (nextType) {
-          nextVersion = p._preRelease
-            ? getNextPreVersion(p, multiContext)
-            : getNextVersion(p)
-        }
+        const nextVersion = p._nextRelease?.version ?? p._lastRelease?.version
 
         const lastVersion = pkg._lastRelease?.version
 

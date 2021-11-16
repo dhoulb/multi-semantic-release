@@ -92,17 +92,20 @@ describe('resolveReleaseType()', () => {
               _nextType: 'patch',
               localDeps: [],
               _lastRelease: { version: '1.0.0' },
+              _nextRelease: { version: '1.0.1' },
             },
             {
               name: 'd',
               _nextType: 'major',
               localDeps: [],
               _lastRelease: { version: '1.0.0' },
+              _nextRelease: { version: '2.0.0' },
             },
           ],
         },
       ],
     } as any
+
     expect(
       resolveReleaseType(
         pkg6,

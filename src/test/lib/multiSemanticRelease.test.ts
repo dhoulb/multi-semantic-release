@@ -14,6 +14,8 @@ import {
   gitTag,
 } from '../helpers/git'
 
+jest.setTimeout(30000)
+
 // Clear mocks before tests.
 beforeEach(() => {
   jest.clearAllMocks() // Clear all mocks.
