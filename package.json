@@ -55,7 +55,7 @@
     "@types/cosmiconfig": "6.0.0",
     "@types/debug": "4.1.7",
     "@types/execa": "2.0.0",
-    "@types/jest": "27.0.2",
+    "@types/jest": "27.0.3",
     "@types/lodash": "4.14.177",
     "@types/node": "16.11.7",
     "@types/semantic-release": "17.2.3",
