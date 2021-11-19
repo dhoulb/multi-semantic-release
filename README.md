@@ -26,7 +26,7 @@ written into `package.json` at release time. This means there's no need to hard-
 - CLI & JS API
 - Automated & configurable cross-pkg version bumping
 - Provides alpha & beta-branched release flow
-- Supports npm (v7+), yarn, pnpm, bolt-based monorepos
+- Supports npm (v7+), yarn, pnpm (with limitations), bolt-based monorepos
 - Optional packages ignoring
 - Linux/MacOs/Windows support
 
@@ -41,6 +41,7 @@ written into `package.json` at release time. This means there's no need to hard-
 - [CLI](#cli)
 - [API](#api)
 - [CI/CD](#cicd)
+- [Troubleshooting](#troubleshooting)
 - [Implementation notes](#implementation-notes-and-other-thoughts)
   - [Support for monorepos](#support-for-monorepos)
   - [Iteration vs coordination](#iteration-vs-coordination)
@@ -160,7 +161,7 @@ There are several tweaks to adapt **msr** to some corner cases:
 
 |Flag|Type|Description|Default|
 |---|---|---|---|
-|`--sequential-init`|bool   |Avoid hypothetical concurrent initialization collisions|`false`|
+|`--sequential-init`|bool   |Avoid hypothetical concurrent initialization collisions |`false`|
 |`--debug`          |bool   |Output debugging information|`false`|
 |`--first-parent`   |bool   |Apply commit filtering to current branch only|`false`|
 |`--deps.bump`      |string |Define deps version update rule. `override` — replace any prev version with the next one, `satisfy` — check the next pkg version against its current references. If it matches (`*` matches to any, `1.1.0` matches `1.1.x`, `1.5.0` matches to `^1.0.0` and so on) release will not be triggered, if not `override` strategy will be applied instead; `inherit` will try to follow the current declaration version/range. `~1.0.0` + `minor` turns into `~1.1.0`, `1.x` + `major` gives `2.x`, but `1.x` + `minor` gives `1.x` so there will be no release, etc. +  **Experimental feat**  | `override`
@@ -204,6 +205,23 @@ Multi-semantic release seems to be compatible with _many_ CI/CD systems. At leas
 - GitHub Actions → https://github.com/qiwi/semantic-release-toolkit
 - Travis CI → https://github.com/qiwi/pijma
 - AppVeyor → https://github.com/qiwi/masker
+
+## Troubleshooting
+### npm: invalid npm token
+When releasing a monorepos you may get `EINVALIDNPMTOKEN` error. The more packages, the more chance of error, unfortunately.
+```shell
+INVALIDNPMTOKEN Invalid npm token.
+The npm token (https://github.com/semantic-release/npm/blob/master/README.md#npm-registry-authentication) configured in the NPM_TOKEN environment variable must be a valid token (https://docs.npmjs.com/getting-started/working_with_tokens) allowing to publish to the registry https://registry.npmjs.org/.
+```
+Do not rush to change your token. _Perhaps_ this is related to [`npm whoami` request](https://github.com/semantic-release/npm/blob/master/lib/verify-auth.js#L21) throttling on your registry (just a hypothesis: https://github.com/semantic-release/npm/pull/416). At this point you can:
+* Rerun your build as many times as necessary. You may get lucky in a new attempts.
+* Patch standard semantic-release npm-plugin [like this](https://github.com/EricCrosson/patch-semantic-release-npm-for-msr).
+* Use [semrel-extra/npm plugin](https://github.com/semrel-extra/npm) for npm publishing (recommended).
+
+### git: connection reset by peer
+This error seems to be related to concurrent git invocations (https://github.com/dhoulb/multi-semantic-release/issues/24). Or may be not.
+Anyway we've added a special [`--sequental-init`](#cli) flag to queue up these calls.
+
 
 ## Implementation notes (and other thoughts)
 
