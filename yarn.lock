@@ -1270,10 +1270,10 @@
   resolved "https://registry.yarnpkg.com/@types/semver/-/semver-7.3.9.tgz#152c6c20a7688c30b967ec1841d31ace569863fc"
   integrity sha512-L/TMpyURfBkf+o/526Zb6kd/tchUP3iBDEPjqjb+U2MAJhVRxxrmr2fwpe08E7QsV7YLcpq0tUaQ9O9x97ZIxQ==
 
-"@types/signale@1.4.2":
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/@types/signale/-/signale-1.4.2.tgz#6fc36d038297fa4c1d9aa2b5c2ec80195d4c5d2f"
-  integrity sha512-cIqvDXQmLD5UNgtYhHvTt4dEyR+FXuCwoqQbz7mZaS7pGyJvpUFDAoMbgwymptqUXH3eL8vBcNU+dBiyauaA6Q==
+"@types/signale@1.4.3":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@types/signale/-/signale-1.4.3.tgz#03747907f505e3214ba88e4448552217722f4351"
+  integrity sha512-rxdOM+UCMF1PW09V7u/R0g/BsS1jtksxZaFCvcqL/K7yjT5rKUTf1Z+OTV7S9GGYHiklRfn3paTowHNddRFRVA==
   dependencies:
     "@types/node" "*"
 

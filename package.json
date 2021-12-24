@@ -60,7 +60,7 @@
     "@types/node": "16.11.17",
     "@types/semantic-release": "17.2.3",
     "@types/semver": "7.3.9",
-    "@types/signale": "1.4.2",
+    "@types/signale": "1.4.3",
     "@types/stream-buffers": "3.0.4",
     "@typescript-eslint/eslint-plugin": "5.8.0",
     "@typescript-eslint/parser": "5.8.0",
