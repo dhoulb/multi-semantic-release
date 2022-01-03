@@ -238,3 +238,7 @@ To make the `tagFormat` option work as intended the following would need to happ
 - semantic-release needs to check if a given tag already exists at a given commit, and not create it / push it if that's true
 - Release notes for multiple package releases need to be merged BUT the Github release only done once (by having the notes merged at the semantic-release level but only published once, or having the Github plugin merge them)
 - Make it clear in documentation that the default tag `v1.0.0` will have the same effect as Lerna's fixed mode (all changed monorepo packages released at same time)
+
+## License
+
+[OSBD](https://github.com/PayFit/multi-semantic-release/blob/master/LICENSE.md)
