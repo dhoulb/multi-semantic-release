@@ -41,7 +41,7 @@ written into `package.json` at release time. This means there's no need to hard-
 - [CLI](#cli)
 - [API](#api)
 - [CI/CD](#cicd)
-- [Troubleshooting](#troubleshooting)
+- [⚠️Troubleshooting](#troubleshooting)
 - [Implementation notes](#implementation-notes-and-other-thoughts)
   - [Support for monorepos](#support-for-monorepos)
   - [Iteration vs coordination](#iteration-vs-coordination)
@@ -219,7 +219,7 @@ Do not rush to change your token. _Perhaps_ this is related to [`npm whoami` req
 * Use [semrel-extra/npm plugin](https://github.com/semrel-extra/npm) for npm publishing (recommended).
 
 ### git: connection reset by peer
-This error seems to be related to concurrent git invocations (https://github.com/dhoulb/multi-semantic-release/issues/24). Or may be not.
+This error seems to be related to concurrent git invocations ([issues/24](https://github.com/dhoulb/multi-semantic-release/issues/24)). Or may be not.
 Anyway we've added a special [`--sequental-init`](#cli) flag to queue up these calls.
 
 
@@ -322,8 +322,9 @@ You're always welcome to suggest a PR. Just fork this repo, write some code, add
 Any feedback is appreciated.
 
 ## Alternatives
-- https://github.com/intuit/auto
-- https://github.com/pmowrer/semantic-release-monorepo
+- [intuit/auto](https://github.com/intuit/auto)
+- [mateodelnorte/meta](https://github.com/mateodelnorte/meta)
+- [pmowrer/semantic-release-monorepo](https://github.com/pmowrer/semantic-release-monorepo)
 
 ## License
 [0BSD](./LICENSE.md)
