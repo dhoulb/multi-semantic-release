@@ -5,7 +5,8 @@
 	"license": "0BSD",
 	"engines": {
 		"node": ">=10.18",
-		"yarn": ">=1.0.0"
+		"yarn": ">=1.0.0",
+		"npm": "please-use-yarn"
 	},
 	"main": "lib/multiSemanticRelease.js",
 	"bin": {
