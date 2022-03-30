@@ -21,7 +21,7 @@ beforeEach(() => {
 });
 
 // Tests.
-// describe("multiSemanticRelease()", () => {
+describe("multiSemanticRelease()", () => {
 	test("Initial commit (changes in all packages)", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();
@@ -1431,7 +1431,7 @@ beforeEach(() => {
 			});
 		});
 	});
-	// describe("With override-carret strategy", () => {
+	describe("With override-carret strategy", () => {
 		test("should bump with carret", async () => {
 			// Create Git repo with copy of Yarn workspaces fixture.
 			const cwd = gitInit();
@@ -1556,6 +1556,6 @@ beforeEach(() => {
 					"msr-test-d": "^1.0.0",
 				},
 			});
-		}, 10000000);
-	// });
-// });
+		});
+	});
+});
