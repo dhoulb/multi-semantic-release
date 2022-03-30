@@ -1431,13 +1431,17 @@ describe("multiSemanticRelease()", () => {
 			});
 		});
 	});
-	describe("With override-carret strategy", () => {
+	describe.each([
+		["override-carret", "yarnWorkspacesPackagesCarret"],
+		["override-carret", "yarnWorkspacesPackages"],
+		["inherit", "yarnWorkspacesPackagesCarret"],
+	])("With deps.bump=%s strategy & fixture=%s", (strategy, fixtureName) => {
 		test("should bump with carret", async () => {
 			// Create Git repo with copy of Yarn workspaces fixture.
 			const cwd = gitInit();
-			copyDirectory(`test/fixtures/yarnWorkspacesPackages/`, cwd);
+			copyDirectory(`test/fixtures/${fixtureName}/`, cwd);
 			const sha = gitCommitAll(cwd, "feat: Initial release");
-			const url = gitInitOrigin(cwd);
+			gitInitOrigin(cwd);
 			gitPush(cwd);
 
 			// Capture output.
@@ -1456,7 +1460,7 @@ describe("multiSemanticRelease()", () => {
 				],
 				{},
 				{ cwd, stdout, stderr },
-				{ deps: { bump: "override-carret" } }
+				{ deps: { bump: strategy } }
 			);
 
 			// Get stdout and stderr output.
@@ -1539,21 +1543,21 @@ describe("multiSemanticRelease()", () => {
 			// Check manifests.
 			expect(require(`${cwd}/packages/a/package.json`)).toMatchObject({
 				peerDependencies: {
-					"msr-test-c": "^1.0.0",
+					"msr-test-c": strategy === "inherit" ? "1.0.0" : "^1.0.0",
 				},
 			});
 			expect(require(`${cwd}/packages/b/package.json`)).toMatchObject({
 				dependencies: {
-					"msr-test-a": "^1.0.0",
+					"msr-test-a": strategy === "inherit" ? "1.0.0" : "^1.0.0",
 				},
 				devDependencies: {
-					"msr-test-c": "^1.0.0",
+					"msr-test-c": strategy === "inherit" ? "1.0.0" : "^1.0.0",
 				},
 			});
 			expect(require(`${cwd}/packages/c/package.json`)).toMatchObject({
 				devDependencies: {
-					"msr-test-b": "^1.0.0",
-					"msr-test-d": "^1.0.0",
+					"msr-test-b": strategy === "inherit" ? "1.0.0" : "^1.0.0",
+					"msr-test-d": strategy === "inherit" ? "1.0.0" : "^1.0.0",
 				},
 			});
 		});
