@@ -1,4 +1,4 @@
-const getPkgRootOptions = require("../../lib/getPkgRootOptions");
+const { getPkgRootOptions } = require("../../lib/getRootPkgs");
 
 // Clear mocks before tests.
 beforeEach(() => {
