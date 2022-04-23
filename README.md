@@ -207,6 +207,11 @@ Multi-semantic release seems to be compatible with _many_ CI/CD systems. At leas
 - AppVeyor → https://github.com/qiwi/masker
 
 ## Troubleshooting
+### npm v8.5+: npm ERR! notarget No matching version found for...
+When releasing a monorepo you may get a `npm ERR! code ETARGET` error. This is caused by `npm version` creating a reify update on packages with future dependency versions MSR has not updated yet.
+
+The simplest work around is to set [workspaces-update](https://docs.npmjs.com/cli/v8/commands/npm-version#workspaces-update) to false either in your .npmrc or manually by running `npm config set workspaces-update false`
+
 ### npm: invalid npm token
 When releasing a monorepos you may get `EINVALIDNPMTOKEN` error. The more packages, the more chance of error, unfortunately.
 ```shell
