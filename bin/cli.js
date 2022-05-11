@@ -13,7 +13,8 @@ const cli = meow(
     --debug Output debugging information.
     --sequential-init  Avoid hypothetical concurrent initialization collisions.
     --first-parent Apply commit filtering to current branch only.
-    --deps.bump Define deps version updating rule. Allowed: override, override-carret, satisfy, inherit.
+    --deps.bump Define deps version updating rule. Allowed: override, satisfy, inherit.
+    --deps.prefix Optional prefix to be attached to the next dep version if '--deps.bump' set to 'override'. Supported values: '^' | '~' | '' (empty string as default).
     --deps.release Define release type for dependent package if any of its deps changes. Supported values: patch, minor, major, inherit.
     --ignore-packages  Packages' list to be ignored on bumping process
     --ignore-private-packages Ignore private packages
@@ -42,6 +43,10 @@ const cli = meow(
 			"deps.release": {
 				type: "string",
 				default: "patch",
+			},
+			"deps.prefix": {
+				type: "string",
+				default: "",
 			},
 			ignorePackages: {
 				type: "string",

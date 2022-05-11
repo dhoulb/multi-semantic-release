@@ -1618,11 +1618,11 @@ describe("multiSemanticRelease()", () => {
 		});
 	});
 	describe.each([
-		["override-carret", "yarnWorkspacesPackagesCarret"],
-		["override-carret", "yarnWorkspacesPackages"],
-		["inherit", "yarnWorkspacesPackagesCarret"],
-	])("With deps.bump=%s strategy & fixture=%s", (strategy, fixtureName) => {
-		test("should bump with carret", async () => {
+		["override", "yarnWorkspacesPackagesCarret", "^"],
+		["override", "yarnWorkspacesPackages", "~"],
+		["inherit", "yarnWorkspacesPackagesCarret", "^"],
+	])("With deps.bump=%s & deps.prefix=%s & fixture=%s", (strategy, fixtureName, prefix) => {
+		test("should bump with deps.prefix", async () => {
 			// Create Git repo with copy of Yarn workspaces fixture.
 			const cwd = gitInit();
 			copyDirectory(`test/fixtures/${fixtureName}/`, cwd);
@@ -1646,7 +1646,7 @@ describe("multiSemanticRelease()", () => {
 				],
 				{},
 				{ cwd, stdout, stderr },
-				{ deps: { bump: strategy } }
+				{ deps: { bump: strategy, prefix } }
 			);
 
 			// Get stdout and stderr output.
@@ -1729,21 +1729,21 @@ describe("multiSemanticRelease()", () => {
 			// Check manifests.
 			expect(require(`${cwd}/packages/a/package.json`)).toMatchObject({
 				peerDependencies: {
-					"msr-test-c": strategy === "inherit" ? "1.0.0" : "^1.0.0",
+					"msr-test-c": strategy === "inherit" ? "1.0.0" : prefix + "1.0.0",
 				},
 			});
 			expect(require(`${cwd}/packages/b/package.json`)).toMatchObject({
 				dependencies: {
-					"msr-test-a": strategy === "inherit" ? "1.0.0" : "^1.0.0",
+					"msr-test-a": strategy === "inherit" ? "1.0.0" : prefix + "1.0.0",
 				},
 				devDependencies: {
-					"msr-test-c": strategy === "inherit" ? "1.0.0" : "^1.0.0",
+					"msr-test-c": strategy === "inherit" ? "1.0.0" : prefix + "1.0.0",
 				},
 			});
 			expect(require(`${cwd}/packages/c/package.json`)).toMatchObject({
 				devDependencies: {
-					"msr-test-b": strategy === "inherit" ? "1.0.0" : "^1.0.0",
-					"msr-test-d": strategy === "inherit" ? "1.0.0" : "^1.0.0",
+					"msr-test-b": strategy === "inherit" ? "1.0.0" : prefix + "1.0.0",
+					"msr-test-d": strategy === "inherit" ? "1.0.0" : prefix + "1.0.0",
 				},
 			});
 		});
