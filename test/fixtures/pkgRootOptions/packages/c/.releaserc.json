@@ -1,0 +1,14 @@
+{
+    "tagFormat": "multi-semantic-release-test-c@v${version}",
+    "plugins": [
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/release-notes-generator",
+        [
+            "@semantic-release/npm",
+            {
+                "pkgRoot": "../../dist/c",
+                "npmPublish": false
+            }
+        ]
+    ]
+}
