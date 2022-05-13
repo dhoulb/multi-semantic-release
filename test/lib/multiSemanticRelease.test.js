@@ -1617,4 +1617,135 @@ describe("multiSemanticRelease()", () => {
 			});
 		});
 	});
+	describe.each([
+		["override", "yarnWorkspacesPackagesCarret", "^"],
+		["override", "yarnWorkspacesPackages", "~"],
+		["inherit", "yarnWorkspacesPackagesCarret", "^"],
+	])("With deps.bump=%s & deps.prefix=%s & fixture=%s", (strategy, fixtureName, prefix) => {
+		test("should bump with deps.prefix", async () => {
+			// Create Git repo with copy of Yarn workspaces fixture.
+			const cwd = gitInit();
+			copyDirectory(`test/fixtures/${fixtureName}/`, cwd);
+			const sha = gitCommitAll(cwd, "feat: Initial release");
+			gitInitOrigin(cwd);
+			gitPush(cwd);
+
+			// Capture output.
+			const stdout = new WritableStreamBuffer();
+			const stderr = new WritableStreamBuffer();
+
+			// Call multiSemanticRelease()
+			// Doesn't include plugins that actually publish.
+			const multiSemanticRelease = require("../../");
+			const result = await multiSemanticRelease(
+				[
+					`packages/a/package.json`,
+					`packages/b/package.json`,
+					`packages/c/package.json`,
+					`packages/d/package.json`,
+				],
+				{},
+				{ cwd, stdout, stderr },
+				{ deps: { bump: strategy, prefix } }
+			);
+
+			// Get stdout and stderr output.
+			const err = stderr.getContentsAsString("utf8");
+			expect(err).toBe(false);
+			const out = stdout.getContentsAsString("utf8");
+			expect(out).toMatch("Started multirelease! Loading 4 packages...");
+			expect(out).toMatch("Loaded package msr-test-a");
+			expect(out).toMatch("Loaded package msr-test-b");
+			expect(out).toMatch("Loaded package msr-test-c");
+			expect(out).toMatch("Loaded package msr-test-d");
+			expect(out).toMatch("Queued 4 packages! Starting release...");
+			expect(out).toMatch("Created tag msr-test-a@1.0.0");
+			expect(out).toMatch("Created tag msr-test-b@1.0.0");
+			expect(out).toMatch("Created tag msr-test-c@1.0.0");
+			expect(out).toMatch("Created tag msr-test-d@1.0.0");
+			expect(out).toMatch("Released 4 of 4 packages, semantically!");
+
+			// A.
+			expect(result[0].name).toBe("msr-test-a");
+			expect(result[0].result.lastRelease).toEqual({});
+			expect(result[0].result.nextRelease).toMatchObject({
+				gitHead: sha,
+				gitTag: "msr-test-a@1.0.0",
+				type: "minor",
+				version: "1.0.0",
+			});
+			expect(result[0].result.nextRelease.notes).toMatch("# msr-test-a 1.0.0");
+			expect(result[0].result.nextRelease.notes).toMatch("### Features\n\n* Initial release");
+			expect(result[0].result.nextRelease.notes).toMatch(
+				"### Dependencies\n\n* **msr-test-c:** upgraded to 1.0.0"
+			);
+
+			// B.
+			expect(result[1].name).toBe("msr-test-b");
+			expect(result[1].result.lastRelease).toEqual({});
+			expect(result[1].result.nextRelease).toMatchObject({
+				gitHead: sha,
+				gitTag: "msr-test-b@1.0.0",
+				type: "minor",
+				version: "1.0.0",
+			});
+			expect(result[1].result.nextRelease.notes).toMatch("# msr-test-b 1.0.0");
+			expect(result[1].result.nextRelease.notes).toMatch("### Features\n\n* Initial release");
+			expect(result[1].result.nextRelease.notes).toMatch(
+				"### Dependencies\n\n* **msr-test-a:** upgraded to 1.0.0\n* **msr-test-c:** upgraded to 1.0.0"
+			);
+
+			// C.
+			expect(result[2].name).toBe("msr-test-c");
+			expect(result[2].result.lastRelease).toEqual({});
+			expect(result[2].result.nextRelease).toMatchObject({
+				gitHead: sha,
+				gitTag: "msr-test-c@1.0.0",
+				type: "minor",
+				version: "1.0.0",
+			});
+			expect(result[2].result.nextRelease.notes).toMatch("# msr-test-c 1.0.0");
+			expect(result[2].result.nextRelease.notes).toMatch("### Features\n\n* Initial release");
+			expect(result[2].result.nextRelease.notes).toMatch(
+				"### Dependencies\n\n* **msr-test-b:** upgraded to 1.0.0"
+			);
+
+			// D.
+			expect(result[3].name).toBe("msr-test-d");
+			expect(result[3].result.lastRelease).toEqual({});
+			expect(result[3].result.nextRelease).toMatchObject({
+				gitHead: sha,
+				gitTag: "msr-test-d@1.0.0",
+				type: "minor",
+				version: "1.0.0",
+			});
+			expect(result[3].result.nextRelease.notes).toMatch("# msr-test-d 1.0.0");
+			expect(result[3].result.nextRelease.notes).toMatch("### Features\n\n* Initial release");
+			expect(result[3].result.nextRelease.notes).not.toMatch("### Dependencies");
+
+			// ONLY four times.
+			expect(result).toHaveLength(4);
+
+			// Check manifests.
+			expect(require(`${cwd}/packages/a/package.json`)).toMatchObject({
+				peerDependencies: {
+					"msr-test-c": strategy === "inherit" ? "1.0.0" : prefix + "1.0.0",
+				},
+			});
+			expect(require(`${cwd}/packages/b/package.json`)).toMatchObject({
+				dependencies: {
+					"msr-test-a": strategy === "inherit" ? "1.0.0" : prefix + "1.0.0",
+				},
+				devDependencies: {
+					"msr-test-c": strategy === "inherit" ? "1.0.0" : prefix + "1.0.0",
+				},
+			});
+			expect(require(`${cwd}/packages/c/package.json`)).toMatchObject({
+				devDependencies: {
+					"msr-test-b": strategy === "inherit" ? "1.0.0" : prefix + "1.0.0",
+					"msr-test-d": strategy === "inherit" ? "1.0.0" : prefix + "1.0.0",
+				},
+			});
+		});
+	});
 });
