@@ -4,7 +4,7 @@
 	"version": "0.0.0-semantically-released",
 	"license": "0BSD",
 	"engines": {
-		"node": ">=10.18",
+		"node": ">=16",
 		"yarn": ">=1.0.0"
 	},
 	"main": "lib/multiSemanticRelease.js",
@@ -61,7 +61,7 @@
 		"lodash": "^4.17.21",
 		"meow": "^8.1.2",
 		"promise-events": "^0.2.4",
-		"semantic-release": "^17.4.7",
+		"semantic-release": "^19.0.3",
 		"semver": "^7.3.7",
 		"signale": "^1.4.0",
 		"stream-buffers": "^3.0.2",
