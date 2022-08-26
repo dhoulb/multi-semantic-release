@@ -4,7 +4,7 @@
 	"version": "0.0.0-semantically-released",
 	"license": "0BSD",
 	"engines": {
-		"node": ">=10.18",
+		"node": ">=16 || ^14.17",
 		"yarn": ">=1.0.0"
 	},
 	"main": "lib/multiSemanticRelease.js",
@@ -37,7 +37,9 @@
 		]
 	},
 	"jest": {
-		"testURL": "http://localhost",
+		"testEnvironmentOptions": {
+			"url": "http://localhost"
+		},
 		"testTimeout": 10000,
 		"collectCoverage": true,
 		"collectCoverageFrom": [
@@ -61,23 +63,23 @@
 		"lodash": "^4.17.21",
 		"meow": "^8.1.2",
 		"promise-events": "^0.2.4",
-		"semantic-release": "^17.4.7",
+		"semantic-release": "^19.0.5",
 		"semver": "^7.3.7",
 		"signale": "^1.4.0",
 		"stream-buffers": "^3.0.2",
 		"unixify": "^1.0.0"
 	},
 	"devDependencies": {
-		"@commitlint/config-conventional": "^12.1.4",
-		"commitlint": "^12.1.4",
+		"@commitlint/config-conventional": "^17.0.3",
+		"commitlint": "^17.0.3",
 		"coveralls": "^3.1.1",
-		"eslint": "^7.32.0",
-		"eslint-config-prettier": "^7.2.0",
-		"eslint-plugin-prettier": "^4.0.0",
+		"eslint": "^8.22.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-prettier": "^4.2.1",
 		"file-url": "^3.0.0",
 		"husky": "^4.3.8",
-		"jest": "^27.3.1",
-		"prettier": "^2.6.2",
+		"jest": "^29.0.0",
+		"prettier": "^2.7.1",
 		"tempy": "^1.0.1"
 	},
 	"repository": {
