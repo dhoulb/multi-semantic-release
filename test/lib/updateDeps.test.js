@@ -27,8 +27,7 @@ describe("resolveNextVersion()", () => {
 		["~1.0", "2.0.0", "inherit", "~2.0"],
 		["~2.0", "2.1.0", "inherit", "~2.1"],
 
-		// cases of "workspace protocol" defined in pnpm
-		// reference: https://pnpm.io/workspaces#publishing-workspace-packages
+		// cases of "workspace protocol" defined in yarn and pnpm
 		["workspace:*", "1.0.1", undefined, "1.0.1"],
 		["workspace:*", "1.0.1", "override", "1.0.1"],
 
