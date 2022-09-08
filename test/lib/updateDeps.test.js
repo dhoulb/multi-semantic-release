@@ -26,6 +26,30 @@ describe("resolveNextVersion()", () => {
 		["*", "2.0.0", "inherit", "*"],
 		["~1.0", "2.0.0", "inherit", "~2.0"],
 		["~2.0", "2.1.0", "inherit", "~2.1"],
+
+		// cases of "workspace protocol" defined in pnpm
+		// reference: https://pnpm.io/workspaces#publishing-workspace-packages
+		["workspace:*", "1.0.1", undefined, "1.0.1"],
+		["workspace:*", "1.0.1", "override", "1.0.1"],
+
+		["workspace:*", "1.3.0", "satisfy", "1.3.0"],
+		["workspace:~", "1.0.1", "satisfy", "~1.0.1"],
+		["workspace:^", "1.3.0", "satisfy", "^1.3.0"],
+		// the following cases should be treated as if "workspace:" was removed
+		["workspace:^1.0.0", "1.0.1", "satisfy", "^1.0.0"],
+		["workspace:^1.2.0", "1.3.0", "satisfy", "^1.2.0"],
+		["workspace:1.2.x", "1.2.2", "satisfy", "1.2.x"],
+
+		["workspace:*", "1.3.0", "inherit", "1.3.0"],
+		["workspace:~", "1.1.0", "inherit", "~1.1.0"],
+		["workspace:^", "2.0.0", "inherit", "^2.0.0"],
+		// the following cases should be treated as if "workspace:" was removed
+		["workspace:~1.0.0", "1.1.0", "inherit", "~1.1.0"],
+		["workspace:1.2.x", "1.2.1", "inherit", "1.2.x"],
+		["workspace:1.2.x", "1.3.0", "inherit", "1.3.x"],
+		["workspace:^1.0.0", "2.0.0", "inherit", "^2.0.0"],
+		["workspace:~1.0", "2.0.0", "inherit", "~2.0"],
+		["workspace:~2.0", "2.1.0", "inherit", "~2.1"],
 	]
 
 	cases.forEach(([currentVersion, nextVersion, strategy, resolvedVersion]) => {
