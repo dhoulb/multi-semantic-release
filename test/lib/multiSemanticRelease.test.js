@@ -1729,21 +1729,21 @@ describe("multiSemanticRelease()", () => {
 			// Check manifests.
 			expect(require(`${cwd}/packages/a/package.json`)).toMatchObject({
 				peerDependencies: {
-					"msr-test-c": strategy === "inherit" ? "1.0.0" : prefix + "1.0.0",
+					"msr-test-c": strategy === "inherit" ? "^1.0.0" : prefix + "1.0.0",
 				},
 			});
 			expect(require(`${cwd}/packages/b/package.json`)).toMatchObject({
 				dependencies: {
-					"msr-test-a": strategy === "inherit" ? "1.0.0" : prefix + "1.0.0",
+					"msr-test-a": strategy === "inherit" ? "^1.0.0" : prefix + "1.0.0",
 				},
 				devDependencies: {
-					"msr-test-c": strategy === "inherit" ? "1.0.0" : prefix + "1.0.0",
+					"msr-test-c": strategy === "inherit" ? "^1.0.0" : prefix + "1.0.0",
 				},
 			});
 			expect(require(`${cwd}/packages/c/package.json`)).toMatchObject({
 				devDependencies: {
-					"msr-test-b": strategy === "inherit" ? "1.0.0" : prefix + "1.0.0",
-					"msr-test-d": strategy === "inherit" ? "1.0.0" : prefix + "1.0.0",
+					"msr-test-b": strategy === "inherit" ? "^1.0.0" : prefix + "1.0.0",
+					"msr-test-d": strategy === "inherit" ? "^1.0.0" : prefix + "1.0.0",
 				},
 			});
 		});
