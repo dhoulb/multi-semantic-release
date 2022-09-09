@@ -1,0 +1,7 @@
+{
+	"name": "msr-test-b",
+	"version": "0.0.0",
+	"optionalDependencies": {
+		"msr-test-d": "workspace:^0.0.0"
+	}
+}
