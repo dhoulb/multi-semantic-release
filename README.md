@@ -220,12 +220,11 @@ INVALIDNPMTOKEN Invalid npm token.
 The npm token (https://github.com/semantic-release/npm/blob/master/README.md#npm-registry-authentication) configured in the NPM_TOKEN environment variable must be a valid token (https://docs.npmjs.com/getting-started/working_with_tokens) allowing to publish to the registry https://registry.npmjs.org/.
 ```
 Do not rush to change your token. _Perhaps_ this is related to [`npm whoami` request](https://github.com/semantic-release/npm/blob/master/lib/verify-auth.js#L21) throttling on your registry (just a hypothesis: https://github.com/semantic-release/npm/pull/416). At this point you can:
-* Rerun your build as many times as necessary. You may get lucky in a new attempts.
-* Patch standard semantic-release npm-plugin [like this](https://github.com/EricCrosson/patch-semantic-release-npm-for-msr).
+* Rerun your build as many times as necessary. You may get lucky in a new attempt.
 * Use [semrel-extra/npm plugin](https://github.com/semrel-extra/npm) for npm publishing (recommended).
 
 ### git: connection reset by peer
-This error seems to be related to concurrent git invocations ([issues/24](https://github.com/dhoulb/multi-semantic-release/issues/24)). Or may be not.
+This error seems to be related to concurrent git invocations ([issues/24](https://github.com/dhoulb/multi-semantic-release/issues/24)). Or maybe not.
 Anyway we've added a special [`--sequental-init`](#cli) flag to queue up these calls.
 
 
