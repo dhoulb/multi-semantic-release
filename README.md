@@ -31,26 +31,34 @@ written into `package.json` at release time. This means there's no need to hard-
 - Linux/MacOs/Windows support
 
 ### Table of contents
-- [Installation](#installation)
-- [Requirements](#requirements)
-- [Usage](#usage)
-- [Configuration](#configuration)
-  - [yarn/npm](#yarn--npm-v7)
-  - [pnpm](#pnpm)
-  - [bolt](#bolt)
-- [CLI](#cli)
-- [API](#api)
-- [CI/CD](#cicd)
-- [⚠️Troubleshooting](#troubleshooting)
-- [Implementation notes](#implementation-notes-and-other-thoughts)
-  - [Support for monorepos](#support-for-monorepos)
-  - [Iteration vs coordination](#iteration-vs-coordination)
-  - [Local deps and versioning](#local-dependencies-and-version-numbers)
-  - [Integration with semantic-release](#integration-with-semantic-release)
-  - [Git tags](#git-tags)
-- [Contributing](#contributing)
-- [Alternatives](#alternatives)
-- [License](#license)
+- [multi-semantic-release](#multi-semantic-release)
+  - [Overview](#overview)
+    - [Key features](#key-features)
+    - [Table of contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Requirements](#requirements)
+  - [Usage](#usage)
+  - [Configuration](#configuration)
+    - [yarn / npm (v7+)](#yarn--npm-v7)
+    - [pnpm](#pnpm)
+    - [bolt](#bolt)
+  - [CLI](#cli)
+  - [API](#api)
+  - [CI/CD](#cicd)
+  - [Troubleshooting](#troubleshooting)
+    - [npm v8.5+: npm ERR! notarget No matching version found for...](#npm-v85-npm-err-notarget-no-matching-version-found-for)
+    - [npm: invalid npm token](#npm-invalid-npm-token)
+    - [git: connection reset by peer](#git-connection-reset-by-peer)
+  - [Implementation notes (and other thoughts)](#implementation-notes-and-other-thoughts)
+    - [Support for monorepos](#support-for-monorepos)
+    - [Iteration vs coordination](#iteration-vs-coordination)
+    - [Local dependencies and version numbers](#local-dependencies-and-version-numbers)
+    - [Integration with semantic-release](#integration-with-semantic-release)
+    - [Jank](#jank)
+    - [Git tags](#git-tags)
+  - [Contributing](#contributing)
+  - [Alternatives](#alternatives)
+  - [License](#license)
 
 ## Installation
 
@@ -164,7 +172,7 @@ There are several tweaks to adapt **msr** to some corner cases:
 |`--sequential-init`|bool   |Avoid hypothetical concurrent initialization collisions |`false`|
 |`--debug`          |bool   |Output debugging information|`false`|
 |`--first-parent`   |bool   |Apply commit filtering to current branch only|`false`|
-|`--deps.bump`      |string |Define deps version update rule. `override` — replace any prev version with the next one, `satisfy` — check the next pkg version against its current references. If it matches (`*` matches to any, `1.1.0` matches `1.1.x`, `1.5.0` matches to `^1.0.0` and so on) release will not be triggered, if not `override` strategy will be applied instead; `inherit` will try to follow the current declaration version/range. `~1.0.0` + `minor` turns into `~1.1.0`, `1.x` + `major` gives `2.x`, but `1.x` + `minor` gives `1.x` so there will be no release, etc. +  **Experimental feat**  | `override`
+|`--deps.bump`      |string |Define deps version update rule. `override` — replace any prev version with the next one, `satisfy` — check the next pkg version against its current references. If it matches (`*` matches to any, `1.1.0` matches `1.1.x`, `1.5.0` matches to `^1.0.0` and so on) release will not be triggered, if not `override` strategy will be applied instead; `inherit` will try to follow the current declaration version/range. `~1.0.0` + `minor` turns into `~1.1.0`, `1.x` + `major` gives `2.x`, but `1.x` + `minor` gives `1.x` so there will be no release, etc. +; `ignore` prevent dependencies from being bumped by MSR  **Experimental feat**  | `override`
 |`--deps.release`   |string |Define release type for dependent package if any of its deps changes. `patch`, `minor`, `major` — strictly declare the release type that occurs when any dependency is updated; `inherit` — applies the "highest" release of updated deps to the package. For example, if any dep has a breaking change, `major` release will be applied to the all dependants up the chain. **Experimental feat** | `patch`
 |`--deps.prefix`     |string |Optional prefix to be attached to the next version if `--deps.bump` set to `override`. Supported values: `^` \| `~` \| `''` (empty string) | `''` (empty string)
 |`--dry-run`        |bool   |Dry run mode| `false`
