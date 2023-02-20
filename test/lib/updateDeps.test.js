@@ -26,6 +26,14 @@ describe("resolveNextVersion()", () => {
 		["*", "2.0.0", "inherit", "*"],
 		["~1.0", "2.0.0", "inherit", "~2.0"],
 		["~2.0", "2.1.0", "inherit", "~2.1"],
+    
+    ["~1.0.0", "1.1.0", "ignore", "~1.0.0"],
+		["1.2.x", "1.2.1", "ignore", "1.2.x"],
+		["1.2.x", "1.3.0", "ignore", "1.2.x"],
+		["^1.0.0", "2.0.0", "ignore", "^1.0.0"],
+		["*", "2.0.0", "ignore", "*"],
+		["~1.0", "2.0.0", "ignore", "~1.0"],
+		["~2.0", "2.1.0", "ignore", "~2.0"],
 
 		// cases of "workspace protocol" defined in yarn and pnpm
 		["workspace:*", "1.0.1", undefined, "1.0.1"],
@@ -49,6 +57,13 @@ describe("resolveNextVersion()", () => {
 		["workspace:^1.0.0", "2.0.0", "inherit", "^2.0.0"],
 		["workspace:~1.0", "2.0.0", "inherit", "~2.0"],
 		["workspace:~2.0", "2.1.0", "inherit", "~2.1"],
+    // the following cases should be treated as if "workspace:" was removed with ignore strategy
+		["workspace:~1.0.0", "1.1.0", "ignore", "~1.0.0"],
+		["workspace:1.2.x", "1.2.1", "ignore", "1.2.x"],
+		["workspace:1.2.x", "1.3.0", "ignore", "1.2.x"],
+		["workspace:^1.0.0", "2.0.0", "ignore", "^1.0.0"],
+		["workspace:~1.0", "2.0.0", "ignore", "~1.0"],
+		["workspace:~2.0", "2.1.0", "ignore", "~2.0"],
 	]
 
 	cases.forEach(([currentVersion, nextVersion, strategy, resolvedVersion]) => {
