@@ -24,9 +24,6 @@ jobs:
       - name: Fetch deps
         run: yarn
 
-      - name: Build
-        run: yarn build
-
       - name: Run tests
         run: yarn test
 
