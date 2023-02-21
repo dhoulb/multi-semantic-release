@@ -4,6 +4,12 @@ const { copyDirectory, createNewTestingFiles } = require("../helpers/file");
 const { gitInit, gitCommitAll, gitInitOrigin, gitPush } = require("../helpers/git");
 const { getTags } = require("../../lib/git");
 
+const env = {
+	GH_TOKEN: "test",
+	NPM_TOKEN: "test",
+	PATH: process.env.PATH,
+};
+
 test("Fetch all tags on master after two package release", async () => {
 	const packages = ["packages/c/", "packages/d/"];
 
@@ -25,7 +31,7 @@ test("Fetch all tags on master after two package release", async () => {
 		{
 			branches: [{ name: "master" }, { name: "release" }],
 		},
-		{ cwd, stdout, stderr }
+		{ cwd, stdout, stderr, env }
 	);
 
 	const tags = getTags("master", { cwd }).sort();
@@ -53,7 +59,7 @@ test("Fetch only prerelease tags", async () => {
 		{
 			branches: [{ name: "master" }, { name: "release" }],
 		},
-		{ cwd, stdout, stderr }
+		{ cwd, stdout, stderr, env }
 	);
 
 	// Add new testing files for a new release.
@@ -73,7 +79,7 @@ test("Fetch only prerelease tags", async () => {
 		{
 			branches: [{ name: "master", prerelease: "beta" }, { name: "release" }],
 		},
-		{ cwd, stdout, stderr }
+		{ cwd, stdout, stderr, env }
 	);
 
 	const tags = getTags("master", { cwd }, ["beta"]).sort();

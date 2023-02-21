@@ -11,6 +11,12 @@ const {
 	gitGetTags,
 } = require("../helpers/git");
 
+const env = {
+	GH_TOKEN: "test",
+	NPM_TOKEN: "test",
+	PATH: process.env.PATH,
+};
+
 // Tests.
 describe("multi-semantic-release CLI", () => {
 	test("Initial commit (changes in all packages)", async () => {
@@ -25,7 +31,7 @@ describe("multi-semantic-release CLI", () => {
 		const filepath = `${__dirname}/../../bin/cli.js`;
 
 		// Run via command line.
-		const out = (await execa("node", [filepath], { cwd })).stdout;
+		const out = (await execa("node", [filepath], { cwd, env, extendEnv: false })).stdout;
 		expect(out).toMatch("Started multirelease! Loading 4 packages...");
 		expect(out).toMatch("Released 4 of 4 packages, semantically!");
 	});
@@ -41,7 +47,13 @@ describe("multi-semantic-release CLI", () => {
 		const filepath = `${__dirname}/../../bin/cli.js`;
 
 		// Run via command line.
-		const out = (await execa("node", [filepath, "--ignore-packages=packages/c/**,packages/d/**"], { cwd })).stdout;
+		const out = (
+			await execa("node", [filepath, "--ignore-packages=packages/c/**,packages/d/**"], {
+				cwd,
+				env,
+				extendEnv: false,
+			})
+		).stdout;
 		expect(out).toMatch("Started multirelease! Loading 2 packages...");
 		expect(out).toMatch("Released 2 of 2 packages, semantically!");
 	});

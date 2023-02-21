@@ -25,7 +25,10 @@ jobs:
         run: yarn
 
       - name: Run tests
-        run: yarn test
+        # Workaround like TRAVIS_PULL_REQUEST_BRANCH=master
+        run: |
+          git branch master
+          yarn test
 
   release:
     name: Release
@@ -46,9 +49,6 @@ jobs:
 
       - name: Fetch deps
         run: yarn
-
-      - name: Run tests
-        run: yarn test
 
       - name: Semantic Release
         run: npx semantic-release
