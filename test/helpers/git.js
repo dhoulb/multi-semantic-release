@@ -32,7 +32,7 @@ function gitInit(branch = "master") {
 
 	// Init Git in a temp directory.
 	const cwd = tempy.directory();
-	execa.sync("git", ["init"], { cwd });
+	execa.sync("git", ["init", "-b", "master"], { cwd });
 	execa.sync("git", ["checkout", "-b", branch], { cwd });
 	execa.sync("git", ["config", "user.name", "Test"], { cwd });
 	execa.sync("git", ["config", "user.email", "test@example.com"], { cwd });
