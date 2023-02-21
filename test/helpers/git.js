@@ -34,6 +34,8 @@ function gitInit(branch = "master") {
 	const cwd = tempy.directory();
 	execa.sync("git", ["init"], { cwd });
 	execa.sync("git", ["checkout", "-b", branch], { cwd });
+	execa.sync("git", ["config", "user.name", "Test"], { cwd });
+	execa.sync("git", ["config", "user.email", "test@example.com"], { cwd });
 
 	// Disable GPG signing for commits.
 	gitConfig(cwd, "commit.gpgsign", false);
