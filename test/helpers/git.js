@@ -48,7 +48,7 @@ function gitInit(branch = "master") {
  * Create a remote Git repository.
  * _Created in a temp folder._
  *
- * @return {Promise<string>} Promise that resolves to string URL of the of the remote origin.
+ * @return {Promise<string>} Promise that resolves to string URL of the remote origin.
  */
 function gitInitRemote() {
 	// Init bare Git repository in a temp directory.
