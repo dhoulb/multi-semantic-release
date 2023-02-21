@@ -1,0 +1,65 @@
+# This is a Github Workflow that runs tests on any push or pull request.
+# If the tests pass and this is a push to the master branch it also runs Semantic Release.
+name: CI
+on: [push, pull_request]
+jobs:
+  test_pr:
+    if: github.event_name == 'pull_request'
+    name: Test PR (Node v${{ matrix.node-version }}, OS ${{ matrix.os }})
+    strategy:
+      matrix:
+        os: [ ubuntu-22.04 ]
+        node-version: [ 14, 18 ]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Fetch deps
+        run: yarn
+
+      - name: Build
+        run: yarn build
+
+      - name: Run tests
+        run: yarn test
+
+  release:
+    name: Release
+    # https://github.community/t/trigger-job-on-tag-push-only/18076
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: test_push
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Fetch deps
+        run: yarn
+
+      - name: Run tests
+        run: yarn test
+
+      - name: Semantic Release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GIT_AUTHOR_NAME: ${{ secrets.GIT_AUTHOR_NAME }}
+          GIT_AUTHOR_EMAIL: ${{ secrets.GIT_AUTHOR_EMAIL }}
+          GIT_COMMITTER_NAME: ${{ secrets.GIT_COMMITTER_NAME }}
+          GIT_COMMITTER_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
