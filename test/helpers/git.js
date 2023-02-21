@@ -54,6 +54,7 @@ function gitInitRemote() {
 	// Init bare Git repository in a temp directory.
 	const cwd = tempy.directory();
 	execa.sync("git", ["init", "--bare"], { cwd });
+	execa.sync("git", ["config", "init.defaultBranch", "master"], { cwd });
 
 	// Turn remote path into a file URL.
 	const url = fileUrl(cwd);
