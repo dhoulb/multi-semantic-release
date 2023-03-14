@@ -19,10 +19,10 @@
 	],
 	"scripts": {
 		"watch": "jest --watchAll",
-		"jest": "jest --coverage",
 		"lint": "eslint ./",
 		"lint:fix": "eslint --fix ./",
-		"test": "yarn lint && yarn jest",
+		"test": "yarn lint && yarn test:unit",
+		"test:unit": "jest --coverage",
 		"audit:fix": "npm_config_yes=true npx yarn-audit-fix",
 		"publish": "semantic-release"
 	},
