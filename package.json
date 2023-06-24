@@ -64,7 +64,7 @@
 		"meow": "^8.1.2",
 		"promise-events": "^0.2.4",
 		"semantic-release": "^19.0.5",
-		"semver": "^7.3.7",
+		"semver": "^7.5.2",
 		"signale": "^1.4.0",
 		"stream-buffers": "^3.0.2",
 		"unixify": "^1.0.0"
