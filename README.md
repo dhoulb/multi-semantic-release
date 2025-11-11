@@ -68,7 +68,9 @@ npm i multi-semantic-release -D
 ```
 
 ## Requirements
-* Node.js >= 10
+* Node.js requirements:
+  * For `semantic-release` v19-v24: Node.js >= 16 (or ^14.17)
+  * For `semantic-release` v25+: Node.js ^22.14.0 or >= 24.10.0
 * [git-notes enabled](https://github.com/semantic-release/semantic-release/blob/2e4b901c4f412980a425469fae49cfaef500d47a/docs/support/troubleshooting.md#release-not-found-release-branch-after-git-push---force)
 
 ## Usage
