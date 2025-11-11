@@ -26,7 +26,15 @@ jobs:
       - name: Fetch deps
         run: yarn
 
+      - if: matrix.node-version == '14'
+        run: yarn add semantic-release@19 --ignore-engines --no-lockfile
+
       - name: Run tests
+        env:
+          NPM_CONFIG_LOGLEVEL: silent
+          NPM_CONFIG_FUND: false
+          NPM_CONFIG_AUDIT: false
+          NPM_CONFIG_UPDATE_NOTIFIER: false
         # Workaround like TRAVIS_PULL_REQUEST_BRANCH=master
         run: |
           git branch master
@@ -47,7 +55,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: 18
+          node-version: 24
 
       - name: Fetch deps
         run: yarn
