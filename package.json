@@ -8,8 +8,14 @@
 		"yarn": ">=1.0.0"
 	},
 	"main": "lib/multiSemanticRelease.js",
+    "exports": {
+        ".": {
+            "import": "./lib/index.mjs",
+            "require": "./lib/multiSemanticRelease.js"
+        }
+    },
 	"bin": {
-		"multi-semantic-release": "./bin/cli.js"
+		"multi-semantic-release": "./bin/cli.mjs"
 	},
 	"files": [
 		"README.md",

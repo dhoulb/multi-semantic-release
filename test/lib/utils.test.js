@@ -1,4 +1,3 @@
-const { tag } = require("semantic-release/lib/git");
 const { getHighestVersion, getLowestVersion, getLatestVersion, tagsToVersions } = require("../../lib/utils");
 
 describe("tagsToVersions()", () => {
