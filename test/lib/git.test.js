@@ -25,7 +25,7 @@ test("Fetch all tags on master after two package release", async () => {
 
 	// Call multiSemanticRelease()
 	// Doesn't include plugins that actually publish.
-	const multiSemanticRelease = require("../../index.mjs");
+	const multiSemanticRelease = require("../../lib/index.mjs");
 	await multiSemanticRelease(
 		packages.map((folder) => `${folder}package.json`),
 		{
@@ -53,7 +53,7 @@ test("Fetch only prerelease tags", async () => {
 
 	// Call multiSemanticRelease()
 	// Doesn't include plugins that actually publish.
-	const multiSemanticRelease = require("../../index.mjs");
+	const multiSemanticRelease = require("../../lib/index.mjs");
 	await multiSemanticRelease(
 		packages.map((folder) => `${folder}package.json`),
 		{
