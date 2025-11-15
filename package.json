@@ -24,11 +24,11 @@
 		"bin"
 	],
 	"scripts": {
-		"watch": "NODE_OPTIONS=--experimental-vm-modules jest --watchAll",
+		"watch": "NODE_OPTIONS='--experimental-vm-modules' jest --watchAll",
 		"lint": "eslint ./",
 		"lint:fix": "eslint --fix ./",
 		"test": "yarn lint && yarn test:unit",
-		"test:unit": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
+		"test:unit": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
 		"audit:fix": "npm_config_yes=true npx yarn-audit-fix",
 		"publish": "semantic-release"
 	},
@@ -43,6 +43,7 @@
 		]
 	},
 	"jest": {
+		"globalSetup": "./test/helpers/jestGlobalSetup.js",
 		"testEnvironment": "node",
 		"testEnvironmentOptions": {
 			"url": "http://localhost"
