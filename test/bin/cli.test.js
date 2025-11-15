@@ -28,7 +28,7 @@ describe("multi-semantic-release CLI", () => {
 		gitPush(cwd);
 
 		// Path to CLI command.
-		const filepath = `${__dirname}/../../bin/cli.js`;
+		const filepath = `${__dirname}/../../bin/cli.mjs`;
 
 		// Run via command line.
 		const out = (await execa("node", [filepath], { cwd, env, extendEnv: false })).stdout;
@@ -44,7 +44,7 @@ describe("multi-semantic-release CLI", () => {
 		gitPush(cwd);
 
 		// Path to CLI command.
-		const filepath = `${__dirname}/../../bin/cli.js`;
+		const filepath = `${__dirname}/../../bin/cli.mjs`;
 
 		// Run via command line.
 		const out = (

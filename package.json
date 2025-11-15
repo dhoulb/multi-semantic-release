@@ -24,11 +24,11 @@
 		"bin"
 	],
 	"scripts": {
-		"watch": "jest --watchAll",
+		"watch": "NODE_OPTIONS='--experimental-vm-modules' jest --watchAll",
 		"lint": "eslint ./",
 		"lint:fix": "eslint --fix ./",
 		"test": "yarn lint && yarn test:unit",
-		"test:unit": "jest --coverage",
+		"test:unit": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
 		"audit:fix": "npm_config_yes=true npx yarn-audit-fix",
 		"publish": "semantic-release"
 	},
@@ -43,6 +43,8 @@
 		]
 	},
 	"jest": {
+		"setupFilesAfterEnv": ["<rootDir>/test/helpers/jestSetupEnv.js"],
+		"testEnvironment": "node",
 		"testEnvironmentOptions": {
 			"url": "http://localhost"
 		},
@@ -69,7 +71,7 @@
 		"lodash": "^4.17.21",
 		"meow": "^8.1.2",
 		"promise-events": "^0.2.4",
-		"semantic-release": "^19.0.5",
+		"semantic-release": ">=19.0.5",
 		"semver": "^7.5.2",
 		"signale": "^1.4.0",
 		"stream-buffers": "^3.0.3",
