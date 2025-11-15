@@ -1,5 +1,7 @@
 (async () => {
-	const api = (await import('../../lib/semrel.mjs')).default;
-	global.semanticRelease = api.semanticRelease;
-	global.semanticGetConfig = api.semanticGetConfig;
+	try {
+		await import('../../lib/semrel.mjs')
+	} catch (e) {
+		// this is fine, semrel is only needed for esm usage
+	}
 })();

@@ -14,8 +14,6 @@ const {
 	gitGetTags,
 } = require("../helpers/git");
 
-console.log("!!!", globalThis.__msr__);
-
 // Clear mocks before tests.
 beforeEach(() => {
 	jest.clearAllMocks(); // Clear all mocks.
