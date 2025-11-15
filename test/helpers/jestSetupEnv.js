@@ -1,4 +1,4 @@
-(async () => {
+module.exports = (async () => {
 	try {
 		await import('../../lib/semrel.mjs')
 	} catch (e) {

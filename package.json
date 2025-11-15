@@ -43,7 +43,7 @@
 		]
 	},
 	"jest": {
-        "setupFilesAfterEnv": ["<rootDir>/test/helpers/jestSetupEnv.js"],
+		"setupFilesAfterEnv": ["<rootDir>/test/helpers/jestSetupEnv.js"],
 		"testEnvironment": "node",
 		"testEnvironmentOptions": {
 			"url": "http://localhost"
