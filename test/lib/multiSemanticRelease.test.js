@@ -28,6 +28,50 @@ const env = {
 
 // Tests.
 describe("multiSemanticRelease()", () => {
+	test("Respects a package's explicitly-configured tagFormat", async () => {
+		// Create Git repo with copy of Yarn workspaces fixture.
+		const cwd = gitInit();
+		copyDirectory(`test/fixtures/yarnWorkspaces/`, cwd);
+
+		// Give one package a custom tagFormat. This proves multi-semantic-release
+		// honours an explicitly-configured tagFormat instead of always namespacing
+		// the tag by the package name — e.g. so a scoped package can keep its npm
+		// scope while tagging without it.
+		writeFileSync(`${cwd}/packages/c/.releaserc.json`, JSON.stringify({ tagFormat: "tagged-c-${version}" }));
+
+		const sha = gitCommitAll(cwd, "feat: Initial release");
+		const url = gitInitOrigin(cwd);
+		gitPush(cwd);
+
+		const stdout = new WritableStreamBuffer();
+		const stderr = new WritableStreamBuffer();
+
+		const multiSemanticRelease = require("../../");
+		const result = await multiSemanticRelease(
+			[
+				`packages/a/package.json`,
+				`packages/b/package.json`,
+				`packages/c/package.json`,
+				`packages/d/package.json`,
+			],
+			{},
+			{ cwd, stdout, stderr, env }
+		);
+
+		const out = stdout.getContentsAsString("utf8");
+		// Package c uses its configured tagFormat...
+		expect(out).toMatch("Created tag tagged-c-1.0.0");
+		// ...while the other packages still default to `${name}@${version}`.
+		expect(out).toMatch("Created tag msr-test-d@1.0.0");
+
+		const cResult = result.find((pkg) => pkg.name === "msr-test-c");
+		expect(cResult.result.nextRelease).toMatchObject({
+			gitTag: "tagged-c-1.0.0",
+			name: "tagged-c-1.0.0",
+			version: "1.0.0",
+		});
+	});
+
 	test("Initial commit (changes in all packages)", async () => {
 		// Create Git repo with copy of Yarn workspaces fixture.
 		const cwd = gitInit();
